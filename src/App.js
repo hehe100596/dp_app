@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import logo from './dice.png';
 import './App.css';
 import { subscribeToTimer } from './api.js';
+import Game from './Game.js';
 
 class App extends Component {
 
@@ -14,7 +15,8 @@ class App extends Component {
 	}
 
 	state = {
-		timestamp: '---'
+		timestamp: '---',
+		displayGame: false
 	};
 	
 	timeZonePlus = () => {
@@ -30,6 +32,12 @@ class App extends Component {
 			timestamp
 		}));
 	};
+
+	displayGame = () => {
+		this.setState({
+			displayGame: !this.state.displayGame
+		});
+	}
 	
 	render() {
 		return (
@@ -37,13 +45,23 @@ class App extends Component {
 				<header className="App-header">
 					<img src={logo} className="App-logo" alt="logo" />
 					<p>
-						Pokus o prvú aplikáciu úpravou <code>src/App.js</code> a <code>src/App.css</code>.
 						<br />
-						Najnovšie bol pridaný i jednoduchý ukazateľ aktuálneho času: <i>{this.state.timestamp}</i>
+						Prototyp hry:
+						<br /><br />
+						<div class="game-btn">
+							<button onClick={this.displayGame} type="button">START</button>
+						</div>
+						<br /><br />
+						Ukazateľ aktuálneho času na ilustráciu komunikácie so serverom:
+						<br />
+						<i>{this.state.timestamp}</i>
 						<br /><br />
 						Zmena časovej zóny:
 						<br />
-						<button onClick={this.timeZonePlus} type="button">+</button> <button onClick={this.timeZoneMinus} type="button">-</button>
+						<div class="timer-btn">
+							<button onClick={this.timeZonePlus} type="button">+</button> <button onClick={this.timeZoneMinus} type="button">-</button>
+						</div>
+						<br />
 					</p>
 					<a
 						className="App-link"
@@ -54,6 +72,10 @@ class App extends Component {
 						Ďalšie informácie k React...
 					</a>
 				</header>
+
+				<Game 
+					start = {this.state.displayGame}
+				/>
 			</div>
 		);
 	};
