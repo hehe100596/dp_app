@@ -72,7 +72,6 @@ class App extends Component {
 						Ďalšie informácie k React...
 					</a>
 				</header>
-
 				<Game 
 					start = {this.state.displayGame}
 				/>

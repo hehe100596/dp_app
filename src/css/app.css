@@ -24,13 +24,13 @@
 }
   
 .game-btn button {
-    width: 150px;
-    height: 50px;
+    width: 5vw;
+    height: 4vh;
     -webkit-transition-duration: 0.4s;
     transition-duration: 0.4s;
     background-color: #3A3A3C;
     color: white;
-    font-size: 25px;
+    font-size: 1.5vmin;
     font-family: "Lucida Sans Unicode";
 }
   
@@ -40,9 +40,9 @@
 }
   
 .timer-btn button {
-    width: 30px;
-    height: 30px;
-    font-size: 15px;
+    width: 1vw;
+    height: 2vh;
+    font-size: 1vmin;
     font-family: "Impact";
 }
   
@@ -54,4 +54,3 @@
         transform: rotate(360deg);
     }
 }
-  
