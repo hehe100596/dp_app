@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import logo from './dice.png';
-import './App.css';
+import logo from '../img/dice.png';
+import '../css/app.css';
 import { subscribeToTimer } from './api.js';
-import Game from './Game.js';
+import Game from './game.js';
 
 class App extends Component {
 
