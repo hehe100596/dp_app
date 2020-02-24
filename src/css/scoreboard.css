@@ -1,8 +1,0 @@
-.Scoreboard {
-    position: fixed;
-    bottom: 0;
-    z-index: 999;
-    background-color: yellow;
-    border-style: solid;
-    border-width: 0.2vmin;
-}
