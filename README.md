@@ -31,8 +31,8 @@
 ### In progress:
 
 ### Todo:
-- 01. Prihlasovanie
-- 02. Registrácia
+01. Prihlasovanie
+02. Registrácia
 03. Prehľad cudzích kurzov
 04. Prehľad vlastných kurzov
 05. Stránky pre vytváranie a úpravy kurzu.
