@@ -10,7 +10,7 @@ import axios from "axios";
 import { useAuth } from "./auth";
 import { config } from "../config";
 
-const globalApiInstance = axios.create({
+export const globalApiInstance = axios.create({
   baseURL: config.BASE_API
 });
 
@@ -71,5 +71,3 @@ function useInstallSignoutApiInterceptror(api) {
     };
   }, [api]);
 }
-
-export default globalApiInstance;

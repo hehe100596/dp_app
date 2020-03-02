@@ -6,7 +6,6 @@ import { AuthProvider } from "./utils/auth";
 import { AppRoutes } from "./AppRoutes";
 import { ScrollToTop } from "./components/atoms/ScrollToTop";
 
-// address: config.BASE_API, api: globalApiInstance
 require("dotenv").config();
 
 export function App() {
