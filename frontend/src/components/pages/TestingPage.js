@@ -91,7 +91,7 @@ class TestingPage extends Component {
           {data.length <= 0
             ? "NO DB ENTRIES YET"
             : data.map(dat => (
-                <li style={{ padding: "10px" }} key={data.message}>
+                <li style={{ padding: "10px" }} key={dat.id}>
                   <span style={{ color: "gray" }}> id: </span> {dat.id} <br />
                   <span style={{ color: "gray" }}> data: </span>
                   {dat.message}

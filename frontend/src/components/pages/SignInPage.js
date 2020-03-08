@@ -1,6 +1,6 @@
 import React from "react";
 
-import { SignInForm } from "../organisms/SignInForm";
+import { SignInForm } from "../templates/SignInForm";
 
 export function SignInPage() {
   return <SignInForm />;

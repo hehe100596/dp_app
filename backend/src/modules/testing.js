@@ -1,7 +1,14 @@
 import { Router } from "express";
+import mongoose, { Schema } from "mongoose";
 
-import { Data } from "../data";
-
+const DataSchema = new Schema(
+  {
+    id: Number,
+    message: String
+  },
+  { timestamps: true }
+);
+const Data = mongoose.model("Data", DataSchema);
 const router = Router();
 
 router.get("/getData", (req, res) => {

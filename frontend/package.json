@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.12.1",
     "acorn": "7.1.1",
     "axios": "^0.19.2",
     "classnames": "^2.2.6",
@@ -15,7 +16,7 @@
     "yup": "^0.28.3"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "react-scripts start --no-inline",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"

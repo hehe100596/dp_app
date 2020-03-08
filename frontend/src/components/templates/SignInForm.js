@@ -1,16 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { Formik } from "formik";
 import * as yup from "yup";
+
+import { config } from "../../config";
+import { useAuth } from "../../utils/auth";
+import { globalApiInstance } from "../../utils/api";
 
 import { Heading } from "../atoms/Heading";
 import { Button } from "../atoms/Button";
 import { EmptyLine } from "../atoms/EmptyLine";
 import { ErrorMessage } from "../molecules/ErrorMessage";
+import { ServerStatus } from "../organisms/ServerStatus";
 
-const userSchema = yup.object().shape({
+export const userSchema = yup.object().shape({
   mail: yup
     .string()
-    .label("Email")
+    .label("E-mail")
     .email()
     .required(),
   pass: yup
@@ -20,18 +25,42 @@ const userSchema = yup.object().shape({
 });
 
 export function SignInForm() {
+  const [status, setStatus] = useState(null);
+  const [message, setMessage] = useState(null);
+  const auth = useAuth();
+
+  function authenticate(values) {
+    setStatus("loading");
+    globalApiInstance
+      .post(config.BASE_API + "users/getUserToken", {
+        mail: values.mail,
+        pass: values.pass
+      })
+      .then(res => {
+        if (res.data.data) {
+          auth.signin({ token: res.data.data.token, user: values.mail });
+        } else {
+          setStatus("error");
+          setMessage("Incorrect e-mail or password");
+        }
+      })
+      .catch(err => {
+        setStatus("error");
+        setMessage(err.message);
+      });
+
+    return "";
+  }
+
   return (
     <div align="center">
-      <br />
+      <EmptyLine level="1" />
       <Heading level="1">Sign in</Heading>
-      <br />
+      <EmptyLine level="1" />
       <Formik
         initialValues={{ mail: "", pass: "" }}
         onSubmit={(values, actions) => {
-          alert(JSON.stringify(values));
-          setTimeout(() => {
-            actions.setSubmitting(false);
-          }, 1000);
+          authenticate(values);
         }}
         validationSchema={userSchema}
       >
@@ -64,6 +93,7 @@ export function SignInForm() {
           </form>
         )}
       </Formik>
+      <ServerStatus status={status} message={message} />
     </div>
   );
 }
