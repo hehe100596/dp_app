@@ -1,5 +1,7 @@
 import React from "react";
 
+import { SignInForm } from "../organisms/SignInForm";
+
 export function SignInPage() {
-  return <div>SIGNINPAGE</div>;
+  return <SignInForm />;
 }
