@@ -3,11 +3,11 @@
 ### Done:
 01. Pridanie env a routovania (podľa projektu).
 02. Rozvetvenie backendu a frontendu (atomická štruktúra a pod.).
+03. Vytvorenie prihlasovania.
 
 ### In progress:
 
 ### Todo:
-03. Vytvorenie prihlasovania.
 04. Vytvorenie registrácie (možno i cez Google alebo FB).
 05. Zobrazenie cudzích a vlastných kurzov.
 06. Vytvorenie nového kurzu (základné info + pridávanie modulov).
