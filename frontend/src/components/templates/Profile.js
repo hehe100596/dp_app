@@ -45,7 +45,6 @@ export function Profile() {
       title: "Do you want to delete this account?",
       text: "You are about to delete your account. Are you sure about it?",
       icon: "warning",
-      type: "warning",
       buttons: ["No", "Yes"]
     }).then(function(isConfirm) {
       if (isConfirm) {
