@@ -44,6 +44,7 @@ export const TopNavBar = () => {
           <ul className="navbar-nav">
             <li className="nav-item dropdown">
               <Link
+                to=""
                 className="nav-link dropdown-toggle"
                 id="navbarDropdownMenuLink"
                 data-toggle="dropdown"

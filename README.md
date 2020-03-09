@@ -5,9 +5,9 @@
 02. Rozvetvenie backendu a frontendu (atomická štruktúra a pod.).
 03. Vytvorenie prihlasovania (zatiaľ bez integrácie Google alebo FB).
 04. Vytvorenie registrácie (zatiaľ bez možnosti zmeny hesla).
+05. Správa profilu a zmazanie užívateľa (zatiaľ bez profilových obrázkov a pod.).
 
 ### In progress:
-05. Správa profilu a zmazanie užívateľa.
 
 ### Todo:
 06. Zobrazenie cudzích a vlastných kurzov.

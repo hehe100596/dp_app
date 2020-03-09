@@ -13,7 +13,7 @@ import { EmptyLine } from "../atoms/EmptyLine";
 import { ErrorMessage } from "../molecules/ErrorMessage";
 import { ServerStatus } from "../organisms/ServerStatus";
 
-export const userSchema = yup.object().shape({
+export const signInSchema = yup.object().shape({
   mail: yup
     .string()
     .label("E-mail")
@@ -63,7 +63,7 @@ export function SignInForm() {
         onSubmit={(values, actions) => {
           authenticate(values);
         }}
-        validationSchema={userSchema}
+        validationSchema={signInSchema}
       >
         {props => (
           <form onSubmit={props.handleSubmit}>
