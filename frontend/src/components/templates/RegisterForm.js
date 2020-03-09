@@ -4,7 +4,6 @@ import { Formik } from "formik";
 import * as yup from "yup";
 
 import { config } from "../../config";
-import { useAuth } from "../../utils/auth";
 import { globalApiInstance } from "../../utils/api";
 
 import { Heading } from "../atoms/Heading";
@@ -13,7 +12,7 @@ import { EmptyLine } from "../atoms/EmptyLine";
 import { ErrorMessage } from "../molecules/ErrorMessage";
 import { ServerStatus } from "../organisms/ServerStatus";
 
-export const userSchema = yup.object().shape({
+export const registerSchema = yup.object().shape({
   mail: yup
     .string()
     .label("E-mail")
@@ -23,26 +22,51 @@ export const userSchema = yup.object().shape({
     .string()
     .label("Password")
     .required()
+    .min(3, "Password should contain at least 3 characters"),
+  pass2: yup
+    .string()
+    .label("Password confirmation")
+    .required()
+    .oneOf([yup.ref("pass"), null], "Passwords must match")
 });
 
-export function SignInForm() {
+export function RegisterForm() {
   const [status, setStatus] = useState(null);
   const [message, setMessage] = useState(null);
-  const auth = useAuth();
 
-  function authenticate(values) {
-    setStatus("loading");
+  // TODO: Add e-mail existence verification, activation,
+  // password change, FB and Google registration.
+
+  function register(values) {
     globalApiInstance
-      .post(config.BASE_API + "users/getUserToken", {
+      .post(config.BASE_API + "users/createNewUser", {
         mail: values.mail,
         pass: values.pass
       })
       .then(res => {
+        setStatus("success");
+        setMessage("Registration complete, you can sign in now");
+      })
+      .catch(err => {
+        setStatus("error");
+        setMessage(err.message);
+      });
+
+    return 0;
+  }
+
+  function validate(values) {
+    setStatus("loading");
+    globalApiInstance
+      .post(config.BASE_API + "users/getUserMail", {
+        mail: values.mail
+      })
+      .then(res => {
         if (res.data.data) {
-          auth.signin({ token: res.data.data.token, user: values.mail });
-        } else {
           setStatus("error");
-          setMessage("Incorrect e-mail or password");
+          setMessage("E-mail is already in use, try again");
+        } else {
+          register(values);
         }
       })
       .catch(err => {
@@ -56,14 +80,14 @@ export function SignInForm() {
   return (
     <div align="center">
       <EmptyLine level="1" />
-      <Heading level="1">Sign in</Heading>
+      <Heading level="1">Register</Heading>
       <EmptyLine level="1" />
       <Formik
-        initialValues={{ mail: "", pass: "" }}
+        initialValues={{ mail: "", pass: "", pass2: "" }}
         onSubmit={(values, actions) => {
-          authenticate(values);
+          validate(values);
         }}
-        validationSchema={userSchema}
+        validationSchema={registerSchema}
       >
         {props => (
           <form onSubmit={props.handleSubmit}>
@@ -86,6 +110,16 @@ export function SignInForm() {
               placeholder="password"
               name="pass"
             />
+            <EmptyLine />
+            <input
+              type="password"
+              onChange={props.handleChange}
+              onBlur={props.handleBlur}
+              value={props.values.pass2}
+              style={{ width: "300px" }}
+              placeholder="confirm password"
+              name="pass2"
+            />
             <EmptyLine level="1" />
             <Button
               className={"btn btn-success mr-2"}
@@ -94,18 +128,19 @@ export function SignInForm() {
             >
               <b>Next</b>
             </Button>
-            <Link to="/register">
+            <Link to="/sign-in">
               <Button
                 className={"btn btn-primary"}
                 style={{ width: "150px" }}
                 type="button"
               >
-                <b>Register</b>
+                <b>Sign in</b>
               </Button>
             </Link>
             <EmptyLine level="1" />
             {props.errors.mail && <ErrorMessage error={props.errors.mail} />}
             {props.errors.pass && <ErrorMessage error={props.errors.pass} />}
+            {props.errors.pass2 && <ErrorMessage error={props.errors.pass2} />}
           </form>
         )}
       </Formik>
