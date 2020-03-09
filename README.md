@@ -7,9 +7,9 @@
 04. Vytvorenie registrácie (zatiaľ bez možnosti zmeny hesla).
 
 ### In progress:
+05. Správa profilu a zmazanie užívateľa.
 
 ### Todo:
-05. Správa profilu a deaktivácia.
 06. Zobrazenie cudzích a vlastných kurzov.
 07. Vytvorenie nového kurzu (základné info + pridávanie modulov).
 08. Úprava existujúceho kurzu (zmena info + mazanie / presúvanie modulov).

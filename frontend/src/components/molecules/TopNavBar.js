@@ -41,13 +41,32 @@ export const TopNavBar = () => {
               </Link>
             </li>
           </ul>
-        </div>
-        <span>
+          <ul className="navbar-nav">
+            <li className="nav-item dropdown">
+              <Link
+                className="nav-link dropdown-toggle"
+                id="navbarDropdownMenuLink"
+                data-toggle="dropdown"
+                aria-haspopup="true"
+                aria-expanded="false"
+              >
+                <b>{auth.user}</b>
+              </Link>
+              <div
+                className="dropdown-menu"
+                aria-labelledby="navbarDropdownMenuLink"
+              >
+                <Link className="dropdown-item" to={"/profile"}>
+                  My profile
+                </Link>
+              </div>
+            </li>
+          </ul>
           <Link to={"/"} onClick={clearSignOut}>
             <i className="fa fa-sign-out-alt fa-fw" />
             <b>Sign out</b>
           </Link>
-        </span>
+        </div>
       </nav>
       <br />
     </div>
