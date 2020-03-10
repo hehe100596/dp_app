@@ -1,3 +1,7 @@
+## Important Note
+
+In order for backend to work properly, ".env" file with additional info needs to be provided.
+
 ## Available Scripts
 
 In the backend directory, you can run:

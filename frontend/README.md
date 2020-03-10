@@ -1,4 +1,6 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Important Note
+
+In order for backend to work properly, ".env" file with additional info needs to be provided.
 
 ## Available Scripts
 
