@@ -1,6 +1,6 @@
 ## Important Note
 
-In order for backend to work properly, ".env" file with additional info needs to be provided.
+In order for frontend to work properly, ".env" file with additional info needs to be provided.
 
 ## Available Scripts
 
