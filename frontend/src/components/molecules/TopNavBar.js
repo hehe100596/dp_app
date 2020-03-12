@@ -8,7 +8,6 @@ export const TopNavBar = () => {
 
   function clearSignOut() {
     auth.signout();
-    localStorage.removeItem("dp-auth");
   }
 
   return (
@@ -33,6 +32,11 @@ export const TopNavBar = () => {
             <li className="nav-item">
               <Link className="nav-link" to={"/"}>
                 <b>Home</b>
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link" to={"/courses"}>
+                <b>Courses</b>
               </Link>
             </li>
             <li className="nav-item">

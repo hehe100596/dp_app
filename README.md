@@ -1,4 +1,4 @@
-## BACKEND:
+## FUNCTIONALITY:
 
 ### Done:
 01. Pridanie env a routovania (podľa projektu).
@@ -8,15 +8,15 @@
 05. Správa profilu a zmazanie užívateľa (zatiaľ bez profilových obrázkov a pod.).
 
 ### In progress:
+06. Zobrazenie a správa cudzích a vlastných kurzov.
 
 ### Todo:
-06. Zobrazenie cudzích a vlastných kurzov.
-07. Vytvorenie nového kurzu (základné info + pridávanie modulov).
-08. Úprava existujúceho kurzu (zmena info + mazanie / presúvanie modulov).
-09. Vytvorenie nového modulu (rôzne typy).
-10. Úprava a mazanie existujúceho modulu (rôzne typy).
-11. Vytvorenie a správa pozvánok (asi stačí formou odkazu pre viacerých ľudí).
-12. Prijatie pozvánok (asi stačí formou odkazu s presmerovaním).
+07. Vytvorenie a správa pozvánok (asi stačí formou odkazu pre viacerých ľudí).
+08. Prijatie pozvánok (asi stačí formou odkazu s presmerovaním).
+09. Vytvorenie nového kurzu (základné info + pridávanie modulov).
+10. Úprava existujúceho kurzu (zmena info + mazanie / presúvanie modulov).
+11. Vytvorenie nového modulu (rôzne typy).
+12. Úprava a mazanie existujúceho modulu (rôzne typy).
 13. Rozšírenie možností vyhodnocovania.
 14. Rozšírenie možností prechodov kurzmi (vrátane ukončovania).
 15. Pridanie možnosti poskytnutia spätnej väzby a odmien majiteľom kurzu.
@@ -25,7 +25,7 @@
 ...
 
 
-## FRONTEND:
+## DESIGN:
 
 ### Done:
 

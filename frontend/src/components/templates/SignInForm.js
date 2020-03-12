@@ -49,7 +49,6 @@ export function SignInForm() {
         setStatus("error");
         setMessage(err.message);
       });
-
     return 0;
   }
 

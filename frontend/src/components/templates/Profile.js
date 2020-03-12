@@ -56,7 +56,6 @@ export function Profile() {
           })
           .then(res => {
             auth.signout();
-            localStorage.removeItem("dp-auth");
           })
           .catch(err => {
             setStatus("error");
@@ -64,7 +63,6 @@ export function Profile() {
           });
       }
     });
-
     return 0;
   }
 
@@ -83,7 +81,6 @@ export function Profile() {
         setStatus("error");
         setMessage(err.message);
       });
-
     return 0;
   }
 
@@ -112,8 +109,8 @@ export function Profile() {
 
   return (
     <div align="center">
-      <Heading level="1">My profile</Heading>
-      <EmptyLine level="1" />
+      <Heading level="1">MY PROFILE</Heading>
+      <EmptyLine level="2" />
       <Formik
         initialValues={{ user: auth.user, old: "", new: "", new2: "" }}
         onSubmit={(values, actions) => {

@@ -51,7 +51,6 @@ export function RegisterForm() {
         setStatus("error");
         setMessage(err.message);
       });
-
     return 0;
   }
 
@@ -73,7 +72,6 @@ export function RegisterForm() {
         setStatus("error");
         setMessage(err.message);
       });
-
     return 0;
   }
 
