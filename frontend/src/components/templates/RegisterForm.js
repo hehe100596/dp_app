@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { Formik } from "formik";
 import * as yup from "yup";
 
-import { config } from "../../config";
 import { globalApiInstance } from "../../utils/api";
 
 import { Heading } from "../atoms/Heading";
@@ -39,7 +38,7 @@ export function RegisterForm() {
 
   function register(values) {
     globalApiInstance
-      .post(config.BASE_API + "users/createNewUser", {
+      .post(process.env.REACT_APP_BASE_API + "users/createNewUser", {
         mail: values.mail,
         pass: values.pass
       })
@@ -57,7 +56,7 @@ export function RegisterForm() {
   function validate(values) {
     setStatus("loading");
     globalApiInstance
-      .post(config.BASE_API + "users/getUserMail", {
+      .post(process.env.REACT_APP_BASE_API + "users/getUserMail", {
         mail: values.mail
       })
       .then(res => {

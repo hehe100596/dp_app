@@ -64,6 +64,9 @@ export const TopNavBar = () => {
                 <Link className="dropdown-item" to={"/profile"}>
                   My profile
                 </Link>
+                <Link className="dropdown-item" to={"/my-courses"}>
+                  My courses
+                </Link>
               </div>
             </li>
           </ul>

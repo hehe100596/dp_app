@@ -9,6 +9,7 @@ import { SignInPage } from "./components/pages/SignInPage";
 import { RegisterPage } from "./components/pages/RegisterPage";
 import { ProfilePage } from "./components/pages/ProfilePage";
 import { CoursesPage } from "./components/pages/CoursesPage";
+import { MyCoursesPage } from "./components/pages/MyCoursesPage";
 
 import TestingPage from "./components/pages/TestingPage";
 
@@ -20,6 +21,7 @@ export const AppRoutes = () => (
       <Switch>
         <PrivateRoute path="/profile" exact component={ProfilePage} />
         <PrivateRoute path="/courses" exact component={CoursesPage} />
+        <PrivateRoute path="/my-courses" exact component={MyCoursesPage} />
         <PrivateRoute path="/testing" exact component={TestingPage} />
         <PrivateRoute path="*" component={HomePage} />
       </Switch>

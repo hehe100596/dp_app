@@ -2,11 +2,11 @@ import React from "react";
 
 import { CoursesTable } from "../templates/CoursesTable";
 
-export function CoursesPage() {
+export function MyCoursesPage() {
   return (
     <CoursesTable
-      isEditable={false}
-      noCoursesMessage="You have access to 0 courses."
+      isEditable={true}
+      noCoursesMessage="You have not created any courses yet."
     />
   );
 }

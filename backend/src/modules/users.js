@@ -41,18 +41,6 @@ router.post("/getUserMail", (req, res) => {
   });
 });
 
-router.post("/createDefaultUser", (req, res) => {
-  let user = new User();
-
-  user.mail = "abc@abc.com";
-  user.pass = "abc";
-  user.token = "abc_token";
-  user.save(err => {
-    if (err) return res.json({ success: false, error: err });
-    return res.json({ success: true });
-  });
-});
-
 router.post("/createNewUser", async (req, res) => {
   let user = new User();
 
@@ -64,6 +52,7 @@ router.post("/createNewUser", async (req, res) => {
   user.mail = mail;
   user.pass = hashedPass;
   user.token = token;
+
   user.save(err => {
     if (err) return res.json({ success: false, error: err });
 

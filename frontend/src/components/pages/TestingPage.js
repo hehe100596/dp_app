@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 
-import { config } from "../../config";
 import { globalApiInstance } from "../../utils/api";
 
 class TestingPage extends Component {
@@ -31,7 +30,7 @@ class TestingPage extends Component {
 
   // fetch data from database
   getDataFromDb = () => {
-    fetch(config.BASE_API + "testing/getData")
+    fetch(process.env.REACT_APP_BASE_API + "testing/getData")
       .then(data => data.json())
       .then(res => this.setState({ data: res.data }));
   };
@@ -44,7 +43,7 @@ class TestingPage extends Component {
       ++idToBeAdded;
     }
 
-    globalApiInstance.post(config.BASE_API + "testing/putData", {
+    globalApiInstance.post(process.env.REACT_APP_BASE_API + "testing/putData", {
       id: idToBeAdded,
       message: message
     });
@@ -60,11 +59,14 @@ class TestingPage extends Component {
       }
     });
 
-    globalApiInstance.delete(config.BASE_API + "testing/deleteData", {
-      data: {
-        id: objIdToDelete
+    globalApiInstance.delete(
+      process.env.REACT_APP_BASE_API + "testing/deleteData",
+      {
+        data: {
+          id: objIdToDelete
+        }
       }
-    });
+    );
   };
 
   // overwrite existing database information
@@ -77,10 +79,13 @@ class TestingPage extends Component {
       }
     });
 
-    globalApiInstance.post(config.BASE_API + "testing/updateData", {
-      id: objIdToUpdate,
-      update: { message: updateToApply }
-    });
+    globalApiInstance.post(
+      process.env.REACT_APP_BASE_API + "testing/updateData",
+      {
+        id: objIdToUpdate,
+        update: { message: updateToApply }
+      }
+    );
   };
 
   render() {

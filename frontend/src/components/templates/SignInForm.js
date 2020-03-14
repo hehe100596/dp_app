@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { Formik } from "formik";
 import * as yup from "yup";
 
-import { config } from "../../config";
 import { useAuth } from "../../utils/auth";
 import { globalApiInstance } from "../../utils/api";
 
@@ -33,7 +32,7 @@ export function SignInForm() {
   function authenticate(values) {
     setStatus("loading");
     globalApiInstance
-      .post(config.BASE_API + "users/getUserToken", {
+      .post(process.env.REACT_APP_BASE_API + "users/getUserToken", {
         mail: values.mail,
         pass: values.pass
       })

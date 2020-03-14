@@ -8,10 +8,9 @@ import React, {
 import axios from "axios";
 
 import { useAuth } from "./auth";
-import { config } from "../config";
 
 export const globalApiInstance = axios.create({
-  baseURL: config.BASE_API
+  baseURL: process.env.REACT_APP_BASE_API
 });
 
 const ApiStateContext = createContext(globalApiInstance);

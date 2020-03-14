@@ -5,7 +5,6 @@ import * as yup from "yup";
 
 import avatar from "../../img/avatar.png";
 
-import { config } from "../../config";
 import { useAuth } from "../../utils/auth";
 import { globalApiInstance } from "../../utils/api";
 
@@ -50,7 +49,7 @@ export function Profile() {
       if (isConfirm) {
         setStatus("loading");
         globalApiInstance
-          .post(config.BASE_API + "users/deleteUser", {
+          .post(process.env.REACT_APP_BASE_API + "users/deleteUser", {
             mail: auth.user,
             token: auth.token
           })
@@ -68,7 +67,7 @@ export function Profile() {
 
   function changePassword(values) {
     globalApiInstance
-      .post(config.BASE_API + "users/changePassword", {
+      .post(process.env.REACT_APP_BASE_API + "users/changePassword", {
         mail: auth.user,
         token: auth.token,
         pass: values.new
@@ -87,7 +86,7 @@ export function Profile() {
   function validatePassword(values) {
     setStatus("loading");
     globalApiInstance
-      .post(config.BASE_API + "users/getUserToken", {
+      .post(process.env.REACT_APP_BASE_API + "users/getUserToken", {
         mail: auth.user,
         pass: values.old
       })
