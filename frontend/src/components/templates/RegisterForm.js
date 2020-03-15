@@ -5,7 +5,6 @@ import * as yup from "yup";
 
 import { globalApiInstance } from "../../utils/api";
 
-import { Heading } from "../atoms/Heading";
 import { Button } from "../atoms/Button";
 import { EmptyLine } from "../atoms/EmptyLine";
 import { ErrorMessage } from "../molecules/ErrorMessage";
@@ -76,9 +75,6 @@ export function RegisterForm() {
 
   return (
     <div align="center">
-      <EmptyLine level="1" />
-      <Heading level="1">Register</Heading>
-      <EmptyLine level="1" />
       <Formik
         initialValues={{ mail: "", pass: "", pass2: "" }}
         onSubmit={(values, actions) => {

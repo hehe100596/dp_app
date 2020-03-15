@@ -2,14 +2,14 @@ import React from "react";
 
 import { Heading } from "../atoms/Heading";
 import { EmptyLine } from "../atoms/EmptyLine";
-import { Profile } from "../templates/Profile";
+import { CourseModification } from "../templates/CourseModification";
 
-export function ProfilePage() {
+export function CourseAddingPage() {
   return (
     <div align="center">
-      <Heading level="1">MY PROFILE</Heading>
+      <Heading level="1">NEW COURSE</Heading>
       <EmptyLine level="2" />
-      <Profile />
+      <CourseModification courseId={null} />
     </div>
   );
 }

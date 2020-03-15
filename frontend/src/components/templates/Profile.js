@@ -8,7 +8,6 @@ import avatar from "../../img/avatar.png";
 import { useAuth } from "../../utils/auth";
 import { globalApiInstance } from "../../utils/api";
 
-import { Heading } from "../atoms/Heading";
 import { Button } from "../atoms/Button";
 import { EmptyLine } from "../atoms/EmptyLine";
 import { ErrorMessage } from "../molecules/ErrorMessage";
@@ -108,8 +107,6 @@ export function Profile() {
 
   return (
     <div align="center">
-      <Heading level="1">MY PROFILE</Heading>
-      <EmptyLine level="2" />
       <Formik
         initialValues={{ user: auth.user, old: "", new: "", new2: "" }}
         onSubmit={(values, actions) => {

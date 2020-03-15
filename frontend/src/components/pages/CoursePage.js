@@ -2,14 +2,14 @@ import React from "react";
 
 import { Heading } from "../atoms/Heading";
 import { EmptyLine } from "../atoms/EmptyLine";
-import { Profile } from "../templates/Profile";
+import { CourseDetail } from "../templates/CourseDetail";
 
-export function ProfilePage() {
+export function CoursePage(props) {
   return (
     <div align="center">
-      <Heading level="1">MY PROFILE</Heading>
+      <Heading level="1">COURSE {null}</Heading>
       <EmptyLine level="2" />
-      <Profile />
+      <CourseDetail courseId={props.match.params.course} />
     </div>
   );
 }
