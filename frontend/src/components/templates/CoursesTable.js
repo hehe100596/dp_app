@@ -174,7 +174,7 @@ export function CoursesTable({ isEditable, noCoursesMessage }) {
             </div>
           ) : (
             <Link to={{ pathname: `/enter-course/${row._id}` }}>
-              <Button variant="info" className="ml-1 mr-1">
+              <Button variant="success" className="ml-1 mr-1">
                 <i className="fa fa-book-open" />
               </Button>
             </Link>
