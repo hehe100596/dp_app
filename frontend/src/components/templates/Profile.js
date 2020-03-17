@@ -195,6 +195,7 @@ export function Profile() {
           </form>
         )}
       </Formik>
+      <br />
       <ServerStatus status={status} message={message} />
     </div>
   );

@@ -9,12 +9,12 @@
 06. Zobrazenie a mazanie kurzov (cudzích a vlastných).
 
 ### In progress:
+07. Vytvorenie a prijatie pozvánok (asi stačí formou odkazu pre viacerých ľudí s presmerovaním).
 
 ### Todo:
-07. Vytvorenie a správa pozvánok (asi stačí formou odkazu pre viacerých ľudí).
-08. Prijatie pozvánok (asi stačí formou odkazu s presmerovaním).
-09. Vytvorenie nového kurzu (základné info + pridávanie modulov a študentov).
-10. Úprava existujúceho kurzu (zmena info + mazanie / presúvanie modulov a študentov).
+08. Správa študentov s prístupom k danému kurzu (stačí tabuľka v rámci upravovania kurzu).
+09. Vytvorenie nového kurzu (základné info, nastavenia a pridávanie/odoberanie modulov).
+10. Úprava existujúceho kurzu (zmena info, nastavení a modulov).
 11. Vytvorenie nového modulu (rôzne typy).
 12. Úprava a mazanie existujúceho modulu (rôzne typy).
 13. Základný prechod kurzmi.

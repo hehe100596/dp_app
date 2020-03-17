@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 
 import { useAuth } from "../../utils/auth";
 
+import { EmptyLine } from "../atoms/EmptyLine";
+
 export const TopNavBar = () => {
   const auth = useAuth();
 
@@ -12,7 +14,7 @@ export const TopNavBar = () => {
 
   return (
     <div>
-      <nav className="navbar navbar-expand-sm navbar-light bg-warning">
+      <nav className="navbar navbar-expand-sm navbar-light bg-warning fixed-top">
         <Link className="navbar-brand" to={"/"}>
           <b>DP APPLICATION</b>
         </Link>
@@ -76,7 +78,7 @@ export const TopNavBar = () => {
           </Link>
         </div>
       </nav>
-      <br />
+      <EmptyLine level="4" />
     </div>
   );
 };

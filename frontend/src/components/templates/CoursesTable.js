@@ -6,13 +6,18 @@ import swal from "sweetalert";
 import { useAuth } from "../../utils/auth";
 import { globalApiInstance } from "../../utils/api";
 
-import { ServerStatus } from "../organisms/ServerStatus";
 import { Button } from "../atoms/Button";
+import { InvitesModal } from "./InvitesModal";
+import { ServerStatus } from "../organisms/ServerStatus";
 
 export function CoursesTable({ isEditable, noCoursesMessage }) {
+  const [inviteTo, setInviteTo] = useState(null);
+  const [courseName, setCourseName] = useState("");
+
   const [fetchSignal, setFetchSignal] = useState(false);
   const [selected, setSelected] = useState(null);
   const [courses, setCourses] = useState([]);
+
   const [status, setStatus] = useState("loading");
   const [message, setMessage] = useState("Data successfully loaded.");
 
@@ -37,29 +42,6 @@ export function CoursesTable({ isEditable, noCoursesMessage }) {
       });
   }, [fetchSignal, fetchCourses, fetchUser]);
 
-  /*const handleAdd = () => {
-    setStatus("loading");
-    globalApiInstance
-      .post(process.env.REACT_APP_BASE_API + "courses/createNewCourse", {
-        name: "Testing Course",
-        org: "Whatever School",
-        cat: "Medical",
-        level: "Beginner",
-        length: "1 - 10 days",
-        author: auth.user,
-        withAccess: auth.token,
-        tmp: "none"
-      })
-      .then(res => {
-        setMessage("Course successfully added.");
-        setFetchSignal(!fetchSignal);
-      })
-      .catch(err => {
-        setStatus("error");
-        setMessage(err.message);
-      });
-  };*/
-
   const deleteCourses = rows => {
     setStatus("loading");
     globalApiInstance
@@ -78,8 +60,13 @@ export function CoursesTable({ isEditable, noCoursesMessage }) {
   };
 
   const handleInvite = row => {
-    // TODO: Fix handling invites!
-    console.log("Invited Row: ", row._id);
+    setStatus("idle");
+    setInviteTo(row._id);
+    setCourseName(row.name);
+  };
+
+  const closeInvite = () => {
+    setInviteTo(null);
   };
 
   const handleRemove = row => {
@@ -153,14 +140,14 @@ export function CoursesTable({ isEditable, noCoursesMessage }) {
           {isEditable ? (
             <div>
               <Button
-                variant="primary"
+                variant="success"
                 className="ml-1 mr-1"
                 onClick={e => handleInvite(row)}
               >
                 <i className="fa fa-user-plus" />
               </Button>
               <Link to={{ pathname: `/edit-course/${row._id}` }}>
-                <Button variant="secondary" className="ml-1 mr-1">
+                <Button variant="primary" className="ml-1 mr-1">
                   <i className="fa fa-edit" />
                 </Button>
               </Link>
@@ -174,7 +161,7 @@ export function CoursesTable({ isEditable, noCoursesMessage }) {
             </div>
           ) : (
             <Link to={{ pathname: `/enter-course/${row._id}` }}>
-              <Button variant="success" className="ml-1 mr-1">
+              <Button variant="info" className="ml-1 mr-1">
                 <i className="fa fa-book-open" />
               </Button>
             </Link>
@@ -225,7 +212,7 @@ export function CoursesTable({ isEditable, noCoursesMessage }) {
           }
           subHeaderComponent={
             <Link to="/add-course">
-              <Button variant="success" className="mr-3">
+              <Button variant="secondary" className="mr-3">
                 <i className="fa fa-plus fa-fw" />
                 <b> New Course</b>
               </Button>
@@ -233,6 +220,11 @@ export function CoursesTable({ isEditable, noCoursesMessage }) {
           }
         />
       </div>
+      <InvitesModal
+        inviteTo={inviteTo}
+        courseName={courseName}
+        closeInvite={closeInvite}
+      />
       <br />
       <ServerStatus status={status} message={message} />
     </div>
