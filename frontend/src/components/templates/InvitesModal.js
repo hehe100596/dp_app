@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
 
+import { globalApiInstance } from "../../utils/api";
+
 import { Heading } from "../atoms/Heading";
 import { Button } from "../atoms/Button";
 import { EmptyLine } from "../atoms/EmptyLine";
@@ -25,17 +27,22 @@ export function InvitesModal({ inviteTo, courseName, closeInvite }) {
   const generateLink = () => {
     setStatus("loading");
 
-    const baseUrl = window.location.origin + "/invites/";
+    globalApiInstance
+      .post(process.env.REACT_APP_BASE_API + "invites/createNewInviteLink", {
+        course: inviteTo,
+        expiration: expiration
+      })
+      .then(res => {
+        const baseUrl = window.location.origin + "/invites/";
+        const inviteLink = baseUrl + res.data.data;
 
-    const inviteLinkId =
-      "$2b$10$5Qtou7OOVv.1cNCSWTuzQ.CKjEEBFxdUMJGpJbQgemBS9ohIUqamW";
-
-    const inviteLink = baseUrl + inviteLinkId;
-
-    console.log(inviteTo, expiration);
-
-    setStatus("success");
-    setMessage(inviteLink);
+        setStatus("success");
+        setMessage(inviteLink);
+      })
+      .catch(err => {
+        setStatus("error");
+        setMessage(err.message);
+      });
   };
 
   const copyToClipboard = () => {
@@ -94,7 +101,6 @@ export function InvitesModal({ inviteTo, courseName, closeInvite }) {
               <option value="1440">1 day</option>
               <option value="4320">3 days</option>
               <option value="10080">1 week</option>
-              <option value="0">never</option>
             </select>
             <EmptyLine level="1" />
           </div>
