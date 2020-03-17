@@ -21,6 +21,30 @@ const DataSchema = new Schema(
 const Course = mongoose.model("Course", DataSchema);
 const router = Router();
 
+router.post("/getCourseWithAccess", (req, res) => {
+  const { course, user } = req.body;
+
+  Course.findOne({ _id: course, access: user }, "_id", (err, data) => {
+    if (err) return res.json({ success: false, error: err });
+
+    return res.json({ success: true, data: data });
+  });
+});
+
+router.post("/giveAccess", (req, res) => {
+  const { course, user } = req.body;
+
+  Course.updateOne(
+    { _id: course },
+    { $push: { access: user } },
+    (err, data) => {
+      if (err) return res.json({ success: false, error: err });
+
+      return res.json({ success: true, data: data });
+    }
+  );
+});
+
 router.post("/getMyCourses", (req, res) => {
   const { user } = req.body;
 
@@ -58,6 +82,7 @@ router.post("/createNewCourse", (req, res) => {
 
   course.save(err => {
     if (err) return res.json({ success: false, error: err });
+
     return res.json({ success: true });
   });
 });

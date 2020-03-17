@@ -37,6 +37,7 @@ export function SignInForm() {
       })
       .then(res => {
         if (res.data.data) {
+          setStatus("idle");
           auth.signin({ token: res.data.data.token, user: values.mail });
         } else {
           setStatus("error");

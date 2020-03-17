@@ -20,6 +20,7 @@ router.post("/createNewModule", (req, res) => {
 
   module.save(err => {
     if (err) return res.json({ success: false, error: err });
+
     return res.json({ success: true });
   });
 });

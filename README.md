@@ -7,9 +7,9 @@
 04. Vytvorenie registrácie (zatiaľ bez možnosti zmeny hesla).
 05. Správa profilu a zmazanie užívateľa (zatiaľ bez profilových obrázkov, práv a pod.).
 06. Zobrazenie a mazanie kurzov (cudzích a vlastných).
+07. Vytvorenie a prijatie pozvánok (zatiaľ formou dočasného odkazu s presmerovaním).
 
 ### In progress:
-07. Vytvorenie a prijatie pozvánok (asi stačí formou odkazu pre viacerých ľudí s presmerovaním).
 
 ### Todo:
 08. Správa študentov s prístupom k danému kurzu (stačí tabuľka v rámci upravovania kurzu).

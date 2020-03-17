@@ -29,7 +29,8 @@ export function InvitesModal({ inviteTo, courseName, closeInvite }) {
 
     globalApiInstance
       .post(process.env.REACT_APP_BASE_API + "invites/createNewInviteLink", {
-        course: inviteTo,
+        courseName: courseName,
+        courseId: inviteTo,
         expiration: expiration
       })
       .then(res => {
