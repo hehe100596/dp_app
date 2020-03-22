@@ -1,28 +1,54 @@
 import { Router } from "express";
 import mongoose, { Schema } from "mongoose";
 
+import { Course } from "./courses";
+
 const DataSchema = new Schema(
   {
     name: String,
-    courses: [String]
+    author: String,
+    access: [String]
   },
   { timestamps: true }
 );
-export const Module = mongoose.model("Module", DataSchema);
+const Module = mongoose.model("Module", DataSchema);
 const router = Router();
 
 router.post("/createNewModule", (req, res) => {
   let module = new Module();
 
-  const { name } = req.body;
+  const { name, author, withAccess } = req.body;
 
   module.name = name;
+  module.author = author;
+
+  module.access.push(withAccess);
 
   module.save(err => {
     if (err) return res.json({ success: false, error: err });
 
     return res.json({ success: true });
   });
+});
+
+router.post("/deleteModules", (req, res) => {
+  const { selectedModules } = req.body;
+
+  const modules = Module.deleteMany({ _id: { $in: selectedModules } });
+  const courses = Course.updateMany(
+    {},
+    {
+      $pull: { content: { module: { $in: selectedModules } } }
+    }
+  );
+
+  Promise.all([modules, courses])
+    .then(result => {
+      return res.json({ success: true });
+    })
+    .catch(err => {
+      return res.send(err);
+    });
 });
 
 export default router;

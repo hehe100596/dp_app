@@ -10,11 +10,11 @@
 07. Vytvorenie a prijatie pozvánok (zatiaľ formou dočasného odkazu s presmerovaním).
 
 ### In progress:
-
-### Todo:
 08. Správa študentov s prístupom k danému kurzu (stačí tabuľka v rámci upravovania kurzu).
 09. Vytvorenie nového kurzu (základné info, nastavenia a pridávanie/odoberanie modulov).
 10. Úprava existujúceho kurzu (zmena info, nastavení a modulov).
+
+### Todo:
 11. Vytvorenie nového modulu (rôzne typy).
 12. Úprava a mazanie existujúceho modulu (rôzne typy).
 13. Základný prechod kurzmi.

@@ -1,8 +1,6 @@
 import { Router } from "express";
 import mongoose, { Schema } from "mongoose";
 
-import { Module } from "./modules";
-
 const DataSchema = new Schema(
   {
     name: String,
@@ -14,11 +12,18 @@ const DataSchema = new Schema(
     access: [String],
     config: {
       tmp: String
-    }
+    },
+    content: [
+      {
+        module: String,
+        resultPoints: Number,
+        unlockPoints: Number
+      }
+    ]
   },
   { timestamps: true }
 );
-const Course = mongoose.model("Course", DataSchema);
+export const Course = mongoose.model("Course", DataSchema);
 const router = Router();
 
 router.post("/getCourseWithAccess", (req, res) => {
@@ -90,21 +95,11 @@ router.post("/createNewCourse", (req, res) => {
 router.post("/deleteCourses", (req, res) => {
   const { selectedCourses } = req.body;
 
-  const courses = Course.deleteMany({ _id: { $in: selectedCourses } });
-  const modules = Module.updateMany(
-    {},
-    {
-      $pull: { courses: { $in: selectedCourses } }
-    }
-  );
+  Course.deleteMany({ _id: { $in: selectedCourses } }, err => {
+    if (err) return res.send(err);
 
-  Promise.all([courses, modules])
-    .then(result => {
-      return res.json({ success: true });
-    })
-    .catch(err => {
-      return res.send(err);
-    });
+    return res.json({ success: true });
+  });
 });
 
 export default router;
