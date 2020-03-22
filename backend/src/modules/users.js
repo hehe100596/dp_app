@@ -6,7 +6,8 @@ const DataSchema = new Schema(
   {
     mail: String,
     pass: String,
-    token: String
+    token: String,
+    progress: [{ course: String, points: Number }]
   },
   { timestamps: true }
 );

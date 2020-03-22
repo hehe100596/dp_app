@@ -1,18 +1,246 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { Redirect } from "react-router";
+import { Formik } from "formik";
+import * as yup from "yup";
+
+import { useAuth } from "../../utils/auth";
+import { globalApiInstance } from "../../utils/api";
+
+import { Button } from "../atoms/Button";
+import { EmptyLine } from "../atoms/EmptyLine";
+import { ErrorMessage } from "../molecules/ErrorMessage";
+import { ServerStatus } from "../organisms/ServerStatus";
+
+export const courseInfoSchema = yup.object().shape({
+  name: yup
+    .string()
+    .label("Name")
+    .required(),
+  org: yup
+    .string()
+    .label("Organizator")
+    .required(),
+  cat: yup
+    .string()
+    .label("Category")
+    .required(),
+  length: yup
+    .string()
+    .label("Length")
+    .required()
+});
 
 export function CourseModification({ courseId }) {
-  // TODO: Confirm user really has access to this course!
+  const auth = useAuth();
+
+  const [course, setCourse] = useState({
+    name: "",
+    org: "",
+    cat: "",
+    level: "Beginner",
+    length: "",
+    author: auth.user
+  });
+
+  const [status, setStatus] = useState("loading");
+  const [message, setMessage] = useState(null);
+  const [redirect, setRedirect] = useState(false);
+
+  function saveCourseInfo(values) {
+    setStatus("loading");
+
+    if (courseId) {
+      globalApiInstance
+        .post(process.env.REACT_APP_BASE_API + "courses/updateCourseInfo", {
+          courseId: courseId,
+          name: values.name,
+          org: values.org,
+          cat: values.cat,
+          level: values.level,
+          length: values.length
+        })
+        .then(res => {
+          setStatus("success");
+          setMessage("Course successfully updated");
+        })
+        .catch(err => {
+          setStatus("error");
+          setMessage(err.message);
+        });
+    } else {
+      globalApiInstance
+        .post(process.env.REACT_APP_BASE_API + "courses/createNewCourse", {
+          name: values.name,
+          org: values.org,
+          cat: values.cat,
+          level: values.level,
+          length: values.length,
+          author: values.author,
+          withAccess: auth.token
+        })
+        .then(res => {
+          setRedirect(true);
+        })
+        .catch(err => {
+          setStatus("error");
+          setMessage(err.message);
+        });
+    }
+
+    return 0;
+  }
+
+  useEffect(() => {
+    if (courseId)
+      globalApiInstance
+        .post(process.env.REACT_APP_BASE_API + "courses/getCourse", {
+          course: courseId
+        })
+        .then(res => {
+          setCourse(res.data.data);
+          setStatus("success");
+          setMessage("Data successfully loaded");
+        })
+        .catch(err => {
+          setStatus("error");
+          setMessage(err.message);
+        });
+    else setStatus("idle");
+  }, [courseId]);
+
+  if (redirect) return <Redirect push to="/my-courses" />;
 
   return (
     <div align="center">
-      {courseId ? courseId : "new_id"}
-      <div className="container">
-        <div className="row">
-          <div className="col-sm">One of three columns</div>
-          <div className="col-sm">One of three columns</div>
-          <div className="col-sm">One of three columns</div>
-        </div>
-      </div>
+      <Formik
+        initialValues={{
+          name: course.name,
+          org: course.org,
+          cat: course.cat,
+          level: course.level,
+          length: course.length,
+          author: course.author
+        }}
+        onSubmit={(values, actions) => {
+          saveCourseInfo(values);
+        }}
+        validationSchema={courseInfoSchema}
+        enableReinitialize
+      >
+        {props => (
+          <form onSubmit={props.handleSubmit}>
+            <div className="container">
+              <div className="row w-75">
+                <div className="col mb-4">
+                  <b>Name</b>
+                  <br />
+                  <input
+                    type="text"
+                    onChange={props.handleChange}
+                    onBlur={props.handleBlur}
+                    value={props.values.name}
+                    style={{ width: "300px", height: "30px" }}
+                    name="name"
+                    placeholder="name"
+                  />
+                </div>
+                <div className="col mb-4">
+                  <b>Organizator</b>
+                  <br />
+                  <input
+                    type="text"
+                    onChange={props.handleChange}
+                    onBlur={props.handleBlur}
+                    value={props.values.org}
+                    style={{ width: "300px", height: "30px" }}
+                    name="org"
+                    placeholder="organizator"
+                  />
+                </div>
+              </div>
+              <div className="row w-75">
+                <div className="col mb-4">
+                  <b>Category</b>
+                  <br />
+                  <input
+                    type="text"
+                    onChange={props.handleChange}
+                    onBlur={props.handleBlur}
+                    value={props.values.cat}
+                    style={{ width: "300px", height: "30px" }}
+                    name="cat"
+                    placeholder="category"
+                  />
+                </div>
+                <div className="col mb-4">
+                  <b>Level</b>
+                  <br />
+                  <select
+                    onChange={props.handleChange}
+                    onBlur={props.handleBlur}
+                    value={props.values.level}
+                    style={{ width: "300px", height: "30px" }}
+                    name="level"
+                  >
+                    <option value="Beginner">Beginner</option>
+                    <option value="Elementary">Elementary</option>
+                    <option value="Intermediate">Intermediate</option>
+                    <option value="Advanced">Advanced</option>
+                  </select>
+                </div>
+              </div>
+              <div className="row w-75">
+                <div className="col mb-4">
+                  <b>Length</b>
+                  <br />
+                  <input
+                    type="text"
+                    onChange={props.handleChange}
+                    onBlur={props.handleBlur}
+                    value={props.values.length}
+                    style={{ width: "300px", height: "30px" }}
+                    name="length"
+                    placeholder="length"
+                  />
+                </div>
+                <div className="col mb-4">
+                  <b>Author</b>
+                  <br />
+                  <input
+                    type="text"
+                    onChange={props.handleChange}
+                    onBlur={props.handleBlur}
+                    value={props.values.author}
+                    style={{ width: "300px", height: "30px" }}
+                    name="author"
+                    placeholder="author"
+                    disabled
+                  />
+                </div>
+              </div>
+              <EmptyLine level="2" />
+              <div className="row justify-content-center">
+                <Button
+                  className={"btn btn-primary"}
+                  style={{ width: "250px" }}
+                  type="submit"
+                >
+                  <b>Save course info</b>
+                </Button>
+              </div>
+            </div>
+            <EmptyLine level="2" />
+            {props.errors.name && <ErrorMessage error={props.errors.name} />}
+            {props.errors.org && <ErrorMessage error={props.errors.org} />}
+            {props.errors.cat && <ErrorMessage error={props.errors.cat} />}
+            {props.errors.length && (
+              <ErrorMessage error={props.errors.length} />
+            )}
+          </form>
+        )}
+      </Formik>
+      <EmptyLine level="1" />
+      <ServerStatus status={status} message={message} />
     </div>
   );
 }

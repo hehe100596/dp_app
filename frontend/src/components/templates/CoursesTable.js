@@ -19,7 +19,7 @@ export function CoursesTable({ isEditable, noCoursesMessage }) {
   const [courses, setCourses] = useState([]);
 
   const [status, setStatus] = useState("loading");
-  const [message, setMessage] = useState("Data successfully loaded.");
+  const [message, setMessage] = useState("Data successfully loaded");
 
   const auth = useAuth();
   const fetchUser = isEditable ? auth.user : auth.token;
@@ -49,7 +49,7 @@ export function CoursesTable({ isEditable, noCoursesMessage }) {
         selectedCourses: rows
       })
       .then(res => {
-        setMessage("Course(s) successfully deleted.");
+        setMessage("Course(s) successfully deleted");
         setFetchSignal(!fetchSignal);
         setSelected(null);
       })

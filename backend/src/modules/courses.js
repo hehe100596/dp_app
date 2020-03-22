@@ -26,6 +26,16 @@ const DataSchema = new Schema(
 export const Course = mongoose.model("Course", DataSchema);
 const router = Router();
 
+router.post("/getCourse", (req, res) => {
+  const { course } = req.body;
+
+  Course.findOne({ _id: course }, (err, data) => {
+    if (err) return res.json({ success: false, error: err });
+
+    return res.json({ success: true, data: data });
+  });
+});
+
 router.post("/getCourseWithAccess", (req, res) => {
   const { course, user } = req.body;
 
@@ -73,7 +83,7 @@ router.post("/getAccessibleCourses", (req, res) => {
 router.post("/createNewCourse", (req, res) => {
   let course = new Course();
 
-  const { name, org, cat, level, length, author, withAccess, tmp } = req.body;
+  const { name, org, cat, level, length, author, withAccess } = req.body;
 
   course.name = name;
   course.org = org;
@@ -83,13 +93,26 @@ router.post("/createNewCourse", (req, res) => {
   course.author = author;
 
   course.access.push(withAccess);
-  course.config.tmp = tmp;
 
   course.save(err => {
     if (err) return res.json({ success: false, error: err });
 
     return res.json({ success: true });
   });
+});
+
+router.post("/updateCourseInfo", (req, res) => {
+  const { courseId, name, org, cat, level, length } = req.body;
+
+  Course.updateOne(
+    { _id: courseId },
+    { name: name, org: org, cat: cat, level: level, length: length },
+    err => {
+      if (err) return res.json({ success: false, error: err });
+
+      return res.json({ success: true });
+    }
+  );
 });
 
 router.post("/deleteCourses", (req, res) => {
