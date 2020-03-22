@@ -8,9 +8,9 @@
 05. Správa profilu a zmazanie užívateľa (zatiaľ bez profilových obrázkov, práv a pod.).
 06. Zobrazenie a mazanie kurzov (cudzích a vlastných).
 07. Vytvorenie a prijatie pozvánok (zatiaľ formou dočasného odkazu s presmerovaním).
+08. Správa študentov s prístupom k danému kurzu (stačí tabuľka v rámci upravovania kurzu).
 
 ### In progress:
-08. Správa študentov s prístupom k danému kurzu (stačí tabuľka v rámci upravovania kurzu).
 09. Vytvorenie nového kurzu (základné info, nastavenia a pridávanie/odoberanie modulov).
 10. Úprava existujúceho kurzu (zmena info, nastavení a modulov).
 

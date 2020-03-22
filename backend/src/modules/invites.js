@@ -37,7 +37,7 @@ router.post("/createNewInviteLink", async (req, res) => {
 
   const { courseName, courseId, expiration } = req.body;
 
-  link.replace("/", "0");
+  link = link.replace(/\//g, "0");
 
   invite.link = link;
   invite.courseName = courseName;

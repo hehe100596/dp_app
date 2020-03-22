@@ -2,6 +2,8 @@ import { Router } from "express";
 import mongoose, { Schema } from "mongoose";
 import * as bcrypt from "bcrypt";
 
+import { Course } from "./courses";
+
 const DataSchema = new Schema(
   {
     mail: String,
@@ -29,6 +31,16 @@ router.post("/getUserToken", async (req, res) => {
         }
       });
     } else return res.json({ success: true, data: data });
+  });
+});
+
+router.post("/getUsers", (req, res) => {
+  const { tokens } = req.body;
+
+  User.find({ token: { $in: tokens } }, "mail progress token", (err, data) => {
+    if (err) return res.json({ success: false, error: err });
+
+    return res.json({ success: true, data: data });
   });
 });
 
@@ -100,23 +112,33 @@ router.post("/changePassword", async (req, res) => {
 router.post("/deleteUser", (req, res) => {
   const { mail, token } = req.body;
 
-  User.deleteOne({ token: token }, err => {
-    if (err) return res.send(err);
+  const user = User.deleteOne({ token: token });
+  const courses = Course.updateMany(
+    {},
+    {
+      $pull: { access: token }
+    }
+  );
 
-    const sgMail = require("@sendgrid/mail");
-    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-    const msg = {
-      to: mail,
-      from: "dp_app@info.com",
-      subject: "Account Deleted",
-      text:
-        "Your account was successfully deleted from DP App.\n" +
-        "If it was not you who did it, contact us here: XXX"
-    };
-    sgMail.send(msg);
+  Promise.all([user, courses])
+    .then(result => {
+      const sgMail = require("@sendgrid/mail");
+      sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+      const msg = {
+        to: mail,
+        from: "dp_app@info.com",
+        subject: "Account Deleted",
+        text:
+          "Your account was successfully deleted from DP App.\n" +
+          "If it was not you who did it, contact us here: XXX"
+      };
+      sgMail.send(msg);
 
-    return res.json({ success: true });
-  });
+      return res.json({ success: true });
+    })
+    .catch(err => {
+      return res.send(err);
+    });
 });
 
 export default router;

@@ -46,6 +46,16 @@ router.post("/getCourseWithAccess", (req, res) => {
   });
 });
 
+router.post("/getUsersWithAccess", (req, res) => {
+  const { course } = req.body;
+
+  Course.findOne({ _id: course }, "access", (err, data) => {
+    if (err) return res.json({ success: false, error: err });
+
+    return res.json({ success: true, data: data });
+  });
+});
+
 router.post("/giveAccess", (req, res) => {
   const { course, user } = req.body;
 
@@ -107,6 +117,25 @@ router.post("/updateCourseInfo", (req, res) => {
   Course.updateOne(
     { _id: courseId },
     { name: name, org: org, cat: cat, level: level, length: length },
+    err => {
+      if (err) return res.json({ success: false, error: err });
+
+      return res.json({ success: true });
+    }
+  );
+});
+
+router.post("/banUsers", (req, res) => {
+  const { course, selectedUsers } = req.body;
+
+  let tokens = [];
+  selectedUsers.forEach(function(entry) {
+    tokens.push(entry.token);
+  });
+
+  Course.updateOne(
+    { _id: course },
+    { $pull: { access: { $in: tokens } } },
     err => {
       if (err) return res.json({ success: false, error: err });
 

@@ -7,6 +7,7 @@ import { useAuth } from "../../utils/auth";
 import { globalApiInstance } from "../../utils/api";
 
 import { Button } from "../atoms/Button";
+import { EmptyLine } from "../atoms/EmptyLine";
 import { InvitesModal } from "./InvitesModal";
 import { ServerStatus } from "../organisms/ServerStatus";
 
@@ -44,6 +45,7 @@ export function CoursesTable({ isEditable, noCoursesMessage }) {
 
   const deleteCourses = rows => {
     setStatus("loading");
+
     globalApiInstance
       .post(process.env.REACT_APP_BASE_API + "courses/deleteCourses", {
         selectedCourses: rows
@@ -225,7 +227,7 @@ export function CoursesTable({ isEditable, noCoursesMessage }) {
         courseName={courseName}
         closeInvite={closeInvite}
       />
-      <br />
+      <EmptyLine level="2" />
       <ServerStatus status={status} message={message} />
     </div>
   );
