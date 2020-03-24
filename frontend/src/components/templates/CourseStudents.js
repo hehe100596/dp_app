@@ -69,16 +69,16 @@ export function CourseStudents({ courseId }) {
       });
   }, [courseId, fetchSignal]);
 
-  const banUsers = rows => {
+  const removeUsers = rows => {
     setStatus("loading");
 
     globalApiInstance
-      .post(process.env.REACT_APP_BASE_API + "courses/banUsers", {
+      .post(process.env.REACT_APP_BASE_API + "courses/removeStudents", {
         course: courseId,
         selectedUsers: rows
       })
       .then(res => {
-        setMessage("User(s) successfully banned");
+        setMessage("User(s) successfully removed");
         setFetchSignal(!fetchSignal);
         setSelected(null);
       })
@@ -88,28 +88,28 @@ export function CourseStudents({ courseId }) {
       });
   };
 
-  const handleBan = row => {
+  const handleRemove = row => {
     swal({
-      title: "Do you want to ban this user?",
-      text: "You are about to ban this user. Are you sure about it?",
+      title: "Do you want to remove this user?",
+      text: "You are about to remove this user. Are you sure about it?",
       icon: "warning",
       buttons: ["No", "Yes"]
     }).then(function(isConfirm) {
       if (isConfirm) {
-        banUsers([row]);
+        removeUsers([row]);
       }
     });
   };
 
-  const handleBanAll = () => {
+  const handleRemoveAll = () => {
     swal({
-      title: "Do you want to ban these users?",
-      text: "You are about to ban these users. Are you sure about it?",
+      title: "Do you want to remove these users?",
+      text: "You are about to remove these users. Are you sure about it?",
       icon: "warning",
       buttons: ["No", "Yes"]
     }).then(function(isConfirm) {
       if (isConfirm) {
-        banUsers(selected);
+        removeUsers(selected);
       }
     });
   };
@@ -139,7 +139,7 @@ export function CourseStudents({ courseId }) {
         <Button
           variant="danger"
           className="ml-1 mr-1"
-          onClick={e => handleBan(row)}
+          onClick={e => handleRemove(row)}
         >
           <i className="fa fa-user-slash fa-fw" />
         </Button>
@@ -179,9 +179,9 @@ export function CourseStudents({ courseId }) {
           onSelectedRowsChange={state => setSelected(state.selectedRows)}
           clearSelectedRows={fetchSignal}
           contextActions={
-            <Button variant="danger" className="mr-3" onClick={handleBanAll}>
+            <Button variant="danger" className="mr-3" onClick={handleRemoveAll}>
               <i className="fa fa-user-slash fa-fw" />
-              <b> Ban</b>
+              <b> Remove</b>
             </Button>
           }
         />

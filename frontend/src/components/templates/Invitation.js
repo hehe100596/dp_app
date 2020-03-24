@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Redirect } from "react-router";
 
 import { globalApiInstance } from "../../utils/api";
 
@@ -11,6 +12,7 @@ export function Invitation({ user, link }) {
 
   const [status, setStatus] = useState("loading");
   const [message, setMessage] = useState(null);
+  const [redirect, setRedirect] = useState(false);
 
   useEffect(() => {
     globalApiInstance
@@ -34,8 +36,7 @@ export function Invitation({ user, link }) {
         user: user
       })
       .then(res => {
-        setStatus("success");
-        setMessage("You can now see this course among Courses");
+        setRedirect(true);
       })
       .catch(err => {
         setStatus("error");
@@ -65,6 +66,8 @@ export function Invitation({ user, link }) {
       });
     return 0;
   }
+
+  if (redirect) return <Redirect push to="/courses" />;
 
   return (
     <div align="center">

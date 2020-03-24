@@ -5,7 +5,6 @@ import { useAuth } from "../../utils/auth";
 import { Heading } from "../atoms/Heading";
 import { EmptyLine } from "../atoms/EmptyLine";
 import { ErrorMessage } from "../molecules/ErrorMessage";
-import { PageWrapper } from "../organisms/PageWrapper";
 import { SignInForm } from "../templates/SignInForm";
 import { Invitation } from "../templates/Invitation";
 
@@ -13,13 +12,11 @@ export function InvitesPage(props) {
   const auth = useAuth();
 
   return auth.token ? (
-    <PageWrapper>
-      <div align="center">
-        <Heading level="1">INVITATION LINK</Heading>
-        <EmptyLine level="1" />
-        <Invitation user={auth.token} link={props.match.params.link} />
-      </div>
-    </PageWrapper>
+    <div align="center">
+      <Heading level="1">INVITATION LINK</Heading>
+      <EmptyLine level="1" />
+      <Invitation user={auth.token} link={props.match.params.link} />
+    </div>
   ) : (
     <div align="center">
       <EmptyLine level="1" />

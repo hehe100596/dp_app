@@ -10,6 +10,12 @@ export function CourseEditingPage(props) {
     <div align="center">
       <Heading level="1">EDIT COURSE {null}</Heading>
       <EmptyLine level="2" />
+      <b>
+        <p className="text-danger">
+          Make sure to save your changes on all tabs separately!
+        </p>
+      </b>
+      <EmptyLine level="2" />
       <nav>
         <div
           className="nav nav-tabs justify-content-center"

@@ -11,7 +11,7 @@ const DataSchema = new Schema(
     author: String,
     access: [String],
     config: {
-      tmp: String
+      status: String
     },
     content: [
       {
@@ -125,7 +125,7 @@ router.post("/updateCourseInfo", (req, res) => {
   );
 });
 
-router.post("/banUsers", (req, res) => {
+router.post("/removeStudents", (req, res) => {
   const { course, selectedUsers } = req.body;
 
   let tokens = [];

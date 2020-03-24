@@ -136,6 +136,12 @@ export function CoursesTable({ isEditable, noCoursesMessage }) {
       wrap: true
     },
     {
+      name: "Status",
+      selector: "config.status",
+      sortable: true,
+      wrap: true
+    },
+    {
       name: "Actions",
       cell: row => (
         <div className="row">
@@ -149,7 +155,7 @@ export function CoursesTable({ isEditable, noCoursesMessage }) {
                 <i className="fa fa-user-plus" />
               </Button>
               <Link to={{ pathname: `/edit-course/${row._id}` }}>
-                <Button variant="primary" className="ml-1 mr-1">
+                <Button variant="secondary" className="ml-1 mr-1">
                   <i className="fa fa-edit" />
                 </Button>
               </Link>
@@ -161,12 +167,16 @@ export function CoursesTable({ isEditable, noCoursesMessage }) {
                 <i className="fa fa-trash-alt fa-fw" />
               </Button>
             </div>
-          ) : (
+          ) : row.config.status === "Active" ? (
             <Link to={{ pathname: `/enter-course/${row._id}` }}>
               <Button variant="info" className="ml-1 mr-1">
                 <i className="fa fa-book-open" />
               </Button>
             </Link>
+          ) : (
+            <Button variant="info" disabled className="ml-1 mr-1">
+              <i className="fa fa-book-dead" />
+            </Button>
           )}
         </div>
       ),
@@ -203,7 +213,7 @@ export function CoursesTable({ isEditable, noCoursesMessage }) {
           noDataComponent={noCoursesMessage}
           selectableRows={isEditable}
           subHeader={isEditable}
-          subHeaderAlign="left"
+          subHeaderAlign="right"
           onSelectedRowsChange={state => setSelected(state.selectedRows)}
           clearSelectedRows={fetchSignal}
           contextActions={
@@ -214,7 +224,7 @@ export function CoursesTable({ isEditable, noCoursesMessage }) {
           }
           subHeaderComponent={
             <Link to="/add-course">
-              <Button variant="secondary" className="mr-3">
+              <Button variant="primary" className="mr-3">
                 <i className="fa fa-plus fa-fw" />
                 <b> New Course</b>
               </Button>
