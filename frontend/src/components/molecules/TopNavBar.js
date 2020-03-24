@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { Offline, Online } from "react-detect-offline";
 
 import { useAuth } from "../../utils/auth";
 
@@ -14,9 +15,10 @@ export const TopNavBar = ({ isPrivate }) => {
 
   return (
     <div>
-      <nav className="navbar navbar-expand-sm navbar-light bg-warning fixed-top">
+      <nav className="navbar navbar-expand-sm navbar-light bg-light fixed-top shadow">
         <Link className="navbar-brand" to={"/"}>
-          <b>DP APPLICATION</b>
+          <i className="fa fa-graduation-cap" />
+          <b> E-MAKE</b>
         </Link>
         {isPrivate ? (
           <>
@@ -49,6 +51,12 @@ export const TopNavBar = ({ isPrivate }) => {
                   </Link>
                 </li>
               </ul>
+              <Online>
+                <i className="fa fa-signal text-success" />
+              </Online>
+              <Offline>
+                <i className="fa fa-times text-danger" />
+              </Offline>
               <ul className="navbar-nav">
                 <li className="nav-item dropdown">
                   <Link
