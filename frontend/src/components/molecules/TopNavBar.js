@@ -5,7 +5,7 @@ import { useAuth } from "../../utils/auth";
 
 import { EmptyLine } from "../atoms/EmptyLine";
 
-export const TopNavBar = () => {
+export const TopNavBar = ({ isPrivate }) => {
   const auth = useAuth();
 
   function clearSignOut() {
@@ -18,65 +18,69 @@ export const TopNavBar = () => {
         <Link className="navbar-brand" to={"/"}>
           <b>DP APPLICATION</b>
         </Link>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-toggle="collapse"
-          data-target="#navbarNavDp"
-          aria-controls="navbarNavDp"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarNavDp">
-          <ul className="navbar-nav mr-auto">
-            <li className="nav-item">
-              <Link className="nav-link" to={"/"}>
-                <b>Home</b>
+        {isPrivate ? (
+          <>
+            <button
+              className="navbar-toggler"
+              type="button"
+              data-toggle="collapse"
+              data-target="#navbarNavDp"
+              aria-controls="navbarNavDp"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span className="navbar-toggler-icon"></span>
+            </button>
+            <div className="collapse navbar-collapse" id="navbarNavDp">
+              <ul className="navbar-nav mr-auto">
+                <li className="nav-item">
+                  <Link className="nav-link" to={"/"}>
+                    <b>Home</b>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to={"/courses"}>
+                    <b>Courses</b>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to={"/testing"}>
+                    <b>Testing</b>
+                  </Link>
+                </li>
+              </ul>
+              <ul className="navbar-nav">
+                <li className="nav-item dropdown">
+                  <Link
+                    to=""
+                    className="nav-link dropdown-toggle"
+                    id="navbarDropdownMenuLink"
+                    data-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false"
+                  >
+                    <b>{auth.profile}</b>
+                  </Link>
+                  <div
+                    className="dropdown-menu"
+                    aria-labelledby="navbarDropdownMenuLink"
+                  >
+                    <Link className="dropdown-item" to={"/profile"}>
+                      My profile
+                    </Link>
+                    <Link className="dropdown-item" to={"/my-courses"}>
+                      My courses
+                    </Link>
+                  </div>
+                </li>
+              </ul>
+              <Link to={"/"} onClick={clearSignOut}>
+                <i className="fa fa-sign-out-alt fa-fw" />
+                <b>Sign out</b>
               </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to={"/courses"}>
-                <b>Courses</b>
-              </Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link" to={"/testing"}>
-                <b>Testing</b>
-              </Link>
-            </li>
-          </ul>
-          <ul className="navbar-nav">
-            <li className="nav-item dropdown">
-              <Link
-                to=""
-                className="nav-link dropdown-toggle"
-                id="navbarDropdownMenuLink"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                <b>{auth.user}</b>
-              </Link>
-              <div
-                className="dropdown-menu"
-                aria-labelledby="navbarDropdownMenuLink"
-              >
-                <Link className="dropdown-item" to={"/profile"}>
-                  My profile
-                </Link>
-                <Link className="dropdown-item" to={"/my-courses"}>
-                  My courses
-                </Link>
-              </div>
-            </li>
-          </ul>
-          <Link to={"/"} onClick={clearSignOut}>
-            <i className="fa fa-sign-out-alt fa-fw" />
-            <b>Sign out</b>
-          </Link>
-        </div>
+            </div>
+          </>
+        ) : null}
       </nav>
       <EmptyLine level="4" />
     </div>

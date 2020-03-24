@@ -18,11 +18,11 @@ import { InvitesPage } from "./components/pages/InvitesPage";
 import TestingPage from "./components/pages/TestingPage";
 
 export const AppRoutes = () => (
-  <Switch>
-    <PublicRoute path="/sign-in" exact component={SignInPage} />
-    <PublicRoute path="/register" exact component={RegisterPage} />
-    <Route path="/invites/:link" exact component={InvitesPage} />
-    <PageWrapper>
+  <PageWrapper>
+    <Switch>
+      <PublicRoute path="/sign-in" exact component={SignInPage} />
+      <PublicRoute path="/register" exact component={RegisterPage} />
+      <Route path="/invites/:link" exact component={InvitesPage} />
       <Switch>
         <PrivateRoute path="/profile" exact component={ProfilePage} />
         <PrivateRoute path="/courses" exact component={CoursesPage} />
@@ -41,6 +41,6 @@ export const AppRoutes = () => (
         <PrivateRoute path="/testing" exact component={TestingPage} />
         <PrivateRoute path="*" component={HomePage} />
       </Switch>
-    </PageWrapper>
-  </Switch>
+    </Switch>
+  </PageWrapper>
 );

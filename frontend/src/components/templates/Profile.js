@@ -108,7 +108,13 @@ export function Profile() {
   return (
     <div align="center">
       <Formik
-        initialValues={{ user: auth.user, old: "", new: "", new2: "" }}
+        initialValues={{
+          user: auth.user,
+          profile: auth.profile,
+          old: "",
+          new: "",
+          new2: ""
+        }}
         onSubmit={(values, actions) => {
           validatePassword(values);
         }}
@@ -119,16 +125,26 @@ export function Profile() {
             <div className="container">
               <div className="row justify-content-center">
                 <div className="col-auto my-auto text-left">
-                  <img src={avatar} alt="avatar" height="200px" />
+                  <img src={avatar} alt="avatar" height="215px" />
                 </div>
                 <div className="col-auto my-auto">
-                  <div className="row mb-5">
+                  <div className="row mb-3">
                     <input
                       type="text"
                       onBlur={props.handleBlur}
                       value={props.values.user}
                       style={{ width: "200px" }}
                       name="user"
+                      disabled
+                    />
+                  </div>
+                  <div className="row mb-3">
+                    <input
+                      type="text"
+                      onBlur={props.handleBlur}
+                      value={props.values.profile}
+                      style={{ width: "200px" }}
+                      name="profile"
                       disabled
                     />
                   </div>

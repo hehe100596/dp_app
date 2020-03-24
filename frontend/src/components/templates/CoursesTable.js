@@ -20,7 +20,7 @@ export function CoursesTable({ isEditable, noCoursesMessage }) {
   const [courses, setCourses] = useState([]);
 
   const [status, setStatus] = useState("loading");
-  const [message, setMessage] = useState("Data successfully loaded");
+  const [message, setMessage] = useState(null);
 
   const auth = useAuth();
   const fetchUser = isEditable ? auth.user : auth.token;

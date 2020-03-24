@@ -10,13 +10,15 @@ const LOCAL_STORAGE_AUTH_KEY = "dp-auth";
 
 const initialState = {
   token: null,
-  user: null
+  user: null,
+  profile: null
 };
 
 const AuthContext = createContext(
   createContextValue({
     token: initialState.token,
     user: initialState.user,
+    profile: initialState.profile,
     setState: () =>
       console.error("You are using AuthContext without AuthProvider!")
   })
@@ -30,8 +32,8 @@ export function AuthProvider({ children }) {
   const [state, setState] = usePersistedAuth(initialState);
 
   const contextValue = useMemo(() => {
-    const { token, user } = state;
-    return createContextValue({ token, user, setState });
+    const { token, user, profile } = state;
+    return createContextValue({ token, user, profile, setState });
   }, [state, setState]);
 
   return (
@@ -39,13 +41,14 @@ export function AuthProvider({ children }) {
   );
 }
 
-function createContextValue({ token, user, setState }) {
+function createContextValue({ token, user, profile, setState }) {
   return {
     token,
     user,
-    signin: ({ token, user }) => setState({ token, user }),
+    profile,
+    signin: ({ token, user, profile }) => setState({ token, user, profile }),
     signout: () =>
-      setState({ token: null, user: null }) &
+      setState({ token: null, user: null, profile: null }) &
       localStorage.removeItem(LOCAL_STORAGE_AUTH_KEY)
   };
 }
@@ -72,10 +75,10 @@ function getStorageState(defaultState) {
   }
 
   try {
-    const { user, token } = JSON.parse(rawData);
+    const { token, user, profile } = JSON.parse(rawData);
 
-    if (token && user) {
-      return { token, user };
+    if (token && user && profile) {
+      return { token, user, profile };
     }
   } catch (e) {}
 

@@ -7,6 +7,7 @@ import { Course } from "./courses";
 const DataSchema = new Schema(
   {
     mail: String,
+    name: String,
     pass: String,
     token: String,
     progress: [{ course: String, points: Number }]
@@ -16,10 +17,10 @@ const DataSchema = new Schema(
 const User = mongoose.model("User", DataSchema);
 const router = Router();
 
-router.post("/getUserToken", async (req, res) => {
+router.post("/getUser", async (req, res) => {
   const { mail, pass } = req.body;
 
-  User.findOne({ mail: mail }, "pass token", (err, data) => {
+  User.findOne({ mail: mail }, "name token pass", (err, data) => {
     if (err) return res.json({ success: false, error: err });
 
     if (data) {
@@ -34,14 +35,18 @@ router.post("/getUserToken", async (req, res) => {
   });
 });
 
-router.post("/getUsers", (req, res) => {
+router.post("/getSelectedUsers", (req, res) => {
   const { tokens } = req.body;
 
-  User.find({ token: { $in: tokens } }, "mail progress token", (err, data) => {
-    if (err) return res.json({ success: false, error: err });
+  User.find(
+    { token: { $in: tokens } },
+    "name mail progress token",
+    (err, data) => {
+      if (err) return res.json({ success: false, error: err });
 
-    return res.json({ success: true, data: data });
-  });
+      return res.json({ success: true, data: data });
+    }
+  );
 });
 
 router.post("/getUserMail", (req, res) => {
@@ -57,12 +62,13 @@ router.post("/getUserMail", (req, res) => {
 router.post("/createNewUser", async (req, res) => {
   let user = new User();
 
-  const { mail, pass } = req.body;
+  const { mail, name, pass } = req.body;
 
   const hashedPass = await bcrypt.hash(pass, 10);
   const token = await bcrypt.hash(mail, 10);
 
   user.mail = mail;
+  user.name = name;
   user.pass = hashedPass;
   user.token = token;
 

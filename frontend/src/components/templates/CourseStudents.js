@@ -14,7 +14,7 @@ export function CourseStudents({ courseId }) {
   const [students, setStudents] = useState([]);
 
   const [status, setStatus] = useState("loading");
-  const [message, setMessage] = useState("Data successfully loaded");
+  const [message, setMessage] = useState(null);
 
   useEffect(() => {
     globalApiInstance
@@ -24,7 +24,7 @@ export function CourseStudents({ courseId }) {
       .then(res => {
         if (res.data.data.access.length > 0)
           globalApiInstance
-            .post(process.env.REACT_APP_BASE_API + "users/getUsers", {
+            .post(process.env.REACT_APP_BASE_API + "users/getSelectedUsers", {
               tokens: res.data.data.access
             })
             .then(res => {
@@ -32,6 +32,7 @@ export function CourseStudents({ courseId }) {
                 let users = [];
 
                 res.data.data.forEach(function(entry) {
+                  let name = entry.name;
                   let mail = entry.mail;
                   let token = entry.token;
                   let points = 0;
@@ -44,7 +45,12 @@ export function CourseStudents({ courseId }) {
                     if (progress) points = progress.points;
                   }
 
-                  let user = { student: mail, token: token, points: points };
+                  let user = {
+                    name: name,
+                    mail: mail,
+                    token: token,
+                    points: points
+                  };
                   users.push(user);
                 });
 
@@ -110,8 +116,14 @@ export function CourseStudents({ courseId }) {
 
   const columns = [
     {
-      name: "Student",
-      selector: "student",
+      name: "Name",
+      selector: "name",
+      sortable: true,
+      wrap: true
+    },
+    {
+      name: "E-mail",
+      selector: "mail",
       sortable: true,
       wrap: true
     },

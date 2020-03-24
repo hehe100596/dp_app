@@ -99,7 +99,6 @@ export function CourseModification({ courseId }) {
         .then(res => {
           setCourse(res.data.data);
           setStatus("success");
-          setMessage("Data successfully loaded");
         })
         .catch(err => {
           setStatus("error");

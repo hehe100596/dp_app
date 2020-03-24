@@ -9,7 +9,7 @@ export const ServerStatus = ({ status, message }) => (
       <Loading />
     ) : status === "error" ? (
       <ErrorMessage error={message} />
-    ) : status === "success" ? (
+    ) : status === "success" && message ? (
       <ErrorMessage variant="success" error={message} />
     ) : null}
   </div>

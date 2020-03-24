@@ -16,6 +16,10 @@ export const registerSchema = yup.object().shape({
     .label("E-mail")
     .email()
     .required(),
+  name: yup
+    .string()
+    .label("Name")
+    .required(),
   pass: yup
     .string()
     .label("Password")
@@ -39,6 +43,7 @@ export function RegisterForm() {
     globalApiInstance
       .post(process.env.REACT_APP_BASE_API + "users/createNewUser", {
         mail: values.mail,
+        name: values.name,
         pass: values.pass
       })
       .then(res => {
@@ -84,6 +89,7 @@ export function RegisterForm() {
       >
         {props => (
           <form onSubmit={props.handleSubmit}>
+            <EmptyLine level="1" />
             <input
               type="text"
               onChange={props.handleChange}
@@ -93,7 +99,17 @@ export function RegisterForm() {
               placeholder="e-mail"
               name="mail"
             />
-            <EmptyLine />
+            <EmptyLine level="1" />
+            <input
+              type="text"
+              onChange={props.handleChange}
+              onBlur={props.handleBlur}
+              value={props.values.name}
+              style={{ width: "300px" }}
+              placeholder="name"
+              name="name"
+            />
+            <EmptyLine level="1" />
             <input
               type="password"
               onChange={props.handleChange}
@@ -103,7 +119,7 @@ export function RegisterForm() {
               placeholder="password"
               name="pass"
             />
-            <EmptyLine />
+            <EmptyLine level="1" />
             <input
               type="password"
               onChange={props.handleChange}
@@ -113,13 +129,13 @@ export function RegisterForm() {
               placeholder="confirm password"
               name="pass2"
             />
-            <EmptyLine level="1" />
+            <EmptyLine level="2" />
             <Button
               className={"btn btn-success mr-2"}
               style={{ width: "150px" }}
               type="submit"
             >
-              <b>Next</b>
+              <b>Submit</b>
             </Button>
             <Link to="/sign-in">
               <Button
@@ -130,8 +146,9 @@ export function RegisterForm() {
                 <b>Sign in</b>
               </Button>
             </Link>
-            <EmptyLine level="1" />
+            <EmptyLine level="2" />
             {props.errors.mail && <ErrorMessage error={props.errors.mail} />}
+            {props.errors.name && <ErrorMessage error={props.errors.name} />}
             {props.errors.pass && <ErrorMessage error={props.errors.pass} />}
             {props.errors.pass2 && <ErrorMessage error={props.errors.pass2} />}
           </form>

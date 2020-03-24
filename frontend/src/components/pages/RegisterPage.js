@@ -7,8 +7,7 @@ import { RegisterForm } from "../templates/RegisterForm";
 export function RegisterPage() {
   return (
     <div align="center">
-      <EmptyLine level="1" />
-      <Heading level="1">Register</Heading>
+      <Heading level="1">REGISTER</Heading>
       <EmptyLine level="1" />
       <RegisterForm />
     </div>

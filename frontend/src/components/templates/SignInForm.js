@@ -31,14 +31,18 @@ export function SignInForm() {
   function authenticate(values) {
     setStatus("loading");
     globalApiInstance
-      .post(process.env.REACT_APP_BASE_API + "users/getUserToken", {
+      .post(process.env.REACT_APP_BASE_API + "users/getUser", {
         mail: values.mail,
         pass: values.pass
       })
       .then(res => {
         if (res.data.data) {
           setStatus("idle");
-          auth.signin({ token: res.data.data.token, user: values.mail });
+          auth.signin({
+            token: res.data.data.token,
+            user: values.mail,
+            profile: res.data.data.name
+          });
         } else {
           setStatus("error");
           setMessage("Incorrect e-mail or password");
@@ -62,6 +66,7 @@ export function SignInForm() {
       >
         {props => (
           <form onSubmit={props.handleSubmit}>
+            <EmptyLine level="1" />
             <input
               type="text"
               onChange={props.handleChange}
@@ -71,7 +76,7 @@ export function SignInForm() {
               placeholder="e-mail"
               name="mail"
             />
-            <EmptyLine />
+            <EmptyLine level="1" />
             <input
               type="password"
               onChange={props.handleChange}
@@ -81,13 +86,13 @@ export function SignInForm() {
               placeholder="password"
               name="pass"
             />
-            <EmptyLine level="1" />
+            <EmptyLine level="2" />
             <Button
               className={"btn btn-success mr-2"}
               style={{ width: "150px" }}
               type="submit"
             >
-              <b>Next</b>
+              <b>Login</b>
             </Button>
             <Link to="/register">
               <Button
@@ -98,7 +103,7 @@ export function SignInForm() {
                 <b>Register</b>
               </Button>
             </Link>
-            <EmptyLine level="1" />
+            <EmptyLine level="2" />
             {props.errors.mail && <ErrorMessage error={props.errors.mail} />}
             {props.errors.pass && <ErrorMessage error={props.errors.pass} />}
           </form>

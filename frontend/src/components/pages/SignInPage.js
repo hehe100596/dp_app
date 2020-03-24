@@ -7,8 +7,7 @@ import { SignInForm } from "../templates/SignInForm";
 export function SignInPage() {
   return (
     <div align="center">
-      <EmptyLine level="1" />
-      <Heading level="1">Sign in</Heading>
+      <Heading level="1">SIGN IN</Heading>
       <EmptyLine level="1" />
       <SignInForm />
     </div>
