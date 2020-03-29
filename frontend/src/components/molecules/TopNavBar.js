@@ -46,8 +46,8 @@ export const TopNavBar = ({ isPrivate }) => {
                   </Link>
                 </li>
                 <li className="nav-item">
-                  <Link className="nav-link" to={"/testing"}>
-                    <b>Testing</b>
+                  <Link className="nav-link" to={"/modules"}>
+                    <b>Modules</b>
                   </Link>
                 </li>
               </ul>
@@ -78,6 +78,9 @@ export const TopNavBar = ({ isPrivate }) => {
                     </Link>
                     <Link className="dropdown-item" to={"/my-courses"}>
                       My courses
+                    </Link>
+                    <Link className="dropdown-item" to={"/my-modules"}>
+                      My modules
                     </Link>
                   </div>
                 </li>

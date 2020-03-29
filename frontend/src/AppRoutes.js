@@ -9,13 +9,13 @@ import { SignInPage } from "./components/pages/SignInPage";
 import { RegisterPage } from "./components/pages/RegisterPage";
 import { ProfilePage } from "./components/pages/ProfilePage";
 import { CoursesPage } from "./components/pages/CoursesPage";
+import { ModulesPage } from "./components/pages/ModulesPage";
 import { CoursePage } from "./components/pages/CoursePage";
 import { CourseAddingPage } from "./components/pages/CourseAddingPage";
 import { CourseEditingPage } from "./components/pages/CourseEditingPage";
 import { MyCoursesPage } from "./components/pages/MyCoursesPage";
+import { MyModulesPage } from "./components/pages/MyModulesPage";
 import { InvitesPage } from "./components/pages/InvitesPage";
-
-import TestingPage from "./components/pages/TestingPage";
 
 export const AppRoutes = () => (
   <PageWrapper>
@@ -26,7 +26,9 @@ export const AppRoutes = () => (
       <Switch>
         <PrivateRoute path="/profile" exact component={ProfilePage} />
         <PrivateRoute path="/courses" exact component={CoursesPage} />
+        <PrivateRoute path="/modules" exact component={ModulesPage} />
         <PrivateRoute path="/my-courses" exact component={MyCoursesPage} />
+        <PrivateRoute path="/my-modules" exact component={MyModulesPage} />
         <PrivateRoute path="/add-course" exact component={CourseAddingPage} />
         <PrivateRoute
           path="/enter-course/:course"
@@ -38,7 +40,6 @@ export const AppRoutes = () => (
           exact
           component={CourseEditingPage}
         />
-        <PrivateRoute path="/testing" exact component={TestingPage} />
         <PrivateRoute path="*" component={HomePage} />
       </Switch>
     </Switch>

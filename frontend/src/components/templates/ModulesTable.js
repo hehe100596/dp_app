@@ -8,50 +8,69 @@ import { globalApiInstance } from "../../utils/api";
 
 import { Button } from "../atoms/Button";
 import { EmptyLine } from "../atoms/EmptyLine";
-import { InvitesModal } from "./InvitesModal";
 import { ServerStatus } from "../organisms/ServerStatus";
 
-export function CoursesTable({ isEditable, noCoursesMessage }) {
-  const [inviteTo, setInviteTo] = useState(null);
-  const [courseName, setCourseName] = useState("");
-
+export function ModulesTable({ isEditable, noModulesMessage }) {
   const [fetchSignal, setFetchSignal] = useState(false);
   const [selected, setSelected] = useState(null);
-  const [courses, setCourses] = useState([]);
+  const [modules, setModules] = useState([]);
 
   const [status, setStatus] = useState("loading");
   const [message, setMessage] = useState(null);
 
   const auth = useAuth();
   const fetchUser = isEditable ? auth.user : auth.token;
-  const fetchCourses = isEditable
-    ? "courses/getMyCourses"
-    : "courses/getAccessibleCourses";
+  const fetchModules = isEditable
+    ? "modules/getMyModules"
+    : "modules/getAccessibleModules";
 
   useEffect(() => {
     globalApiInstance
-      .post(process.env.REACT_APP_BASE_API + fetchCourses, {
+      .post(process.env.REACT_APP_BASE_API + fetchModules, {
         user: fetchUser
       })
       .then(res => {
-        setCourses(res.data.data);
-        setStatus("success");
+        if (res.data.data) {
+          let results = [];
+
+          res.data.data.forEach(function(entry) {
+            let points = 0;
+
+            if (entry.content && entry.content.length > 0) {
+              entry.content.forEach(function(entry) {
+                points += entry.points;
+              });
+            }
+
+            let module = {
+              _id: entry._id,
+              name: entry.name,
+              org: entry.org,
+              author: entry.author,
+              points: points
+            };
+            results.push(module);
+          });
+
+          setModules(results);
+          setStatus("success");
+        }
       })
       .catch(err => {
         setStatus("error");
         setMessage(err.message);
       });
-  }, [fetchSignal, fetchCourses, fetchUser]);
+  }, [fetchSignal, fetchModules, fetchUser]);
 
-  const deleteCourses = rows => {
+  const deleteModules = rows => {
     setStatus("loading");
 
     globalApiInstance
-      .post(process.env.REACT_APP_BASE_API + "courses/deleteCourses", {
-        selectedCourses: rows
+      .post(process.env.REACT_APP_BASE_API + "modules/deleteModules", {
+        selectedModules: rows
       })
       .then(res => {
-        setMessage("Course(s) successfully deleted");
+        setMessage("Module(s) successfully deleted");
         setFetchSignal(!fetchSignal);
         setSelected(null);
       })
@@ -61,25 +80,15 @@ export function CoursesTable({ isEditable, noCoursesMessage }) {
       });
   };
 
-  const handleInvite = row => {
-    setStatus("idle");
-    setInviteTo(row._id);
-    setCourseName(row.name);
-  };
-
-  const closeInvite = () => {
-    setInviteTo(null);
-  };
-
   const handleRemove = row => {
     swal({
-      title: "Do you want to delete this course?",
-      text: "You are about to delete this course. Are you sure about it?",
+      title: "Do you want to delete this module?",
+      text: "You are about to delete this module. Are you sure about it?",
       icon: "warning",
       buttons: ["No", "Yes"]
     }).then(function(isConfirm) {
       if (isConfirm) {
-        deleteCourses([row]);
+        deleteModules([row]);
       }
     });
   };
@@ -87,12 +96,12 @@ export function CoursesTable({ isEditable, noCoursesMessage }) {
   const handleRemoveAll = () => {
     swal({
       title: "Do you want to delete selection?",
-      text: "You are about to delete these courses. Are you sure about it?",
+      text: "You are about to delete these modules. Are you sure about it?",
       icon: "warning",
       buttons: ["No", "Yes"]
     }).then(function(isConfirm) {
       if (isConfirm) {
-        deleteCourses(selected);
+        deleteModules(selected);
       }
     });
   };
@@ -111,20 +120,8 @@ export function CoursesTable({ isEditable, noCoursesMessage }) {
       wrap: true
     },
     {
-      name: "Category",
-      selector: "cat",
-      sortable: true,
-      wrap: true
-    },
-    {
-      name: "Level",
-      selector: "level",
-      sortable: true,
-      wrap: true
-    },
-    {
-      name: "Length",
-      selector: "length",
+      name: "Points",
+      selector: "points",
       sortable: true,
       wrap: true
     },
@@ -136,25 +133,12 @@ export function CoursesTable({ isEditable, noCoursesMessage }) {
       wrap: true
     },
     {
-      name: "Status",
-      selector: "config.status",
-      sortable: true,
-      wrap: true
-    },
-    {
       name: "Actions",
       cell: row => (
         <div className="row">
           {isEditable ? (
             <div>
-              <Button
-                variant="success"
-                className="ml-1 mr-1"
-                onClick={e => handleInvite(row)}
-              >
-                <i className="fa fa-user-plus" />
-              </Button>
-              <Link to={{ pathname: `/edit-course/${row._id}` }}>
+              <Link to={{ pathname: `/edit-module/${row._id}` }}>
                 <Button variant="primary" className="ml-1 mr-1">
                   <i className="fa fa-edit" />
                 </Button>
@@ -167,22 +151,18 @@ export function CoursesTable({ isEditable, noCoursesMessage }) {
                 <i className="fa fa-trash-alt fa-fw" />
               </Button>
             </div>
-          ) : row.config.status === "Active" ? (
-            <Link to={{ pathname: `/enter-course/${row._id}` }}>
+          ) : (
+            <Link to={{ pathname: `/enter-module/${row._id}` }}>
               <Button variant="info" className="ml-1 mr-1">
-                <i className="fa fa-book-open" />
+                <i className="fa fa-eye" />
               </Button>
             </Link>
-          ) : (
-            <Button variant="info" disabled className="ml-1 mr-1">
-              <i className="fa fa-book-dead" />
-            </Button>
           )}
         </div>
       ),
       ignoreRowClick: true,
       allowOverflow: true,
-      minWidth: isEditable ? "200px" : "100px",
+      minWidth: isEditable ? "150px" : "100px",
       button: true
     }
   ];
@@ -205,12 +185,12 @@ export function CoursesTable({ isEditable, noCoursesMessage }) {
       <div className="w-responsive pl-5 pr-5">
         <DataTable
           columns={columns}
-          data={courses}
+          data={modules}
           customStyles={customStyle}
           highlightOnHover
           responsive
           pagination
-          noDataComponent={noCoursesMessage}
+          noDataComponent={noModulesMessage}
           selectableRows={isEditable}
           subHeader={isEditable}
           subHeaderAlign="right"
@@ -223,20 +203,15 @@ export function CoursesTable({ isEditable, noCoursesMessage }) {
             </Button>
           }
           subHeaderComponent={
-            <Link to="/add-course">
+            <Link to="/add-module">
               <Button variant="warning" className="mr-3">
                 <i className="fa fa-plus fa-fw" />
-                <b> New Course</b>
+                <b> New Module</b>
               </Button>
             </Link>
           }
         />
       </div>
-      <InvitesModal
-        inviteTo={inviteTo}
-        courseName={courseName}
-        closeInvite={closeInvite}
-      />
       <EmptyLine level="2" />
       <ServerStatus status={status} message={message} />
     </div>

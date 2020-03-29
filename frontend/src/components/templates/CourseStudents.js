@@ -32,9 +32,6 @@ export function CourseStudents({ courseId }) {
                 let users = [];
 
                 res.data.data.forEach(function(entry) {
-                  let name = entry.name;
-                  let mail = entry.mail;
-                  let token = entry.token;
                   let points = 0;
 
                   if (entry.progress && entry.progress.length > 0) {
@@ -46,9 +43,9 @@ export function CourseStudents({ courseId }) {
                   }
 
                   let user = {
-                    name: name,
-                    mail: mail,
-                    token: token,
+                    name: entry.name,
+                    mail: entry.mail,
+                    token: entry.token,
                     points: points
                   };
                   users.push(user);

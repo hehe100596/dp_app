@@ -15,7 +15,7 @@ const DataSchema = new Schema(
     },
     content: [
       {
-        module: String,
+        modules: [String],
         resultPoints: Number,
         unlockPoints: Number
       }

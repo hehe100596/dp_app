@@ -6,13 +6,42 @@ import { Course } from "./courses";
 const DataSchema = new Schema(
   {
     name: String,
+    org: String,
+    type: String,
     author: String,
-    access: [String]
+    access: [String],
+    content: [
+      {
+        data: String,
+        rqmt: String,
+        points: Number
+      }
+    ]
   },
   { timestamps: true }
 );
 const Module = mongoose.model("Module", DataSchema);
 const router = Router();
+
+router.post("/getMyModules", (req, res) => {
+  const { user } = req.body;
+
+  Module.find({ author: user }, (err, data) => {
+    if (err) return res.json({ success: false, error: err });
+
+    return res.json({ success: true, data: data });
+  });
+});
+
+router.post("/getAccessibleModules", (req, res) => {
+  const { user } = req.body;
+
+  Module.find({ access: { $in: [user] } }, (err, data) => {
+    if (err) return res.json({ success: false, error: err });
+
+    return res.json({ success: true, data: data });
+  });
+});
 
 router.post("/createNewModule", (req, res) => {
   let module = new Module();
