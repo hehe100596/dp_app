@@ -11,8 +11,11 @@ import { ProfilePage } from "./components/pages/ProfilePage";
 import { CoursesPage } from "./components/pages/CoursesPage";
 import { ModulesPage } from "./components/pages/ModulesPage";
 import { CoursePage } from "./components/pages/CoursePage";
+import { ModulePage } from "./components/pages/ModulePage";
 import { CourseAddingPage } from "./components/pages/CourseAddingPage";
+import { ModuleAddingPage } from "./components/pages/ModuleAddingPage";
 import { CourseEditingPage } from "./components/pages/CourseEditingPage";
+import { ModuleEditingPage } from "./components/pages/ModuleEditingPage";
 import { MyCoursesPage } from "./components/pages/MyCoursesPage";
 import { MyModulesPage } from "./components/pages/MyModulesPage";
 import { InvitesPage } from "./components/pages/InvitesPage";
@@ -30,15 +33,26 @@ export const AppRoutes = () => (
         <PrivateRoute path="/my-courses" exact component={MyCoursesPage} />
         <PrivateRoute path="/my-modules" exact component={MyModulesPage} />
         <PrivateRoute path="/add-course" exact component={CourseAddingPage} />
+        <PrivateRoute path="/add-module" exact component={ModuleAddingPage} />
         <PrivateRoute
           path="/enter-course/:course"
           exact
           component={CoursePage}
         />
         <PrivateRoute
+          path="/enter-module/:module"
+          exact
+          component={ModulePage}
+        />
+        <PrivateRoute
           path="/edit-course/:course"
           exact
           component={CourseEditingPage}
+        />
+        <PrivateRoute
+          path="/edit-module/:module"
+          exact
+          component={ModuleEditingPage}
         />
         <PrivateRoute path="*" component={HomePage} />
       </Switch>

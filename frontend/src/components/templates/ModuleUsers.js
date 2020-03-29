@@ -9,10 +9,10 @@ import { Button } from "../atoms/Button";
 import { EmptyLine } from "../atoms/EmptyLine";
 import { ServerStatus } from "../organisms/ServerStatus";
 
-export function CourseStudents({ courseId }) {
+export function ModuleUsers({ moduleId }) {
   const [fetchSignal, setFetchSignal] = useState(false);
   const [selected, setSelected] = useState(null);
-  const [students, setStudents] = useState([]);
+  const [users, setUsers] = useState([]);
 
   const [status, setStatus] = useState("loading");
   const [message, setMessage] = useState(null);
@@ -21,8 +21,8 @@ export function CourseStudents({ courseId }) {
 
   useEffect(() => {
     globalApiInstance
-      .post(process.env.REACT_APP_BASE_API + "courses/getUsersWithAccess", {
-        course: courseId
+      .post(process.env.REACT_APP_BASE_API + "modules/getUsersWithAccess", {
+        module: moduleId
       })
       .then(res => {
         if (res.data.data.access.length > 0)
@@ -32,32 +32,21 @@ export function CourseStudents({ courseId }) {
             })
             .then(res => {
               if (res.data.data) {
-                let users = [];
+                let results = [];
 
                 res.data.data.forEach(function(entry) {
                   if (entry.mail !== auth.user) {
-                    let points = 0;
-
-                    if (entry.progress && entry.progress.length > 0) {
-                      let progress = entry.progress.find(
-                        obj => obj.course === courseId
-                      );
-
-                      if (progress) points = progress.points;
-                    }
-
                     let user = {
                       name: entry.name,
                       mail: entry.mail,
-                      token: entry.token,
-                      points: points
+                      token: entry.token
                     };
 
-                    users.push(user);
+                    results.push(user);
                   }
                 });
 
-                setStudents(users);
+                setUsers(results);
               }
             })
             .catch(err => {
@@ -70,14 +59,14 @@ export function CourseStudents({ courseId }) {
         setStatus("error");
         setMessage(err.message);
       });
-  }, [courseId, auth.user, fetchSignal]);
+  }, [moduleId, auth.user, fetchSignal]);
 
   const removeUsers = rows => {
     setStatus("loading");
 
     globalApiInstance
-      .post(process.env.REACT_APP_BASE_API + "courses/removeStudents", {
-        course: courseId,
+      .post(process.env.REACT_APP_BASE_API + "modules/removeUsers", {
+        module: moduleId,
         selectedUsers: rows
       })
       .then(res => {
@@ -131,12 +120,6 @@ export function CourseStudents({ courseId }) {
       wrap: true
     },
     {
-      name: "Points",
-      selector: "points",
-      sortable: true,
-      wrap: true
-    },
-    {
       name: "Actions",
       cell: row => (
         <Button
@@ -172,12 +155,12 @@ export function CourseStudents({ courseId }) {
       <div className="w-responsive pl-5 pr-5">
         <DataTable
           columns={columns}
-          data={students}
+          data={users}
           customStyles={customStyle}
           highlightOnHover
           responsive
           pagination
-          noDataComponent={"No users have access to this course"}
+          noDataComponent={"No users have access to this module"}
           selectableRows
           onSelectedRowsChange={state => setSelected(state.selectedRows)}
           clearSelectedRows={fetchSignal}

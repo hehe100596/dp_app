@@ -3,6 +3,7 @@ import mongoose, { Schema } from "mongoose";
 import * as bcrypt from "bcrypt";
 
 import { Course } from "./courses";
+import { Module } from "./modules";
 
 const DataSchema = new Schema(
   {
@@ -125,8 +126,14 @@ router.post("/deleteUser", (req, res) => {
       $pull: { access: token }
     }
   );
+  const modules = Module.updateMany(
+    {},
+    {
+      $pull: { access: token }
+    }
+  );
 
-  Promise.all([user, courses])
+  Promise.all([user, courses, modules])
     .then(result => {
       const sgMail = require("@sendgrid/mail");
       sgMail.setApiKey(process.env.SENDGRID_API_KEY);

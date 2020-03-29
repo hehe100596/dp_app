@@ -6,7 +6,7 @@ import { Course } from "./courses";
 const DataSchema = new Schema(
   {
     name: String,
-    org: String,
+    cat: String,
     type: String,
     author: String,
     access: [String],
@@ -20,8 +20,28 @@ const DataSchema = new Schema(
   },
   { timestamps: true }
 );
-const Module = mongoose.model("Module", DataSchema);
+export const Module = mongoose.model("Module", DataSchema);
 const router = Router();
+
+router.post("/getModule", (req, res) => {
+  const { module } = req.body;
+
+  Module.findOne({ _id: module }, (err, data) => {
+    if (err) return res.json({ success: false, error: err });
+
+    return res.json({ success: true, data: data });
+  });
+});
+
+router.post("/getUsersWithAccess", (req, res) => {
+  const { module } = req.body;
+
+  Module.findOne({ _id: module }, "access", (err, data) => {
+    if (err) return res.json({ success: false, error: err });
+
+    return res.json({ success: true, data: data });
+  });
+});
 
 router.post("/getMyModules", (req, res) => {
   const { user } = req.body;
@@ -46,9 +66,11 @@ router.post("/getAccessibleModules", (req, res) => {
 router.post("/createNewModule", (req, res) => {
   let module = new Module();
 
-  const { name, author, withAccess } = req.body;
+  const { name, cat, type, author, withAccess } = req.body;
 
   module.name = name;
+  module.cat = cat;
+  module.type = type;
   module.author = author;
 
   module.access.push(withAccess);
@@ -58,6 +80,39 @@ router.post("/createNewModule", (req, res) => {
 
     return res.json({ success: true });
   });
+});
+
+router.post("/updateModuleInfo", (req, res) => {
+  const { moduleId, name, cat, type } = req.body;
+
+  Module.updateOne(
+    { _id: moduleId },
+    { name: name, cat: cat, type: type },
+    err => {
+      if (err) return res.json({ success: false, error: err });
+
+      return res.json({ success: true });
+    }
+  );
+});
+
+router.post("/removeUsers", (req, res) => {
+  const { module, selectedUsers } = req.body;
+
+  let tokens = [];
+  selectedUsers.forEach(function(entry) {
+    tokens.push(entry.token);
+  });
+
+  Module.updateOne(
+    { _id: module },
+    { $pull: { access: { $in: tokens } } },
+    err => {
+      if (err) return res.json({ success: false, error: err });
+
+      return res.json({ success: true });
+    }
+  );
 });
 
 router.post("/deleteModules", (req, res) => {

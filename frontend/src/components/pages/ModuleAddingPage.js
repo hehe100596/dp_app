@@ -2,14 +2,14 @@ import React from "react";
 
 import { Heading } from "../atoms/Heading";
 import { EmptyLine } from "../atoms/EmptyLine";
-import { CourseDetail } from "../templates/CourseDetail";
+import { ModuleModification } from "../templates/ModuleModification";
 
-export function CoursePage(props) {
+export function ModuleAddingPage() {
   return (
     <div align="center">
-      <Heading level="1">COURSE</Heading>
+      <Heading level="1">NEW MODULE</Heading>
       <EmptyLine level="2" />
-      <CourseDetail courseId={props.match.params.course} />
+      <ModuleModification moduleId={null} />
     </div>
   );
 }

@@ -2,13 +2,13 @@ import React from "react";
 
 import { Heading } from "../atoms/Heading";
 import { EmptyLine } from "../atoms/EmptyLine";
-import { CourseModification } from "../templates/CourseModification";
-import { CourseStudents } from "../templates/CourseStudents";
+import { ModuleModification } from "../templates/ModuleModification";
+import { ModuleUsers } from "../templates/ModuleUsers";
 
-export function CourseEditingPage(props) {
+export function ModuleEditingPage(props) {
   return (
     <div align="center">
-      <Heading level="1">EDIT COURSE</Heading>
+      <Heading level="1">EDIT MODULE</Heading>
       <EmptyLine level="2" />
       <b>
         <p className="text-danger">
@@ -31,7 +31,7 @@ export function CourseEditingPage(props) {
             aria-controls="info"
             aria-selected="true"
           >
-            Course info
+            Module info
           </a>
           <a
             className="nav-item nav-link"
@@ -42,7 +42,7 @@ export function CourseEditingPage(props) {
             aria-controls="students"
             aria-selected="false"
           >
-            Students
+            Users
           </a>
         </div>
       </nav>
@@ -54,7 +54,7 @@ export function CourseEditingPage(props) {
           aria-labelledby="info-tab"
         >
           <EmptyLine level="2" />
-          <CourseModification courseId={props.match.params.course} />
+          <ModuleModification moduleId={props.match.params.module} />
         </div>
         <div
           className="tab-pane fade"
@@ -62,7 +62,7 @@ export function CourseEditingPage(props) {
           role="tabpanel"
           aria-labelledby="students-tab"
         >
-          <CourseStudents courseId={props.match.params.course} />
+          <ModuleUsers moduleId={props.match.params.module} />
         </div>
       </div>
     </div>

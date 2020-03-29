@@ -45,7 +45,8 @@ export function ModulesTable({ isEditable, noModulesMessage }) {
             let module = {
               _id: entry._id,
               name: entry.name,
-              org: entry.org,
+              cat: entry.cat,
+              type: entry.type,
               author: entry.author,
               points: points
             };
@@ -114,8 +115,14 @@ export function ModulesTable({ isEditable, noModulesMessage }) {
       wrap: true
     },
     {
-      name: "From",
-      selector: "org",
+      name: "Category",
+      selector: "cat",
+      sortable: true,
+      wrap: true
+    },
+    {
+      name: "Type",
+      selector: "type",
       sortable: true,
       wrap: true
     },
