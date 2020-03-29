@@ -12,6 +12,7 @@ import { ServerStatus } from "../organisms/ServerStatus";
 export function ModuleUsers({ moduleId }) {
   const [fetchSignal, setFetchSignal] = useState(false);
   const [selected, setSelected] = useState(null);
+  const [user, setUser] = useState("");
   const [users, setUsers] = useState([]);
 
   const [status, setStatus] = useState("loading");
@@ -36,13 +37,13 @@ export function ModuleUsers({ moduleId }) {
 
                 res.data.data.forEach(function(entry) {
                   if (entry.mail !== auth.user) {
-                    let user = {
+                    let result = {
                       name: entry.name,
                       mail: entry.mail,
                       token: entry.token
                     };
 
-                    results.push(user);
+                    results.push(result);
                   }
                 });
 
@@ -106,6 +107,50 @@ export function ModuleUsers({ moduleId }) {
     });
   };
 
+  const addUser = () => {
+    setStatus("loading");
+
+    if (!user) {
+      setStatus("error");
+      setMessage("E-mail of the user to be added is a required field");
+    } else if (user === auth.user) {
+      setStatus("error");
+      setMessage("You already have access to this module");
+    } else if (users.find(obj => obj.mail === user)) {
+      setStatus("error");
+      setMessage("User with this e-mail already has access to this module");
+    } else {
+      globalApiInstance
+        .post(process.env.REACT_APP_BASE_API + "users/getUserToken", {
+          mail: user
+        })
+        .then(res => {
+          if (res.data.data) {
+            globalApiInstance
+              .post(process.env.REACT_APP_BASE_API + "modules/giveAccess", {
+                module: moduleId,
+                user: res.data.data.token
+              })
+              .then(res => {
+                setMessage("User successfully added");
+                setFetchSignal(!fetchSignal);
+              })
+              .catch(err => {
+                setStatus("error");
+                setMessage(err.message);
+              });
+          } else {
+            setStatus("error");
+            setMessage("User with this e-mail does not exist");
+          }
+        })
+        .catch(err => {
+          setStatus("error");
+          setMessage(err.message);
+        });
+    }
+  };
+
   const columns = [
     {
       name: "Name",
@@ -162,6 +207,8 @@ export function ModuleUsers({ moduleId }) {
           pagination
           noDataComponent={"No users have access to this module"}
           selectableRows
+          subHeader
+          subHeaderAlign="right"
           onSelectedRowsChange={state => setSelected(state.selectedRows)}
           clearSelectedRows={fetchSignal}
           contextActions={
@@ -169,6 +216,22 @@ export function ModuleUsers({ moduleId }) {
               <i className="fa fa-user-slash fa-fw" />
               <b> Remove</b>
             </Button>
+          }
+          subHeaderComponent={
+            <>
+              <input
+                type="text"
+                className="mr-3"
+                style={{ width: "250px", height: "30px" }}
+                placeholder="e-mail of the user to be added"
+                value={user}
+                onChange={e => setUser(e.target.value)}
+              />
+              <Button variant="success" className="mr-3" onClick={addUser}>
+                <i className="fa fa-user-plus fa-fw" />
+                <b> Add user</b>
+              </Button>
+            </>
           }
         />
       </div>

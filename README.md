@@ -10,10 +10,10 @@
 07. Vytvorenie a prijatie pozvánok (zatiaľ formou dočasného odkazu s presmerovaním).
 08. Správa študentov s prístupom k danému kurzu (stačí tabuľka v rámci upravovania kurzu).
 09. Vytvorenie a upravovanie základných informácií kurzu.
+10. Zobrazenie, mazanie a správa prístupu k modulom (cudzie i vlastné).
 
 ### In progress:
 
-10. Zobrazenie, mazanie a správa prístupu k modulom (cudzie i vlastné).
 11. Vytvorenie a upravovanie modulov (zatiaľ len pár základných) vrátane "kopírovania" (cez templaty).
 12. Vytvorenie a upravovanie sekcií v rámci kurzov (s bodovým systémom a pod.).
 13. Kompletný prechod vytvorenými kurzmi študentmi s prístupom.

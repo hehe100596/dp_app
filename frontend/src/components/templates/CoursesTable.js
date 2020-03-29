@@ -226,7 +226,7 @@ export function CoursesTable({ isEditable, noCoursesMessage }) {
             <Link to="/add-course">
               <Button variant="warning" className="mr-3">
                 <i className="fa fa-plus fa-fw" />
-                <b> New Course</b>
+                <b> New course</b>
               </Button>
             </Link>
           }

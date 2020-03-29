@@ -10,7 +10,7 @@ export function CoursesPage() {
       <br />
       <CoursesTable
         isEditable={false}
-        noCoursesMessage="You have access to 0 courses."
+        noCoursesMessage="You have access to 0 courses"
       />
     </div>
   );

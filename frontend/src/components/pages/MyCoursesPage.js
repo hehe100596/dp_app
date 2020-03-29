@@ -10,7 +10,7 @@ export function MyCoursesPage() {
       <br />
       <CoursesTable
         isEditable={true}
-        noCoursesMessage="You have not created any courses yet."
+        noCoursesMessage="You have not created any courses yet"
       />
     </div>
   );

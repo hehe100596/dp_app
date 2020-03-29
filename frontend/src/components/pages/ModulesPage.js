@@ -10,7 +10,7 @@ export function ModulesPage() {
       <br />
       <ModulesTable
         isEditable={false}
-        noCoursesMessage="You have access to 0 modules."
+        noCoursesMessage="You have access to 0 modules"
       />
     </div>
   );

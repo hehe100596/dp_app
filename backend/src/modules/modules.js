@@ -43,6 +43,20 @@ router.post("/getUsersWithAccess", (req, res) => {
   });
 });
 
+router.post("/giveAccess", (req, res) => {
+  const { module, user } = req.body;
+
+  Module.updateOne(
+    { _id: module },
+    { $push: { access: user } },
+    (err, data) => {
+      if (err) return res.json({ success: false, error: err });
+
+      return res.json({ success: true, data: data });
+    }
+  );
+});
+
 router.post("/getMyModules", (req, res) => {
   const { user } = req.body;
 

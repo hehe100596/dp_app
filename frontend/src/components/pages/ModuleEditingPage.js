@@ -42,7 +42,7 @@ export function ModuleEditingPage(props) {
             aria-controls="students"
             aria-selected="false"
           >
-            Users
+            Users with access
           </a>
         </div>
       </nav>

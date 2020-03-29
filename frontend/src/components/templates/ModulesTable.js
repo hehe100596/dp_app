@@ -213,7 +213,7 @@ export function ModulesTable({ isEditable, noModulesMessage }) {
             <Link to="/add-module">
               <Button variant="warning" className="mr-3">
                 <i className="fa fa-plus fa-fw" />
-                <b> New Module</b>
+                <b> New module</b>
               </Button>
             </Link>
           }

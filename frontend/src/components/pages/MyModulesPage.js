@@ -10,7 +10,7 @@ export function MyModulesPage() {
       <br />
       <ModulesTable
         isEditable={true}
-        noModulesMessage="You have not created any modules yet."
+        noModulesMessage="You have not created any modules yet"
       />
     </div>
   );
