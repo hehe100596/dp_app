@@ -127,7 +127,7 @@ export function ModulesTable({ isEditable, noModulesMessage }) {
       wrap: true
     },
     {
-      name: "Points",
+      name: "Max points",
       selector: "points",
       sortable: true,
       wrap: true

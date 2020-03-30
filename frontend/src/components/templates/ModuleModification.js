@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Redirect } from "react-router";
 import { Formik } from "formik";
 import * as yup from "yup";
 
@@ -22,7 +21,7 @@ export const moduleInfoSchema = yup.object().shape({
     .required()
 });
 
-export function ModuleModification({ moduleId }) {
+export function ModuleModification({ moduleId, changeTab }) {
   const auth = useAuth();
 
   const [module, setModule] = useState({
@@ -34,7 +33,6 @@ export function ModuleModification({ moduleId }) {
 
   const [status, setStatus] = useState("loading");
   const [message, setMessage] = useState(null);
-  const [redirect, setRedirect] = useState(false);
 
   function saveModuleInfo(values) {
     setStatus("loading");
@@ -65,7 +63,7 @@ export function ModuleModification({ moduleId }) {
           withAccess: auth.token
         })
         .then(res => {
-          setRedirect(true);
+          changeTab(res.data.data);
         })
         .catch(err => {
           setStatus("error");
@@ -92,8 +90,6 @@ export function ModuleModification({ moduleId }) {
         });
     else setStatus("idle");
   }, [moduleId]);
-
-  if (redirect) return <Redirect push to="/my-modules" />;
 
   return (
     <div align="center">

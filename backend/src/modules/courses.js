@@ -104,10 +104,10 @@ router.post("/createNewCourse", (req, res) => {
 
   course.access.push(withAccess);
 
-  course.save(err => {
+  course.save((err, data) => {
     if (err) return res.json({ success: false, error: err });
 
-    return res.json({ success: true });
+    return res.json({ success: true, data: data._id });
   });
 });
 

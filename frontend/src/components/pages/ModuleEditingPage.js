@@ -4,6 +4,7 @@ import { Heading } from "../atoms/Heading";
 import { EmptyLine } from "../atoms/EmptyLine";
 import { ModuleModification } from "../templates/ModuleModification";
 import { ModuleUsers } from "../templates/ModuleUsers";
+import { ModuleContent } from "../templates/ModuleContent";
 
 export function ModuleEditingPage(props) {
   return (
@@ -35,14 +36,25 @@ export function ModuleEditingPage(props) {
           </a>
           <a
             className="nav-item nav-link"
-            id="students-tab"
+            id="users-tab"
             data-toggle="tab"
-            href="#students"
+            href="#users"
             role="tab"
-            aria-controls="students"
+            aria-controls="users"
             aria-selected="false"
           >
             Users with access
+          </a>
+          <a
+            className="nav-item nav-link"
+            id="content-tab"
+            data-toggle="tab"
+            href="#content"
+            role="tab"
+            aria-controls="content"
+            aria-selected="false"
+          >
+            Module content
           </a>
         </div>
       </nav>
@@ -54,15 +66,29 @@ export function ModuleEditingPage(props) {
           aria-labelledby="info-tab"
         >
           <EmptyLine level="2" />
-          <ModuleModification moduleId={props.match.params.module} />
+          <ModuleModification
+            moduleId={props.match.params.module}
+            changeTab={null}
+          />
         </div>
         <div
           className="tab-pane fade"
-          id="students"
+          id="users"
           role="tabpanel"
-          aria-labelledby="students-tab"
+          aria-labelledby="users-tab"
         >
-          <ModuleUsers moduleId={props.match.params.module} />
+          <ModuleUsers moduleId={props.match.params.module} changeTab={null} />
+        </div>
+        <div
+          className="tab-pane fade"
+          id="content"
+          role="tabpanel"
+          aria-labelledby="content-tab"
+        >
+          <ModuleContent
+            moduleId={props.match.params.module}
+            changeTab={null}
+          />
         </div>
       </div>
     </div>

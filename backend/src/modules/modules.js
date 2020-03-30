@@ -12,9 +12,11 @@ const DataSchema = new Schema(
     access: [String],
     content: [
       {
-        data: String,
+        name: String,
+        sType: String,
         rqmt: String,
-        points: Number
+        points: Number,
+        data: String
       }
     ]
   },
@@ -89,10 +91,10 @@ router.post("/createNewModule", (req, res) => {
 
   module.access.push(withAccess);
 
-  module.save(err => {
+  module.save((err, data) => {
     if (err) return res.json({ success: false, error: err });
 
-    return res.json({ success: true });
+    return res.json({ success: true, data: data._id });
   });
 });
 
@@ -110,6 +112,26 @@ router.post("/updateModuleInfo", (req, res) => {
   );
 });
 
+router.post("/addNewSegment", (req, res) => {
+  const { moduleId, segment } = req.body;
+
+  Module.updateOne({ _id: moduleId }, { $push: { content: segment } }, err => {
+    if (err) return res.json({ success: false, error: err });
+
+    return res.json({ success: true });
+  });
+});
+
+router.post("/updateSegmentsOrder", (req, res) => {
+  const { moduleId, segments } = req.body;
+
+  Module.updateOne({ _id: moduleId }, { $set: { content: segments } }, err => {
+    if (err) return res.json({ success: false, error: err });
+
+    return res.json({ success: true });
+  });
+});
+
 router.post("/removeUsers", (req, res) => {
   const { module, selectedUsers } = req.body;
 
@@ -121,6 +143,25 @@ router.post("/removeUsers", (req, res) => {
   Module.updateOne(
     { _id: module },
     { $pull: { access: { $in: tokens } } },
+    err => {
+      if (err) return res.json({ success: false, error: err });
+
+      return res.json({ success: true });
+    }
+  );
+});
+
+router.post("/removeSegments", (req, res) => {
+  const { module, selectedSegments } = req.body;
+
+  let segments = [];
+  selectedSegments.forEach(function(entry) {
+    segments.push(entry._id);
+  });
+
+  Module.updateOne(
+    { _id: module },
+    { $pull: { content: { _id: { $in: segments } } } },
     err => {
       if (err) return res.json({ success: false, error: err });
 
