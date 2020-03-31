@@ -6,7 +6,8 @@ import { globalApiInstance } from "../../utils/api";
 import { Heading } from "../atoms/Heading";
 import { Button } from "../atoms/Button";
 import { EmptyLine } from "../atoms/EmptyLine";
-import { ServerStatus } from "../organisms/ServerStatus";
+import { ErrorMessage } from "../molecules/ErrorMessage";
+import { Loading } from "../molecules/Loading";
 
 export function InvitesModal({ inviteTo, courseName, closeInvite }) {
   const [status, setStatus] = useState(null);
@@ -63,8 +64,11 @@ export function InvitesModal({ inviteTo, courseName, closeInvite }) {
       left: "50%",
       right: "auto",
       bottom: "auto",
+      minWidth: "800px",
+      maxHeight: "calc(100vh - 100px)",
       marginRight: "-50%",
-      transform: "translate(-50%, -50%)"
+      transform: "translate(-50%, -50%)",
+      overflowY: "auto"
     }
   };
 
@@ -109,7 +113,13 @@ export function InvitesModal({ inviteTo, courseName, closeInvite }) {
           <b>Following invite link has been successfully generated:</b>
         )}
         <EmptyLine level="1" />
-        <ServerStatus status={status} message={message} />
+        {status === "loading" ? (
+          <Loading />
+        ) : status === "error" ? (
+          <ErrorMessage error={message} />
+        ) : status === "success" ? (
+          <p>{message}</p>
+        ) : null}
         <EmptyLine level="2" />
         {status !== "success" ? (
           <Button

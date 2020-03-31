@@ -5,6 +5,7 @@ import swal from "sweetalert";
 import { useAuth } from "../../utils/auth";
 import { globalApiInstance } from "../../utils/api";
 
+import { FontIcon } from "../atoms/FontIcon";
 import { Button } from "../atoms/Button";
 import { EmptyLine } from "../atoms/EmptyLine";
 import { ServerStatus } from "../organisms/ServerStatus";
@@ -172,7 +173,7 @@ export function ModuleUsers({ moduleId }) {
           className="ml-1 mr-1"
           onClick={e => handleRemove(row)}
         >
-          <i className="fa fa-user-slash fa-fw" />
+          <FontIcon icon="user-slash" />
         </Button>
       ),
       ignoreRowClick: true,
@@ -213,7 +214,7 @@ export function ModuleUsers({ moduleId }) {
           clearSelectedRows={fetchSignal}
           contextActions={
             <Button variant="danger" className="mr-3" onClick={handleRemoveAll}>
-              <i className="fa fa-user-slash fa-fw" />
+              <FontIcon icon="user-slash" />
               <b> Remove</b>
             </Button>
           }
@@ -228,7 +229,7 @@ export function ModuleUsers({ moduleId }) {
                 onChange={e => setUser(e.target.value)}
               />
               <Button variant="success" className="mr-3" onClick={addUser}>
-                <i className="fa fa-user-plus fa-fw" />
+                <FontIcon icon="user-plus" />
                 <b> Add user</b>
               </Button>
             </>

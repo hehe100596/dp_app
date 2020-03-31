@@ -6,6 +6,7 @@ import swal from "sweetalert";
 import { useAuth } from "../../utils/auth";
 import { globalApiInstance } from "../../utils/api";
 
+import { FontIcon } from "../atoms/FontIcon";
 import { Button } from "../atoms/Button";
 import { EmptyLine } from "../atoms/EmptyLine";
 import { ServerStatus } from "../organisms/ServerStatus";
@@ -147,7 +148,7 @@ export function ModulesTable({ isEditable, noModulesMessage }) {
             <div>
               <Link to={{ pathname: `/edit-module/${row._id}` }}>
                 <Button variant="primary" className="ml-1 mr-1">
-                  <i className="fa fa-edit" />
+                  <FontIcon icon="edit" />
                 </Button>
               </Link>
               <Button
@@ -155,13 +156,13 @@ export function ModulesTable({ isEditable, noModulesMessage }) {
                 className="ml-1 mr-1"
                 onClick={e => handleRemove(row)}
               >
-                <i className="fa fa-trash-alt fa-fw" />
+                <FontIcon icon="trash-alt" />
               </Button>
             </div>
           ) : (
             <Link to={{ pathname: `/enter-module/${row._id}` }}>
               <Button variant="info" className="ml-1 mr-1">
-                <i className="fa fa-eye" />
+                <FontIcon icon="eye" />
               </Button>
             </Link>
           )}
@@ -205,14 +206,14 @@ export function ModulesTable({ isEditable, noModulesMessage }) {
           clearSelectedRows={fetchSignal}
           contextActions={
             <Button variant="danger" className="mr-3" onClick={handleRemoveAll}>
-              <i className="fa fa-trash-alt fa-fw" />
+              <FontIcon icon="trash-alt" />
               <b> Remove</b>
             </Button>
           }
           subHeaderComponent={
             <Link to="/add-module">
               <Button variant="warning" className="mr-3">
-                <i className="fa fa-plus fa-fw" />
+                <FontIcon icon="plus" />
                 <b> New module</b>
               </Button>
             </Link>

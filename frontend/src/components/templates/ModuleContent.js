@@ -4,11 +4,15 @@ import swal from "sweetalert";
 
 import { globalApiInstance } from "../../utils/api";
 
+import { FontIcon } from "../atoms/FontIcon";
 import { Button } from "../atoms/Button";
 import { EmptyLine } from "../atoms/EmptyLine";
 import { ServerStatus } from "../organisms/ServerStatus";
+import { SegmentsModal } from "../organisms/SegmentsModal";
 
 export function ModuleContent({ moduleId, changeTab }) {
+  const [segmentId, setSegmentId] = useState(null);
+
   const [fetchSignal, setFetchSignal] = useState(false);
   const [selected, setSelected] = useState(null);
   const [type, setType] = useState(null);
@@ -17,6 +21,11 @@ export function ModuleContent({ moduleId, changeTab }) {
 
   const [status, setStatus] = useState("loading");
   const [message, setMessage] = useState(null);
+
+  const closeModal = isExit => {
+    setSegmentId(null);
+    if (!isExit) setFetchSignal(!fetchSignal);
+  };
 
   useEffect(() => {
     globalApiInstance
@@ -59,8 +68,8 @@ export function ModuleContent({ moduleId, changeTab }) {
 
   const handleRemove = row => {
     swal({
-      title: "Do you want to remove this segment?",
-      text: "You are about to remove this segment. Are you sure about it?",
+      title: "Do you want to remove this part?",
+      text: "You are about to remove this part. Are you sure about it?",
       icon: "warning",
       buttons: ["No", "Yes"]
     }).then(function(isConfirm) {
@@ -72,8 +81,8 @@ export function ModuleContent({ moduleId, changeTab }) {
 
   const handleRemoveAll = () => {
     swal({
-      title: "Do you want to remove these segments?",
-      text: "You are about to remove these segments. Are you sure about it?",
+      title: "Do you want to remove these parts?",
+      text: "You are about to remove these parts. Are you sure about it?",
       icon: "warning",
       buttons: ["No", "Yes"]
     }).then(function(isConfirm) {
@@ -84,37 +93,12 @@ export function ModuleContent({ moduleId, changeTab }) {
   };
 
   const addSegment = () => {
-    setStatus("loading");
-
-    // TODO: Fix adding segments (with modal)!
-    let segment = {
-      name: "pokus",
-      sType: segmentType,
-      rqmt: "rqmt",
-      points: 0,
-      data: "pokus"
-    };
-
-    globalApiInstance
-      .post(process.env.REACT_APP_BASE_API + "modules/addNewSegment", {
-        moduleId: moduleId,
-        segment: segment
-      })
-      .then(res => {
-        setFetchSignal(!fetchSignal);
-        setMessage("Segment successfully added");
-      })
-      .catch(err => {
-        setStatus("error");
-        setMessage(err.message);
-      });
+    setSegmentId("new");
   };
 
   const handleEdit = row => {
-    setStatus("loading");
-
-    // TODO: Fix editing segments (with modal)!
-    console.log(row._id + row.sType);
+    setSegmentType(row.sType);
+    setSegmentId(row._id);
   };
 
   const updateSegmentsOrder = segments => {
@@ -185,32 +169,33 @@ export function ModuleContent({ moduleId, changeTab }) {
           <Button
             variant="secondary"
             className="ml-1 mr-1"
-            onClick={e => moveUp(row)}
-            disabled={segments.indexOf(row) === 0}
+            onClick={e => moveDown(row)}
+            disabled={segments.indexOf(row) === segments.length - 1}
           >
-            <i className="fa fa-long-arrow-alt-up" />
+            <FontIcon icon="long-arrow-alt-down" />
           </Button>
           <Button
             variant="info"
             className="ml-1 mr-1"
             onClick={e => handleEdit(row)}
           >
-            <i className="fa fa-folder-open fa-fw" />
+            <FontIcon icon="folder-open" />
           </Button>
           <Button
             variant="danger"
             className="ml-1 mr-1"
             onClick={e => handleRemove(row)}
           >
-            <i className="fa fa-folder-minus fa-fw" />
+            <FontIcon icon="folder-minus" />
           </Button>
+
           <Button
             variant="secondary"
             className="ml-1 mr-1"
-            onClick={e => moveDown(row)}
-            disabled={segments.indexOf(row) === segments.length - 1}
+            onClick={e => moveUp(row)}
+            disabled={segments.indexOf(row) === 0}
           >
-            <i className="fa fa-long-arrow-alt-down" />
+            <FontIcon icon="long-arrow-alt-up" />
           </Button>
         </div>
       ),
@@ -252,7 +237,7 @@ export function ModuleContent({ moduleId, changeTab }) {
           clearSelectedRows={fetchSignal}
           contextActions={
             <Button variant="danger" className="mr-3" onClick={handleRemoveAll}>
-              <i className="fa fa-folder-minus fa-fw" />
+              <FontIcon icon="folder-minus" />
               <b> Remove</b>
             </Button>
           }
@@ -266,16 +251,23 @@ export function ModuleContent({ moduleId, changeTab }) {
                   onChange={e => setSegmentType(e.target.value)}
                 >
                   <option value="HTML">HTML</option>
+                  <option value="Embedded Media">Embedded Media</option>
                 </select>
               ) : null /* TODO: Add "Test" type! */}
               <Button variant="success" className="mr-3" onClick={addSegment}>
-                <i className="fa fa-folder-plus fa-fw" />
+                <FontIcon icon="folder-plus" />
                 <b> Add segment</b>
               </Button>
             </>
           }
         />
       </div>
+      <SegmentsModal
+        segmentId={segmentId}
+        moduleId={moduleId}
+        type={segmentType}
+        closeModal={closeModal}
+      />
       <EmptyLine level="2" />
       <ServerStatus status={status} message={message} />
       {changeTab ? (

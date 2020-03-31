@@ -112,6 +112,20 @@ router.post("/updateModuleInfo", (req, res) => {
   );
 });
 
+router.post("/getSegment", (req, res) => {
+  const { moduleId, segmentId } = req.body;
+
+  Module.findOne(
+    { _id: moduleId, "content._id": segmentId },
+    "content.$",
+    (err, data) => {
+      if (err) return res.json({ success: false, error: err });
+
+      return res.json({ success: true, data: data.content[0] });
+    }
+  );
+});
+
 router.post("/addNewSegment", (req, res) => {
   const { moduleId, segment } = req.body;
 
@@ -120,6 +134,20 @@ router.post("/addNewSegment", (req, res) => {
 
     return res.json({ success: true });
   });
+});
+
+router.post("/updateSegment", (req, res) => {
+  const { segmentId, moduleId, segment } = req.body;
+
+  Module.updateOne(
+    { _id: moduleId, "content._id": segmentId },
+    { $set: { "content.$": segment } },
+    err => {
+      if (err) return res.json({ success: false, error: err });
+
+      return res.json({ success: true });
+    }
+  );
 });
 
 router.post("/updateSegmentsOrder", (req, res) => {

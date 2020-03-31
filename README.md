@@ -14,7 +14,7 @@
 
 ### In progress:
 
-11. Vytvorenie a upravovanie modulov (zatiaľ len pár základných) vrátane "kopírovania" (cez templaty).
+11. Vytvorenie a upravovanie modulov (zatiaľ len pár základných a bez kopírovania).
 12. Vytvorenie a upravovanie sekcií v rámci kurzov (s bodovým systémom a pod.).
 13. Kompletný prechod vytvorenými kurzmi študentmi s prístupom.
 

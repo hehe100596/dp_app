@@ -6,10 +6,11 @@ import swal from "sweetalert";
 import { useAuth } from "../../utils/auth";
 import { globalApiInstance } from "../../utils/api";
 
+import { FontIcon } from "../atoms/FontIcon";
 import { Button } from "../atoms/Button";
 import { EmptyLine } from "../atoms/EmptyLine";
-import { InvitesModal } from "./InvitesModal";
 import { ServerStatus } from "../organisms/ServerStatus";
+import { InvitesModal } from "../organisms/InvitesModal";
 
 export function CoursesTable({ isEditable, noCoursesMessage }) {
   const [inviteTo, setInviteTo] = useState(null);
@@ -152,11 +153,11 @@ export function CoursesTable({ isEditable, noCoursesMessage }) {
                 className="ml-1 mr-1"
                 onClick={e => handleInvite(row)}
               >
-                <i className="fa fa-user-plus" />
+                <FontIcon icon="user-plus" />
               </Button>
               <Link to={{ pathname: `/edit-course/${row._id}` }}>
                 <Button variant="primary" className="ml-1 mr-1">
-                  <i className="fa fa-edit" />
+                  <FontIcon icon="edit" />
                 </Button>
               </Link>
               <Button
@@ -164,18 +165,18 @@ export function CoursesTable({ isEditable, noCoursesMessage }) {
                 className="ml-1 mr-1"
                 onClick={e => handleRemove(row)}
               >
-                <i className="fa fa-trash-alt fa-fw" />
+                <FontIcon icon="trash-alt" />
               </Button>
             </div>
           ) : row.config.status === "Active" ? (
             <Link to={{ pathname: `/enter-course/${row._id}` }}>
               <Button variant="info" className="ml-1 mr-1">
-                <i className="fa fa-book-open" />
+                <FontIcon icon="book-open" />
               </Button>
             </Link>
           ) : (
             <Button variant="info" disabled className="ml-1 mr-1">
-              <i className="fa fa-book-dead" />
+              <FontIcon icon="book-dead" />
             </Button>
           )}
         </div>
@@ -218,14 +219,14 @@ export function CoursesTable({ isEditable, noCoursesMessage }) {
           clearSelectedRows={fetchSignal}
           contextActions={
             <Button variant="danger" className="mr-3" onClick={handleRemoveAll}>
-              <i className="fa fa-trash-alt fa-fw" />
+              <FontIcon icon="trash-alt" />
               <b> Remove</b>
             </Button>
           }
           subHeaderComponent={
             <Link to="/add-course">
               <Button variant="warning" className="mr-3">
-                <i className="fa fa-plus fa-fw" />
+                <FontIcon icon="plus" />
                 <b> New course</b>
               </Button>
             </Link>

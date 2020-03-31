@@ -4,6 +4,7 @@ import { Offline, Online } from "react-detect-offline";
 
 import { useAuth } from "../../utils/auth";
 
+import { FontIcon } from "../atoms/FontIcon";
 import { EmptyLine } from "../atoms/EmptyLine";
 
 export const TopNavBar = ({ isPrivate }) => {
@@ -17,7 +18,7 @@ export const TopNavBar = ({ isPrivate }) => {
     <div>
       <nav className="navbar navbar-expand-sm navbar-light bg-light fixed-top shadow">
         <Link className="navbar-brand" to={"/"}>
-          <i className="fa fa-graduation-cap" />
+          <FontIcon icon="graduation-cap" />
           <b> E-MAKE</b>
         </Link>
         {isPrivate ? (
@@ -52,10 +53,10 @@ export const TopNavBar = ({ isPrivate }) => {
                 </li>
               </ul>
               <Online>
-                <i className="fa fa-signal text-success" />
+                <FontIcon icon="signal text-success" />
               </Online>
               <Offline>
-                <i className="fa fa-times text-danger" />
+                <FontIcon icon="times text-danger" />
               </Offline>
               <ul className="navbar-nav">
                 <li className="nav-item dropdown">
@@ -86,7 +87,7 @@ export const TopNavBar = ({ isPrivate }) => {
                 </li>
               </ul>
               <Link to={"/"} onClick={clearSignOut}>
-                <i className="fa fa-sign-out-alt fa-fw" />
+                <FontIcon icon="sign-out-alt" />
                 <b>Sign out</b>
               </Link>
             </div>
