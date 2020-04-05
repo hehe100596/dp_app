@@ -5,6 +5,7 @@ import { globalApiInstance } from "../../utils/api";
 
 import { Button } from "../atoms/Button";
 import { EmptyLine } from "../atoms/EmptyLine";
+import { Timer } from "../molecules/Timer";
 import { ServerStatus } from "../organisms/ServerStatus";
 
 export function useInterval(callback, delay) {
@@ -28,6 +29,7 @@ export function useInterval(callback, delay) {
 export function ModuleDetail({ moduleId, addPoints, changeTab }) {
   const [content, setContent] = useState([]);
   const [type, setType] = useState(null);
+  const [limit, setLimit] = useState(null);
   const [view, setView] = useState(null);
   const [timer, setTimer] = useState(0);
 
@@ -68,6 +70,9 @@ export function ModuleDetail({ moduleId, addPoints, changeTab }) {
 
   useInterval(() => {
     setTimer(timer + 1);
+    if (limit !== 0 && timer >= limit * 60) {
+      finishModule();
+    }
   }, 1000);
 
   useEffect(() => {
@@ -77,6 +82,7 @@ export function ModuleDetail({ moduleId, addPoints, changeTab }) {
       })
       .then(res => {
         setType(res.data.data.type);
+        setLimit(res.data.data.limit);
         setContent(res.data.data.content);
         parseContent(res.data.data.type, res.data.data.content);
         setStatus("success");
@@ -89,6 +95,8 @@ export function ModuleDetail({ moduleId, addPoints, changeTab }) {
 
   return (
     <div align="center">
+      <Timer seconds={timer} />
+      <EmptyLine level="1" />
       {view ? (
         parse(view)
       ) : (

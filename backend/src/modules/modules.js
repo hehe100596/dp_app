@@ -9,6 +9,7 @@ const DataSchema = new Schema(
     cat: String,
     type: String,
     author: String,
+    limit: Number,
     access: [String],
     content: [
       {
@@ -82,12 +83,13 @@ router.post("/getAccessibleModules", (req, res) => {
 router.post("/createNewModule", (req, res) => {
   let module = new Module();
 
-  const { name, cat, type, author, withAccess } = req.body;
+  const { name, cat, type, author, limit, withAccess } = req.body;
 
   module.name = name;
   module.cat = cat;
   module.type = type;
   module.author = author;
+  module.limit = limit;
 
   module.access.push(withAccess);
 
@@ -99,11 +101,11 @@ router.post("/createNewModule", (req, res) => {
 });
 
 router.post("/updateModuleInfo", (req, res) => {
-  const { moduleId, name, cat, type } = req.body;
+  const { moduleId, name, cat, type, limit } = req.body;
 
   Module.updateOne(
     { _id: moduleId },
-    { name: name, cat: cat, type: type },
+    { name: name, cat: cat, type: type, limit: limit },
     err => {
       if (err) return res.json({ success: false, error: err });
 

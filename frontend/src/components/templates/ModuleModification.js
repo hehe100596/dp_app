@@ -28,7 +28,8 @@ export function ModuleModification({ moduleId, changeTab }) {
     name: "",
     cat: "",
     type: "Info",
-    author: auth.user
+    author: auth.user,
+    limit: 0
   });
 
   const [status, setStatus] = useState("loading");
@@ -43,7 +44,8 @@ export function ModuleModification({ moduleId, changeTab }) {
           moduleId: moduleId,
           name: values.name,
           cat: values.cat,
-          type: values.type
+          type: values.type,
+          limit: values.limit
         })
         .then(res => {
           setStatus("success");
@@ -60,6 +62,7 @@ export function ModuleModification({ moduleId, changeTab }) {
           cat: values.cat,
           type: values.type,
           author: values.author,
+          limit: values.limit,
           withAccess: auth.token
         })
         .then(res => {
@@ -98,7 +101,8 @@ export function ModuleModification({ moduleId, changeTab }) {
           name: module.name,
           cat: module.cat,
           type: module.type,
-          author: module.author
+          author: module.author,
+          limit: module.limit
         }}
         onSubmit={(values, actions) => {
           saveModuleInfo(values);
@@ -153,17 +157,17 @@ export function ModuleModification({ moduleId, changeTab }) {
                   </select>
                 </div>
                 <div className="col mb-4">
-                  <b>Author</b>
+                  <b>Time limit (in minutes, 0 means none)</b>
                   <br />
                   <input
-                    type="text"
+                    type="number"
                     onChange={props.handleChange}
                     onBlur={props.handleBlur}
-                    value={props.values.author}
+                    value={props.values.limit}
+                    min="0"
+                    max="1440"
                     style={{ width: "300px", height: "30px" }}
-                    name="author"
-                    placeholder="author"
-                    disabled
+                    name="limit"
                   />
                 </div>
               </div>

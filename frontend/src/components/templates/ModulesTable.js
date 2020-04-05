@@ -49,6 +49,7 @@ export function ModulesTable({ isEditable, noModulesMessage }) {
               cat: entry.cat,
               type: entry.type,
               author: entry.author,
+              limit: entry.limit,
               points: points
             };
             results.push(module);
@@ -138,6 +139,12 @@ export function ModulesTable({ isEditable, noModulesMessage }) {
       selector: "author",
       sortable: true,
       omit: isEditable,
+      wrap: true
+    },
+    {
+      name: "Time limit",
+      selector: "limit",
+      sortable: true,
       wrap: true
     },
     {
