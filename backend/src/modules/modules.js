@@ -17,9 +17,9 @@ const DataSchema = new Schema(
         sType: String,
         rqmt: String,
         points: Number,
-        data: String
-      }
-    ]
+        data: String,
+      },
+    ],
   },
   { timestamps: true }
 );
@@ -106,7 +106,7 @@ router.post("/updateModuleInfo", (req, res) => {
   Module.updateOne(
     { _id: moduleId },
     { name: name, cat: cat, type: type, limit: limit },
-    err => {
+    (err) => {
       if (err) return res.json({ success: false, error: err });
 
       return res.json({ success: true });
@@ -131,11 +131,15 @@ router.post("/getSegment", (req, res) => {
 router.post("/addNewSegment", (req, res) => {
   const { moduleId, segment } = req.body;
 
-  Module.updateOne({ _id: moduleId }, { $push: { content: segment } }, err => {
-    if (err) return res.json({ success: false, error: err });
+  Module.updateOne(
+    { _id: moduleId },
+    { $push: { content: segment } },
+    (err) => {
+      if (err) return res.json({ success: false, error: err });
 
-    return res.json({ success: true });
-  });
+      return res.json({ success: true });
+    }
+  );
 });
 
 router.post("/updateSegment", (req, res) => {
@@ -144,7 +148,7 @@ router.post("/updateSegment", (req, res) => {
   Module.updateOne(
     { _id: moduleId, "content._id": segmentId },
     { $set: { "content.$": segment } },
-    err => {
+    (err) => {
       if (err) return res.json({ success: false, error: err });
 
       return res.json({ success: true });
@@ -155,25 +159,29 @@ router.post("/updateSegment", (req, res) => {
 router.post("/updateSegmentsOrder", (req, res) => {
   const { moduleId, segments } = req.body;
 
-  Module.updateOne({ _id: moduleId }, { $set: { content: segments } }, err => {
-    if (err) return res.json({ success: false, error: err });
+  Module.updateOne(
+    { _id: moduleId },
+    { $set: { content: segments } },
+    (err) => {
+      if (err) return res.json({ success: false, error: err });
 
-    return res.json({ success: true });
-  });
+      return res.json({ success: true });
+    }
+  );
 });
 
 router.post("/removeUsers", (req, res) => {
   const { module, selectedUsers } = req.body;
 
   let tokens = [];
-  selectedUsers.forEach(function(entry) {
+  selectedUsers.forEach(function (entry) {
     tokens.push(entry.token);
   });
 
   Module.updateOne(
     { _id: module },
     { $pull: { access: { $in: tokens } } },
-    err => {
+    (err) => {
       if (err) return res.json({ success: false, error: err });
 
       return res.json({ success: true });
@@ -185,14 +193,14 @@ router.post("/removeSegments", (req, res) => {
   const { module, selectedSegments } = req.body;
 
   let segments = [];
-  selectedSegments.forEach(function(entry) {
+  selectedSegments.forEach(function (entry) {
     segments.push(entry._id);
   });
 
   Module.updateOne(
     { _id: module },
     { $pull: { content: { _id: { $in: segments } } } },
-    err => {
+    (err) => {
       if (err) return res.json({ success: false, error: err });
 
       return res.json({ success: true });
@@ -207,15 +215,15 @@ router.post("/deleteModules", (req, res) => {
   const courses = Course.updateMany(
     {},
     {
-      $pull: { content: { module: { $in: selectedModules } } }
+      $pull: { content: { module: { $in: selectedModules } } },
     }
   );
 
   Promise.all([modules, courses])
-    .then(result => {
+    .then((result) => {
       return res.json({ success: true });
     })
-    .catch(err => {
+    .catch((err) => {
       return res.send(err);
     });
 });

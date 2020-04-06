@@ -36,32 +36,56 @@ export function ModuleDetail({ moduleId, addPoints, changeTab }) {
   const [status, setStatus] = useState("loading");
   const [message, setMessage] = useState(null);
 
-  const parseContent = (moduleType, contentToParse) => {
-    if (moduleType === "Info") {
-      let parsedContent = "";
+  const formatAnswer = (answer) => {
+    let formattedAnswer = answer.toUpperCase();
+    formattedAnswer = formattedAnswer.replace(/\s/g, "");
 
-      contentToParse.forEach(function(entry) {
+    return formattedAnswer;
+  };
+
+  const parseContent = (contentToParse) => {
+    let counter = 1;
+    let parsedContent = "";
+
+    contentToParse.forEach(function (entry) {
+      if (entry.sType === "HTML") {
         parsedContent += entry.data;
         parsedContent += "<br/>";
-      });
+      } else if (entry.sType === "Short Answer") {
+        parsedContent += "<b>" + counter + ". " + entry.data + "</b><br/>";
+        parsedContent += "<input id='question-" + counter + "' />";
+        parsedContent += "<br/><br/>";
+        counter += 1;
+      }
+    });
 
-      setView(parsedContent);
-    } else {
-      // TODO: Add test functionality!
-    }
+    setView(parsedContent);
   };
 
   const finishModule = () => {
     let contentPoints = 0;
 
     if (type === "Info") {
-      content.forEach(function(entry) {
+      content.forEach(function (entry) {
         if (timer >= entry.rqmt * 60) {
           contentPoints += entry.points;
         }
       });
     } else {
-      // TODO: Add test functionality!
+      let counter = 1;
+
+      content.forEach(function (entry) {
+        if (entry.sType === "Short Answer") {
+          let id = "question-" + counter;
+          let correctAnswer = formatAnswer(entry.rqmt);
+          let studentAnswer = formatAnswer(document.getElementById(id).value);
+
+          if (correctAnswer === studentAnswer) {
+            contentPoints += entry.points;
+          }
+        }
+        if (entry.sType !== "HTML") counter += 1;
+      });
     }
 
     addPoints(contentPoints);
@@ -78,16 +102,16 @@ export function ModuleDetail({ moduleId, addPoints, changeTab }) {
   useEffect(() => {
     globalApiInstance
       .post(process.env.REACT_APP_BASE_API + "modules/getModule", {
-        module: moduleId
+        module: moduleId,
       })
-      .then(res => {
+      .then((res) => {
         setType(res.data.data.type);
         setLimit(res.data.data.limit);
         setContent(res.data.data.content);
-        parseContent(res.data.data.type, res.data.data.content);
+        parseContent(res.data.data.content);
         setStatus("success");
       })
-      .catch(err => {
+      .catch((err) => {
         setStatus("error");
         setMessage(err.message);
       });

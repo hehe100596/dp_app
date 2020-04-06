@@ -21,7 +21,7 @@ export function InvitesModal({ inviteTo, courseName, closeInvite }) {
     closeInvite();
   };
 
-  const handleChange = event => {
+  const handleChange = (event) => {
     setExpiration(event.target.value);
   };
 
@@ -32,16 +32,16 @@ export function InvitesModal({ inviteTo, courseName, closeInvite }) {
       .post(process.env.REACT_APP_BASE_API + "invites/createNewInviteLink", {
         courseName: courseName,
         courseId: inviteTo,
-        expiration: expiration
+        expiration: expiration,
       })
-      .then(res => {
+      .then((res) => {
         const baseUrl = window.location.origin + "/invites/";
         const inviteLink = baseUrl + res.data.data;
 
         setStatus("success");
         setMessage(inviteLink);
       })
-      .catch(err => {
+      .catch((err) => {
         setStatus("error");
         setMessage(err.message);
       });
@@ -68,8 +68,8 @@ export function InvitesModal({ inviteTo, courseName, closeInvite }) {
       maxHeight: "calc(100vh - 100px)",
       marginRight: "-50%",
       transform: "translate(-50%, -50%)",
-      overflowY: "auto"
-    }
+      overflowY: "auto",
+    },
   };
 
   return (
@@ -77,7 +77,6 @@ export function InvitesModal({ inviteTo, courseName, closeInvite }) {
       isOpen={inviteTo != null}
       onRequestClose={closeInviteModal}
       style={customStyles}
-      contentLabel="Example Modal"
       ariaHideApp={false}
     >
       <div align="center">

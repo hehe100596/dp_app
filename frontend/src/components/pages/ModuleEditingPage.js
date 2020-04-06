@@ -11,12 +11,6 @@ export function ModuleEditingPage(props) {
     <div align="center">
       <Heading level="1">EDIT MODULE</Heading>
       <EmptyLine level="2" />
-      <b>
-        <p className="text-danger">
-          Make sure to save your changes on all tabs separately!
-        </p>
-      </b>
-      <EmptyLine level="2" />
       <nav>
         <div
           className="nav nav-tabs justify-content-center"

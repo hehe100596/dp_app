@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import DataTable from "react-data-table-component";
 import swal from "sweetalert";
 
@@ -8,7 +9,8 @@ import { FontIcon } from "../atoms/FontIcon";
 import { Button } from "../atoms/Button";
 import { EmptyLine } from "../atoms/EmptyLine";
 import { ServerStatus } from "../organisms/ServerStatus";
-import { SegmentsModal } from "../organisms/SegmentsModal";
+import { InfoSegmentsModal } from "../organisms/InfoSegmentsModal";
+import { TestSegmentsModal } from "../organisms/TestSegmentsModal";
 
 export function ModuleContent({ moduleId, changeTab }) {
   const [segmentId, setSegmentId] = useState(null);
@@ -22,7 +24,7 @@ export function ModuleContent({ moduleId, changeTab }) {
   const [status, setStatus] = useState("loading");
   const [message, setMessage] = useState(null);
 
-  const closeModal = isExit => {
+  const closeModal = (isExit) => {
     setSegmentId(null);
     if (!isExit) setFetchSignal(!fetchSignal);
   };
@@ -30,14 +32,14 @@ export function ModuleContent({ moduleId, changeTab }) {
   useEffect(() => {
     globalApiInstance
       .post(process.env.REACT_APP_BASE_API + "modules/getModule", {
-        module: moduleId
+        module: moduleId,
       })
-      .then(res => {
+      .then((res) => {
         setType(res.data.data.type);
         setSegments(res.data.data.content);
         setStatus("success");
       })
-      .catch(err => {
+      .catch((err) => {
         setStatus("error");
         setMessage(err.message);
       });
@@ -47,32 +49,32 @@ export function ModuleContent({ moduleId, changeTab }) {
     changeTab("redirect");
   };
 
-  const removeSegments = rows => {
+  const removeSegments = (rows) => {
     setStatus("loading");
 
     globalApiInstance
       .post(process.env.REACT_APP_BASE_API + "modules/removeSegments", {
         module: moduleId,
-        selectedSegments: rows
+        selectedSegments: rows,
       })
-      .then(res => {
+      .then((res) => {
         setMessage("Segment(s) successfully removed");
         setFetchSignal(!fetchSignal);
         setSelected(null);
       })
-      .catch(err => {
+      .catch((err) => {
         setStatus("error");
         setMessage(err.message);
       });
   };
 
-  const handleRemove = row => {
+  const handleRemove = (row) => {
     swal({
       title: "Do you want to remove this part?",
       text: "You are about to remove this part. Are you sure about it?",
       icon: "warning",
-      buttons: ["No", "Yes"]
-    }).then(function(isConfirm) {
+      buttons: ["No", "Yes"],
+    }).then(function (isConfirm) {
       if (isConfirm) {
         removeSegments([row]);
       }
@@ -84,8 +86,8 @@ export function ModuleContent({ moduleId, changeTab }) {
       title: "Do you want to remove these parts?",
       text: "You are about to remove these parts. Are you sure about it?",
       icon: "warning",
-      buttons: ["No", "Yes"]
-    }).then(function(isConfirm) {
+      buttons: ["No", "Yes"],
+    }).then(function (isConfirm) {
       if (isConfirm) {
         removeSegments(selected);
       }
@@ -96,28 +98,28 @@ export function ModuleContent({ moduleId, changeTab }) {
     setSegmentId("new");
   };
 
-  const handleEdit = row => {
+  const handleEdit = (row) => {
     setSegmentType(row.sType);
     setSegmentId(row._id);
   };
 
-  const updateSegmentsOrder = segments => {
+  const updateSegmentsOrder = (segments) => {
     globalApiInstance
       .post(process.env.REACT_APP_BASE_API + "modules/updateSegmentsOrder", {
         moduleId: moduleId,
-        segments: segments
+        segments: segments,
       })
-      .then(res => {
+      .then((res) => {
         setFetchSignal(!fetchSignal);
         setMessage("Segment successfully moved");
       })
-      .catch(err => {
+      .catch((err) => {
         setStatus("error");
         setMessage(err.message);
       });
   };
 
-  const moveUp = row => {
+  const moveUp = (row) => {
     setStatus("loading");
 
     let currentPos = segments.indexOf(row);
@@ -127,7 +129,7 @@ export function ModuleContent({ moduleId, changeTab }) {
     updateSegmentsOrder(segments);
   };
 
-  const moveDown = row => {
+  const moveDown = (row) => {
     setStatus("loading");
 
     let currentPos = segments.indexOf(row);
@@ -142,49 +144,49 @@ export function ModuleContent({ moduleId, changeTab }) {
       name: "Name",
       selector: "name",
       sortable: true,
-      wrap: true
+      wrap: true,
     },
     {
       name: "Type",
       selector: "sType",
       sortable: true,
-      wrap: true
+      wrap: true,
     },
     {
-      name: "Requirement",
+      name: type === "Info" ? "Required time (in minutes)" : "Correct answer",
       selector: "rqmt",
       sortable: true,
-      wrap: true
+      wrap: true,
     },
     {
       name: "Points",
       selector: "points",
       sortable: true,
-      wrap: true
+      wrap: true,
     },
     {
       name: "Actions",
-      cell: row => (
+      cell: (row) => (
         <div>
           <Button
             variant="secondary"
             className="ml-1 mr-1"
-            onClick={e => moveDown(row)}
+            onClick={(e) => moveDown(row)}
             disabled={segments.indexOf(row) === segments.length - 1}
           >
             <FontIcon icon="long-arrow-alt-down" />
           </Button>
           <Button
-            variant="info"
+            variant="primary"
             className="ml-1 mr-1"
-            onClick={e => handleEdit(row)}
+            onClick={(e) => handleEdit(row)}
           >
             <FontIcon icon="folder-open" />
           </Button>
           <Button
             variant="danger"
             className="ml-1 mr-1"
-            onClick={e => handleRemove(row)}
+            onClick={(e) => handleRemove(row)}
           >
             <FontIcon icon="folder-minus" />
           </Button>
@@ -192,7 +194,7 @@ export function ModuleContent({ moduleId, changeTab }) {
           <Button
             variant="secondary"
             className="ml-1 mr-1"
-            onClick={e => moveUp(row)}
+            onClick={(e) => moveUp(row)}
             disabled={segments.indexOf(row) === 0}
           >
             <FontIcon icon="long-arrow-alt-up" />
@@ -202,21 +204,21 @@ export function ModuleContent({ moduleId, changeTab }) {
       ignoreRowClick: true,
       allowOverflow: true,
       minWidth: "220px",
-      button: true
-    }
+      button: true,
+    },
   ];
 
   const customStyle = {
     headCells: {
       style: {
-        fontSize: "16px"
-      }
+        fontSize: "16px",
+      },
     },
     cells: {
       style: {
-        fontSize: "14px"
-      }
-    }
+        fontSize: "14px",
+      },
+    },
   };
 
   return (
@@ -233,7 +235,7 @@ export function ModuleContent({ moduleId, changeTab }) {
           selectableRows
           subHeader
           subHeaderAlign="right"
-          onSelectedRowsChange={state => setSelected(state.selectedRows)}
+          onSelectedRowsChange={(state) => setSelected(state.selectedRows)}
           clearSelectedRows={fetchSignal}
           contextActions={
             <Button variant="danger" className="mr-3" onClick={handleRemoveAll}>
@@ -243,18 +245,24 @@ export function ModuleContent({ moduleId, changeTab }) {
           }
           subHeaderComponent={
             <>
-              {type === "Info" ? (
-                <select
-                  className="mr-3"
-                  style={{ width: "250px", height: "30px" }}
-                  value={segmentType}
-                  onChange={e => setSegmentType(e.target.value)}
-                >
-                  <option value="HTML">HTML</option>
+              <select
+                className="mr-3"
+                style={{ width: "250px", height: "30px" }}
+                value={segmentType}
+                onChange={(e) => setSegmentType(e.target.value)}
+              >
+                <option value="HTML">HTML</option>
+                {type === "Info" ? (
                   <option value="Embedded Media">Embedded Media</option>
-                </select>
-              ) : null /* TODO: Add "Test" type! */}
-              <Button variant="success" className="mr-3" onClick={addSegment}>
+                ) : (
+                  <>
+                    <option value="Multiple Choice">Multiple Choice</option>
+                    <option value="Multiple Response">Multiple Response</option>
+                    <option value="Short Answer">Short Answer</option>
+                  </>
+                )}
+              </select>
+              <Button variant="warning" className="mr-3" onClick={addSegment}>
                 <FontIcon icon="folder-plus" />
                 <b> Add segment</b>
               </Button>
@@ -262,26 +270,38 @@ export function ModuleContent({ moduleId, changeTab }) {
           }
         />
       </div>
-      <SegmentsModal
-        segmentId={segmentId}
-        moduleId={moduleId}
-        type={segmentType}
-        closeModal={closeModal}
-      />
+      {type === "Info" ? (
+        <InfoSegmentsModal
+          segmentId={segmentId}
+          moduleId={moduleId}
+          type={segmentType}
+          closeModal={closeModal}
+        />
+      ) : (
+        <TestSegmentsModal
+          segmentId={segmentId}
+          moduleId={moduleId}
+          type={segmentType}
+          closeModal={closeModal}
+        />
+      )}
       <EmptyLine level="2" />
       <ServerStatus status={status} message={message} />
+      <EmptyLine level="2" />
+      <Link to={{ pathname: `/enter-module/${moduleId}` }}>
+        <Button className={"btn btn-info"} style={{ width: "200px" }}>
+          <b>Preview</b>
+        </Button>
+      </Link>
       {changeTab ? (
-        <>
-          <EmptyLine level="2" />
-          <Button
-            className={"btn btn-primary"}
-            style={{ width: "200px" }}
-            type="button"
-            onClick={finishModule}
-          >
-            <b>Finish module</b>
-          </Button>
-        </>
+        <Button
+          className={"btn btn-success ml-3"}
+          style={{ width: "200px" }}
+          type="button"
+          onClick={finishModule}
+        >
+          <b>Finish module</b>
+        </Button>
       ) : null}
     </div>
   );
