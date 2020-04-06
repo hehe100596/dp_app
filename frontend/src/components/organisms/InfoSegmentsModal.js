@@ -41,41 +41,46 @@ export function InfoSegmentsModal({ segmentId, moduleId, type, closeModal }) {
   };
 
   const saveSegment = (values) => {
-    let newSegment = {
-      name: values.name,
-      sType: type,
-      rqmt: values.rqmt,
-      points: values.points,
-      data: segmentData,
-    };
+    if (segmentData) {
+      let newSegment = {
+        name: values.name,
+        sType: type,
+        rqmt: values.rqmt,
+        points: values.points,
+        data: segmentData,
+      };
 
-    if (segmentId === "new") {
-      globalApiInstance
-        .post(process.env.REACT_APP_BASE_API + "modules/addNewSegment", {
-          moduleId: moduleId,
-          segment: newSegment,
-        })
-        .then((res) => {
-          closeSegmentModal(false);
-        })
-        .catch((err) => {
-          setStatus("error");
-          setMessage(err.message);
-        });
+      if (segmentId === "new") {
+        globalApiInstance
+          .post(process.env.REACT_APP_BASE_API + "modules/addNewSegment", {
+            moduleId: moduleId,
+            segment: newSegment,
+          })
+          .then((res) => {
+            closeSegmentModal(false);
+          })
+          .catch((err) => {
+            setStatus("error");
+            setMessage(err.message);
+          });
+      } else {
+        globalApiInstance
+          .post(process.env.REACT_APP_BASE_API + "modules/updateSegment", {
+            segmentId: segmentId,
+            moduleId: moduleId,
+            segment: newSegment,
+          })
+          .then((res) => {
+            closeSegmentModal(false);
+          })
+          .catch((err) => {
+            setStatus("error");
+            setMessage(err.message);
+          });
+      }
     } else {
-      globalApiInstance
-        .post(process.env.REACT_APP_BASE_API + "modules/updateSegment", {
-          segmentId: segmentId,
-          moduleId: moduleId,
-          segment: newSegment,
-        })
-        .then((res) => {
-          closeSegmentModal(false);
-        })
-        .catch((err) => {
-          setStatus("error");
-          setMessage(err.message);
-        });
+      setStatus("error");
+      setMessage("Data is a required field");
     }
   };
 

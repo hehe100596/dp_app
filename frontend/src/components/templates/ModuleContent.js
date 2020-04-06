@@ -153,10 +153,11 @@ export function ModuleContent({ moduleId, changeTab }) {
       wrap: true,
     },
     {
-      name: type === "Info" ? "Required time (in minutes)" : "Correct answer",
+      name: "Required time",
       selector: "rqmt",
       sortable: true,
       wrap: true,
+      omit: type !== "Info",
     },
     {
       name: "Points",

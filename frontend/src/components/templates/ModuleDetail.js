@@ -53,7 +53,8 @@ export function ModuleDetail({ moduleId, addPoints, changeTab }) {
         parsedContent += "<br/>";
       } else if (entry.sType === "Short Answer") {
         parsedContent += "<b>" + counter + ". " + entry.data + "</b><br/>";
-        parsedContent += "<input id='question-" + counter + "' />";
+        parsedContent +=
+          "<input style='width:250px;' id='question-" + counter + "' />";
         parsedContent += "<br/><br/>";
         counter += 1;
       }
@@ -75,16 +76,17 @@ export function ModuleDetail({ moduleId, addPoints, changeTab }) {
       let counter = 1;
 
       content.forEach(function (entry) {
-        if (entry.sType === "Short Answer") {
+        if (entry.sType !== "HTML") {
           let id = "question-" + counter;
+
           let correctAnswer = formatAnswer(entry.rqmt);
           let studentAnswer = formatAnswer(document.getElementById(id).value);
 
           if (correctAnswer === studentAnswer) {
             contentPoints += entry.points;
           }
+          counter += 1;
         }
-        if (entry.sType !== "HTML") counter += 1;
       });
     }
 

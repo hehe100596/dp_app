@@ -14,6 +14,7 @@ import { Loading } from "../molecules/Loading";
 
 export const moduleInfoSchema = yup.object().shape({
   name: yup.string().label("Name").required(),
+  rqmt: yup.string().label("Correct answer(s)").required(),
 });
 
 export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
@@ -41,43 +42,53 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
   };
 
   const saveSegment = (values) => {
-    let segmentContent = segmentData;
+    if (segmentData) {
+      let segmentContent = segmentData;
 
-    let newSegment = {
-      name: values.name,
-      sType: type,
-      rqmt: type === "HTML" ? "0" : values.rqmt,
-      points: values.points,
-      data: segmentContent,
-    };
+      let newSegment = {
+        name: values.name,
+        sType: type,
+        rqmt: type === "HTML" ? "0" : values.rqmt,
+        points: values.points,
+        data: segmentContent,
+      };
 
-    if (segmentId === "new") {
-      globalApiInstance
-        .post(process.env.REACT_APP_BASE_API + "modules/addNewSegment", {
-          moduleId: moduleId,
-          segment: newSegment,
-        })
-        .then((res) => {
-          closeSegmentModal(false);
-        })
-        .catch((err) => {
-          setStatus("error");
-          setMessage(err.message);
-        });
+      if (segmentId === "new") {
+        globalApiInstance
+          .post(process.env.REACT_APP_BASE_API + "modules/addNewSegment", {
+            moduleId: moduleId,
+            segment: newSegment,
+          })
+          .then((res) => {
+            closeSegmentModal(false);
+          })
+          .catch((err) => {
+            setStatus("error");
+            setMessage(err.message);
+          });
+      } else {
+        globalApiInstance
+          .post(process.env.REACT_APP_BASE_API + "modules/updateSegment", {
+            segmentId: segmentId,
+            moduleId: moduleId,
+            segment: newSegment,
+          })
+          .then((res) => {
+            closeSegmentModal(false);
+          })
+          .catch((err) => {
+            setStatus("error");
+            setMessage(err.message);
+          });
+      }
     } else {
-      globalApiInstance
-        .post(process.env.REACT_APP_BASE_API + "modules/updateSegment", {
-          segmentId: segmentId,
-          moduleId: moduleId,
-          segment: newSegment,
-        })
-        .then((res) => {
-          closeSegmentModal(false);
-        })
-        .catch((err) => {
-          setStatus("error");
-          setMessage(err.message);
-        });
+      setStatus("error");
+
+      if (values.sType === "HTML") {
+        setMessage("Data is a required field");
+      } else {
+        setMessage("Question is a required field");
+      }
     }
   };
 
@@ -278,6 +289,7 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
               ) : null}
               {props.errors.name && <ErrorMessage error={props.errors.name} />}
               {props.errors.cat && <ErrorMessage error={props.errors.cat} />}
+              {props.errors.rqmt && <ErrorMessage error={props.errors.rqmt} />}
             </form>
           )}
         </Formik>
