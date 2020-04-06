@@ -11,14 +11,8 @@ import { ErrorMessage } from "../molecules/ErrorMessage";
 import { ServerStatus } from "../organisms/ServerStatus";
 
 export const moduleInfoSchema = yup.object().shape({
-  name: yup
-    .string()
-    .label("Name")
-    .required(),
-  cat: yup
-    .string()
-    .label("Category")
-    .required()
+  name: yup.string().label("Name").required(),
+  cat: yup.string().label("Category").required(),
 });
 
 export function ModuleModification({ moduleId, changeTab }) {
@@ -29,7 +23,7 @@ export function ModuleModification({ moduleId, changeTab }) {
     cat: "",
     type: "Info",
     author: auth.user,
-    limit: 0
+    limit: 0,
   });
 
   const [status, setStatus] = useState("loading");
@@ -45,13 +39,13 @@ export function ModuleModification({ moduleId, changeTab }) {
           name: values.name,
           cat: values.cat,
           type: values.type,
-          limit: values.limit
+          limit: values.limit,
         })
-        .then(res => {
+        .then((res) => {
           setStatus("success");
           setMessage("Module successfully updated");
         })
-        .catch(err => {
+        .catch((err) => {
           setStatus("error");
           setMessage(err.message);
         });
@@ -63,12 +57,12 @@ export function ModuleModification({ moduleId, changeTab }) {
           type: values.type,
           author: values.author,
           limit: values.limit,
-          withAccess: auth.token
+          withAccess: auth.token,
         })
-        .then(res => {
+        .then((res) => {
           changeTab(res.data.data);
         })
-        .catch(err => {
+        .catch((err) => {
           setStatus("error");
           setMessage(err.message);
         });
@@ -81,13 +75,13 @@ export function ModuleModification({ moduleId, changeTab }) {
     if (moduleId)
       globalApiInstance
         .post(process.env.REACT_APP_BASE_API + "modules/getModule", {
-          module: moduleId
+          module: moduleId,
         })
-        .then(res => {
+        .then((res) => {
           setModule(res.data.data);
           setStatus("success");
         })
-        .catch(err => {
+        .catch((err) => {
           setStatus("error");
           setMessage(err.message);
         });
@@ -102,7 +96,7 @@ export function ModuleModification({ moduleId, changeTab }) {
           cat: module.cat,
           type: module.type,
           author: module.author,
-          limit: module.limit
+          limit: module.limit,
         }}
         onSubmit={(values, actions) => {
           saveModuleInfo(values);
@@ -110,7 +104,7 @@ export function ModuleModification({ moduleId, changeTab }) {
         validationSchema={moduleInfoSchema}
         enableReinitialize
       >
-        {props => (
+        {(props) => (
           <form onSubmit={props.handleSubmit}>
             <div className="container">
               <div className="row w-75">
@@ -148,9 +142,9 @@ export function ModuleModification({ moduleId, changeTab }) {
                   <select
                     onChange={props.handleChange}
                     onBlur={props.handleBlur}
-                    value={props.values.level}
+                    value={props.values.type}
                     style={{ width: "300px", height: "30px" }}
-                    name="level"
+                    name="type"
                   >
                     <option value="Info">Info</option>
                     <option value="Test">Test</option>
