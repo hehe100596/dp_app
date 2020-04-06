@@ -26,6 +26,7 @@ export function ModuleContent({ moduleId, changeTab }) {
 
   const closeModal = (isExit) => {
     setSegmentId(null);
+    setStatus("idle");
     if (!isExit) setFetchSignal(!fetchSignal);
   };
 

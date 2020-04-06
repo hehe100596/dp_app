@@ -29,18 +29,20 @@ export function InfoSegmentsModal({ segmentId, moduleId, type, closeModal }) {
   const [message, setMessage] = useState(null);
   const [segment, setSegment] = useState(defaultSegment);
   const [segmentData, setSegmentData] = useState(
-    "<i>loading failed, close and try again</i>"
+    "loading failed, close and try again"
   );
 
   const closeSegmentModal = (isExit) => {
     setStatus(null);
     setMessage(null);
     setSegment(defaultSegment);
-    setSegmentData("<i>loading failed, close and try again</i>");
+    setSegmentData("loading failed, close and try again");
     closeModal(isExit);
   };
 
   const saveSegment = (values) => {
+    setStatus("loading");
+
     if (segmentData) {
       let newSegment = {
         name: values.name,

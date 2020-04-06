@@ -14,7 +14,6 @@ import { Loading } from "../molecules/Loading";
 
 export const moduleInfoSchema = yup.object().shape({
   name: yup.string().label("Name").required(),
-  rqmt: yup.string().label("Correct answer(s)").required(),
 });
 
 export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
@@ -29,26 +28,88 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
   const [status, setStatus] = useState("loading");
   const [message, setMessage] = useState(null);
   const [segment, setSegment] = useState(defaultSegment);
+  const [segmentQuestion, setSegmentQuestion] = useState("");
+  const [segmentChoices, setSegmentChoices] = useState([""]);
+  const [segmentAnswers, setSegmentAnswers] = useState([""]);
   const [segmentData, setSegmentData] = useState(
-    "<i>loading failed, close and try again</i>"
+    "loading failed, close and try again"
   );
+
+  const updateChoice = (index, value) => {
+    let updatedChoices = segmentChoices;
+    updatedChoices[index] = value;
+
+    setSegmentChoices(updatedChoices);
+  };
+
+  const updateAnswer = (index, value) => {
+    let updatedAnswers = segmentAnswers;
+    updatedAnswers[index] = value;
+
+    setSegmentAnswers(updatedAnswers);
+  };
 
   const closeSegmentModal = (isExit) => {
     setStatus(null);
     setMessage(null);
     setSegment(defaultSegment);
-    setSegmentData("<i>loading failed, close and try again</i>");
+    setSegmentQuestion("");
+    setSegmentChoices([""]);
+    setSegmentAnswers([""]);
+    setSegmentData("loading failed, close and try again");
     closeModal(isExit);
   };
 
   const saveSegment = (values) => {
-    if (segmentData) {
+    setStatus("loading");
+
+    if (segmentData || segmentQuestion) {
       let segmentContent = segmentData;
+      let answers = values.rqmt;
+
+      if (
+        values.sType === "Multiple Choice" ||
+        values.sType === "Multiple Response"
+      ) {
+        segmentContent = "";
+        segmentContent += segmentQuestion;
+        segmentContent += ";;;";
+
+        if (segmentChoices) {
+          segmentChoices.forEach(function (entry) {
+            if (entry) {
+              segmentContent += entry;
+              segmentContent += ";;;";
+            } else {
+              setMessage("Every choice is a required field");
+            }
+          });
+        } else {
+          setMessage("At least one choice is required");
+        }
+
+        if (segmentAnswers) {
+          answers = "";
+          segmentAnswers.forEach(function (entry) {
+            if (entry) {
+              answers += entry;
+              answers += ";;;";
+            } else {
+              setMessage("Every answer is a required field");
+            }
+          });
+        }
+
+        if (message) {
+          setStatus("error");
+          return;
+        }
+      }
 
       let newSegment = {
         name: values.name,
         sType: type,
-        rqmt: type === "HTML" ? "0" : values.rqmt,
+        rqmt: type === "HTML" ? "0" : answers,
         points: values.points,
         data: segmentContent,
       };
@@ -116,6 +177,22 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
             segmentId: segmentId,
           })
           .then((res) => {
+            if (
+              res.data.data.sType === "Multiple Choice" ||
+              res.data.data.sType === "Multiple Response"
+            ) {
+              const multiData = res.data.data.data;
+              const multiRqmt = res.data.data.rqmt;
+
+              const multiQuestion = multiData.split(";;;")[0];
+              const multiChoices = multiData.split(";;;").slice(1, -1);
+              const multiAnswers = multiRqmt.split(";;;").slice(0, -1);
+
+              setSegmentQuestion(multiQuestion);
+              setSegmentChoices(multiChoices);
+              setSegmentAnswers(multiAnswers);
+            }
+
             setSegmentData(res.data.data.data);
             setSegment(res.data.data);
             setStatus("success");
@@ -198,9 +275,58 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
                         value={segmentData}
                         style={{ width: "555px", height: "100px" }}
                         name="data"
+                        placeholder="put question here"
                       />
                     </div>
                   </div>
+                ) : type === "Multiple Choice" ||
+                  type === "Multiple Response" ? (
+                  <>
+                    <div className="row">
+                      <div className="col mb-4">
+                        <b>Question</b>
+                        <br />
+                        <textarea
+                          onChange={(e) => setSegmentQuestion(e.target.value)}
+                          onBlur={(e) => setSegmentQuestion(e.target.value)}
+                          value={segmentQuestion}
+                          style={{ width: "555px", height: "100px" }}
+                          name="question"
+                          placeholder="put question here"
+                        />
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col mb-4">
+                        <b>Choice(s)</b>
+                        <br />
+                        <input
+                          type="text"
+                          onChange={(e) => updateChoice(0, e.target.value)}
+                          onBlur={(e) => updateChoice(0, e.target.value)}
+                          value={segmentChoices}
+                          style={{ width: "555px", height: "30px" }}
+                          name="choices"
+                          placeholder="choice"
+                        />
+                      </div>
+                    </div>
+                    <div className="row">
+                      <div className="col mb-4">
+                        <b>Answer(s)</b>
+                        <br />
+                        <input
+                          type="text"
+                          onChange={(e) => updateAnswer(0, e.target.value)}
+                          onBlur={(e) => updateAnswer(0, e.target.value)}
+                          value={segmentAnswers}
+                          style={{ width: "555px", height: "30px" }}
+                          name="answers"
+                          placeholder="answer"
+                        />
+                      </div>
+                    </div>
+                  </>
                 ) : null}
                 {type === "HTML" ? null : (
                   <div className="row">
@@ -218,22 +344,7 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
                           placeholder="put correct answer here"
                         />
                       </div>
-                    ) : (
-                      <div className="col mb-4">
-                        <b>Required time (in minutes)</b>
-                        <br />
-                        <input
-                          type="number"
-                          onChange={props.handleChange}
-                          onBlur={props.handleBlur}
-                          value={props.values.rqmt}
-                          min="0"
-                          max="1440"
-                          style={{ width: "250px", height: "30px" }}
-                          name="rqmt"
-                        />
-                      </div>
-                    )}
+                    ) : null}
                     <div className="col mb-4">
                       <b>Points (if answered correctly)</b>
                       <br />
@@ -244,7 +355,13 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
                         value={props.values.points}
                         min="0"
                         max="1000"
-                        style={{ width: "250px", height: "30px" }}
+                        style={{
+                          width:
+                            type === "HTML" || type === "Short Answer"
+                              ? "250px"
+                              : "555px",
+                          height: "30px",
+                        }}
                         name="points"
                       />
                     </div>
@@ -289,7 +406,6 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
               ) : null}
               {props.errors.name && <ErrorMessage error={props.errors.name} />}
               {props.errors.cat && <ErrorMessage error={props.errors.cat} />}
-              {props.errors.rqmt && <ErrorMessage error={props.errors.rqmt} />}
             </form>
           )}
         </Formik>

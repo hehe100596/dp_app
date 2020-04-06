@@ -55,7 +55,23 @@ export function ModuleDetail({ moduleId, addPoints, changeTab }) {
         parsedContent += "<b>" + counter + ". " + entry.data + "</b><br/>";
         parsedContent +=
           "<input style='width:250px;' id='question-" + counter + "' />";
+
         parsedContent += "<br/><br/>";
+        counter += 1;
+      } else {
+        let iType = entry.sType === "Multiple Choice" ? "radio" : "checkbox";
+        let question = entry.data.split(";;;")[0];
+        let choices = entry.data.split(";;;").slice(1, -1);
+
+        parsedContent += "<b>" + counter + ". " + question + "</b><br/>";
+
+        choices.forEach(function (entry) {
+          parsedContent += "<input type='" + iType + "' id='" + entry;
+          parsedContent +=
+            "' name='question-" + counter + "' /> " + entry + "<br />";
+        });
+
+        parsedContent += "<br/>";
         counter += 1;
       }
     });
@@ -79,12 +95,50 @@ export function ModuleDetail({ moduleId, addPoints, changeTab }) {
         if (entry.sType !== "HTML") {
           let id = "question-" + counter;
 
-          let correctAnswer = formatAnswer(entry.rqmt);
-          let studentAnswer = formatAnswer(document.getElementById(id).value);
+          if (entry.sType === "Short Answer") {
+            let correctAnswer = formatAnswer(entry.rqmt);
+            let studentAnswer = formatAnswer(document.getElementById(id).value);
 
-          if (correctAnswer === studentAnswer) {
-            contentPoints += entry.points;
+            if (correctAnswer === studentAnswer) {
+              contentPoints += entry.points;
+            }
+          } else {
+            let answers = entry.rqmt.split(";;;").slice(0, -1);
+            let checkboxes = document.getElementsByName(id);
+            let selected = Array.prototype.slice
+              .call(checkboxes)
+              .filter((ch) => ch.checked === true);
+
+            if (entry.sType === "Multiple Choice") {
+              if (selected[0] && answers[0] && selected[0].id === answers[0]) {
+                contentPoints += entry.points;
+              }
+            } else {
+              let points = 0;
+
+              if (answers.length === 0) {
+                points =
+                  entry.points -
+                  (selected.length / checkboxes.length) * entry.points;
+              } else {
+                let checkboxesHit = 0;
+
+                selected.forEach(function (entry) {
+                  if (answers.includes(entry.id)) {
+                    checkboxesHit += 1;
+                  } else {
+                    checkboxesHit -= 1;
+                  }
+                });
+
+                points = (checkboxesHit / answers.length) * entry.points;
+                points = points < 0 ? 0 : points;
+              }
+
+              contentPoints += points;
+            }
           }
+
           counter += 1;
         }
       });
