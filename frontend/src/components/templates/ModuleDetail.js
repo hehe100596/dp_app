@@ -64,6 +64,7 @@ export function ModuleDetail({ moduleId, addPoints, changeTab }) {
         let choices = entry.data.split(";;;").slice(1, -1);
 
         parsedContent += "<b>" + counter + ". " + question + "</b><br/>";
+        parsedContent += "<div style='display: inline-block;' align='left'>";
         for (var i = choices.length - 1; i > 0; i--) {
           var j = Math.floor(Math.random() * (i + 1));
           var tmp = choices[i];
@@ -77,7 +78,7 @@ export function ModuleDetail({ moduleId, addPoints, changeTab }) {
             "' name='question-" + counter + "' /> " + entry + "<br />";
         });
 
-        parsedContent += "<br/>";
+        parsedContent += "</div><br /><br />";
         counter += 1;
       }
     });

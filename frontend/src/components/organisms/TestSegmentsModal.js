@@ -9,6 +9,7 @@ import { globalApiInstance } from "../../utils/api";
 import { Heading } from "../atoms/Heading";
 import { Button } from "../atoms/Button";
 import { EmptyLine } from "../atoms/EmptyLine";
+import { FontIcon } from "../atoms/FontIcon";
 import { ErrorMessage } from "../molecules/ErrorMessage";
 import { Loading } from "../molecules/Loading";
 
@@ -34,6 +35,27 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
   const [segmentData, setSegmentData] = useState(
     "loading failed, close and try again"
   );
+
+  const addChoice = () => {
+    let updatedChoices = [...segmentChoices];
+    updatedChoices.push("");
+
+    setSegmentChoices(updatedChoices);
+  };
+
+  const removeChoice = (index, segment) => {
+    let updatedChoices = [...segmentChoices];
+    let updatedAnswers = [...segmentAnswers];
+    let segmentIndex = updatedAnswers.indexOf(segment);
+
+    updatedChoices.splice(index, 1);
+    updatedAnswers.splice(segmentIndex, 1);
+
+    setSegmentChoices(updatedChoices);
+    if (segmentIndex >= 0) {
+      setSegmentAnswers(updatedAnswers);
+    }
+  };
 
   const updateAnswer = (segment, isChecked) => {
     let updatedAnswers = [...segmentAnswers];
@@ -65,9 +87,14 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
 
   const updateChoice = (index, value) => {
     let updatedChoices = [...segmentChoices];
+    let updatedAnswers = [...segmentAnswers];
+    let answerIndex = updatedAnswers.indexOf(updatedChoices[index]);
+
     updatedChoices[index] = value;
+    updatedAnswers[answerIndex] = value;
 
     setSegmentChoices(updatedChoices);
+    setSegmentAnswers(updatedAnswers);
   };
 
   const closeSegmentModal = (isExit) => {
@@ -96,16 +123,10 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
         segmentContent += segmentQuestion;
         segmentContent += ";;;";
 
-        if (segmentChoices) {
-          segmentChoices.forEach(function (entry) {
-            segmentContent += entry;
-            segmentContent += ";;;";
-          });
-        } else {
-          setMessage("At least one choice is required");
-          setStatus("error");
-          return;
-        }
+        segmentChoices.forEach(function (entry) {
+          segmentContent += entry;
+          segmentContent += ";;;";
+        });
 
         if (segmentAnswers) {
           answers = "";
@@ -344,15 +365,30 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
                             )}
                             <input
                               type="text"
-                              className="ml-2"
+                              className="ml-2 mb-1"
                               onChange={(e) => updateChoice(i, e.target.value)}
                               onBlur={(e) => updateChoice(i, e.target.value)}
                               value={seg}
-                              style={{ width: "530px", height: "30px" }}
+                              style={{ width: "480px", height: "38px" }}
                               placeholder={"choice " + (i + 1)}
                             />
+                            <Button
+                              className={"btn btn-danger ml-2"}
+                              type="button"
+                              disabled={segmentChoices.length === 1}
+                              onClick={(e) => removeChoice(i, seg)}
+                            >
+                              <FontIcon icon="minus" />
+                            </Button>
                           </div>
                         ))}
+                        <Button
+                          className={"btn btn-success"}
+                          type="button"
+                          onClick={addChoice}
+                        >
+                          <FontIcon icon="plus" />
+                        </Button>
                       </div>
                     </div>
                   </>

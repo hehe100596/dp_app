@@ -289,7 +289,7 @@ export function ModuleContent({ moduleId, changeTab }) {
       )}
       <EmptyLine level="2" />
       <ServerStatus status={status} message={message} />
-      <EmptyLine level="2" />
+      <EmptyLine level="1" />
       <Link to={{ pathname: `/enter-module/${moduleId}` }}>
         <Button className={"btn btn-info"} style={{ width: "200px" }}>
           <b>Preview</b>
