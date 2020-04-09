@@ -122,7 +122,7 @@ export function InvitesModal({ inviteTo, courseName, closeInvite }) {
         <EmptyLine level="2" />
         {status !== "success" ? (
           <Button
-            className={"btn btn-success mr-2"}
+            className={"btn btn-success ml-2 mr-2"}
             style={{ width: "150px" }}
             type="submit"
             onClick={generateLink}
@@ -131,7 +131,7 @@ export function InvitesModal({ inviteTo, courseName, closeInvite }) {
           </Button>
         ) : (
           <Button
-            className={"btn btn-info mr-2"}
+            className={"btn btn-info ml-2 mr-2"}
             style={{ width: "150px" }}
             type="button"
             onClick={copyToClipboard}
@@ -140,7 +140,7 @@ export function InvitesModal({ inviteTo, courseName, closeInvite }) {
           </Button>
         )}
         <Button
-          className={"btn btn-danger"}
+          className={"btn btn-secondary ml-2 mr-2"}
           style={{ width: "150px" }}
           type="button"
           onClick={closeInviteModal}

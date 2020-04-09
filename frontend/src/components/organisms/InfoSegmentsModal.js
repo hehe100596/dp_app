@@ -246,7 +246,7 @@ export function InfoSegmentsModal({ segmentId, moduleId, type, closeModal }) {
                   <b>Save</b>
                 </Button>
                 <Button
-                  className={"btn btn-danger ml-2 mr-2 "}
+                  className={"btn btn-secondary ml-2 mr-2 "}
                   style={{ width: "200px" }}
                   type="button"
                   onClick={closeSegmentModal}

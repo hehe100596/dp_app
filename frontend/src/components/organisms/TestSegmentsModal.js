@@ -35,18 +35,39 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
     "loading failed, close and try again"
   );
 
+  const updateAnswer = (segment, isChecked) => {
+    let updatedAnswers = [...segmentAnswers];
+
+    if (isChecked) {
+      if (segment) {
+        updatedAnswers.push(segment);
+        setStatus("idle");
+      } else {
+        setMessage("Empty choice cannot be among correct answers");
+        setStatus("error");
+      }
+    } else {
+      updatedAnswers = updatedAnswers.filter((e) => e !== segment);
+    }
+
+    setSegmentAnswers(updatedAnswers);
+  };
+
+  const updateAnswers = (segment) => {
+    if (segment) {
+      setSegmentAnswers([segment]);
+      setStatus("idle");
+    } else {
+      setMessage("Empty choice cannot be the correct answer");
+      setStatus("error");
+    }
+  };
+
   const updateChoice = (index, value) => {
-    let updatedChoices = segmentChoices;
+    let updatedChoices = [...segmentChoices];
     updatedChoices[index] = value;
 
     setSegmentChoices(updatedChoices);
-  };
-
-  const updateAnswer = (index, value) => {
-    let updatedAnswers = segmentAnswers;
-    updatedAnswers[index] = value;
-
-    setSegmentAnswers(updatedAnswers);
   };
 
   const closeSegmentModal = (isExit) => {
@@ -77,15 +98,13 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
 
         if (segmentChoices) {
           segmentChoices.forEach(function (entry) {
-            if (entry) {
-              segmentContent += entry;
-              segmentContent += ";;;";
-            } else {
-              setMessage("Every choice is a required field");
-            }
+            segmentContent += entry;
+            segmentContent += ";;;";
           });
         } else {
           setMessage("At least one choice is required");
+          setStatus("error");
+          return;
         }
 
         if (segmentAnswers) {
@@ -94,13 +113,12 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
             if (entry) {
               answers += entry;
               answers += ";;;";
-            } else {
-              setMessage("Every answer is a required field");
             }
           });
         }
 
-        if (message) {
+        if (type === "Multiple Choice" && answers === "") {
+          setMessage("One answer is required");
           setStatus("error");
           return;
         }
@@ -298,32 +316,43 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
                     </div>
                     <div className="row">
                       <div className="col mb-4">
-                        <b>Choice(s)</b>
+                        <b>
+                          Choices (check correct answer
+                          {type === "Multiple Response" ? "s)" : ")"}
+                        </b>
                         <br />
-                        <input
-                          type="text"
-                          onChange={(e) => updateChoice(0, e.target.value)}
-                          onBlur={(e) => updateChoice(0, e.target.value)}
-                          value={segmentChoices}
-                          style={{ width: "555px", height: "30px" }}
-                          name="choices"
-                          placeholder="choice"
-                        />
-                      </div>
-                    </div>
-                    <div className="row">
-                      <div className="col mb-4">
-                        <b>Answer(s)</b>
-                        <br />
-                        <input
-                          type="text"
-                          onChange={(e) => updateAnswer(0, e.target.value)}
-                          onBlur={(e) => updateAnswer(0, e.target.value)}
-                          value={segmentAnswers}
-                          style={{ width: "555px", height: "30px" }}
-                          name="answers"
-                          placeholder="answer"
-                        />
+                        {segmentChoices.map((seg, i) => (
+                          <div key={i}>
+                            {type === "Multiple Choice" ? (
+                              <input
+                                type="radio"
+                                onChange={(e) => updateAnswers(seg)}
+                                name="radio-boxes"
+                                checked={seg && segmentAnswers.includes(seg)}
+                                style={{ width: "15px", height: "15px" }}
+                              />
+                            ) : (
+                              <input
+                                type="checkbox"
+                                onChange={(e) =>
+                                  updateAnswer(seg, e.target.checked)
+                                }
+                                name="checkbox-boxes"
+                                checked={seg && segmentAnswers.includes(seg)}
+                                style={{ width: "15px", height: "15px" }}
+                              />
+                            )}
+                            <input
+                              type="text"
+                              className="ml-2"
+                              onChange={(e) => updateChoice(i, e.target.value)}
+                              onBlur={(e) => updateChoice(i, e.target.value)}
+                              value={seg}
+                              style={{ width: "530px", height: "30px" }}
+                              placeholder={"choice " + (i + 1)}
+                            />
+                          </div>
+                        ))}
                       </div>
                     </div>
                   </>
@@ -344,7 +373,19 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
                           placeholder="put correct answer here"
                         />
                       </div>
-                    ) : null}
+                    ) : (
+                      <div className="col mb-4">
+                        <b>Answer{type === "Multiple Response" ? "s" : ""}</b>
+                        <br />
+                        <input
+                          type="text"
+                          value={segmentAnswers}
+                          style={{ width: "250px", height: "30px" }}
+                          name="answers"
+                          disabled
+                        />
+                      </div>
+                    )}
                     <div className="col mb-4">
                       <b>Points (if answered correctly)</b>
                       <br />
@@ -355,13 +396,7 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
                         value={props.values.points}
                         min="0"
                         max="1000"
-                        style={{
-                          width:
-                            type === "HTML" || type === "Short Answer"
-                              ? "250px"
-                              : "555px",
-                          height: "30px",
-                        }}
+                        style={{ width: "250px", height: "30px" }}
                         name="points"
                       />
                     </div>
@@ -390,7 +425,7 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
                   <b>Save</b>
                 </Button>
                 <Button
-                  className={"btn btn-danger ml-2 mr-2 "}
+                  className={"btn btn-secondary ml-2 mr-2 "}
                   style={{ width: "200px" }}
                   type="button"
                   onClick={closeSegmentModal}

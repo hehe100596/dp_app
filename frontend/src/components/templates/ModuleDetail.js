@@ -64,6 +64,12 @@ export function ModuleDetail({ moduleId, addPoints, changeTab }) {
         let choices = entry.data.split(";;;").slice(1, -1);
 
         parsedContent += "<b>" + counter + ". " + question + "</b><br/>";
+        for (var i = choices.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var tmp = choices[i];
+          choices[i] = choices[j];
+          choices[j] = tmp;
+        }
 
         choices.forEach(function (entry) {
           parsedContent += "<input type='" + iType + "' id='" + entry;
