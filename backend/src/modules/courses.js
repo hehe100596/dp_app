@@ -13,6 +13,7 @@ const DataSchema = new Schema(
     access: [String],
     content: [
       {
+        name: String,
         modules: [String],
         resultPoints: Number,
         unlockPoints: Number,
@@ -140,6 +141,48 @@ router.post("/updateCourseInfo", (req, res) => {
   );
 });
 
+router.post("/getSection", (req, res) => {
+  const { courseId, sectionId } = req.body;
+
+  Course.findOne(
+    { _id: courseId, "content._id": sectionId },
+    "content.$",
+    (err, data) => {
+      if (err) return res.json({ success: false, error: err });
+
+      return res.json({ success: true, data: data.content[0] });
+    }
+  );
+});
+
+router.post("/addNewSection", (req, res) => {
+  const { courseId, section } = req.body;
+
+  Course.updateOne(
+    { _id: courseId },
+    { $push: { content: section } },
+    (err) => {
+      if (err) return res.json({ success: false, error: err });
+
+      return res.json({ success: true });
+    }
+  );
+});
+
+router.post("/updateSection", (req, res) => {
+  const { sectionId, courseId, section } = req.body;
+
+  Course.updateOne(
+    { _id: courseId, "content._id": sectionId },
+    { $set: { "content.$": section } },
+    (err) => {
+      if (err) return res.json({ success: false, error: err });
+
+      return res.json({ success: true });
+    }
+  );
+});
+
 router.post("/removeStudents", (req, res) => {
   const { course, selectedUsers } = req.body;
 
@@ -151,6 +194,25 @@ router.post("/removeStudents", (req, res) => {
   Course.updateOne(
     { _id: course },
     { $pull: { access: { $in: tokens } } },
+    (err) => {
+      if (err) return res.json({ success: false, error: err });
+
+      return res.json({ success: true });
+    }
+  );
+});
+
+router.post("/removeSections", (req, res) => {
+  const { course, selectedSections } = req.body;
+
+  let sections = [];
+  selectedSections.forEach(function (entry) {
+    sections.push(entry._id);
+  });
+
+  Course.updateOne(
+    { _id: course },
+    { $pull: { content: { _id: { $in: sections } } } },
     (err) => {
       if (err) return res.json({ success: false, error: err });
 

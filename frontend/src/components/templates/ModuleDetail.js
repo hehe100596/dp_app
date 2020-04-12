@@ -157,7 +157,7 @@ export function ModuleDetail({ moduleId, addPoints, changeTab }) {
 
   useInterval(() => {
     setTimer(timer + 1);
-    if (limit !== 0 && timer >= limit * 60) {
+    if (limit !== null && limit !== 0 && timer >= limit * 60) {
       finishModule();
     }
   }, 1000);

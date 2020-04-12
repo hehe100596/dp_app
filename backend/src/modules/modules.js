@@ -36,6 +36,16 @@ router.post("/getModule", (req, res) => {
   });
 });
 
+router.post("/getModules", (req, res) => {
+  const { modules } = req.body;
+
+  Module.find({ _id: { $in: modules } }, (err, data) => {
+    if (err) return res.json({ success: false, error: err });
+
+    return res.json({ success: true, data: data });
+  });
+});
+
 router.post("/getUsersWithAccess", (req, res) => {
   const { module } = req.body;
 

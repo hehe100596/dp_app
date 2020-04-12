@@ -33,7 +33,7 @@ export function InfoSegmentsModal({ segmentId, moduleId, type, closeModal }) {
   );
 
   const closeSegmentModal = (isExit) => {
-    setStatus(null);
+    setStatus("loading");
     setMessage(null);
     setSegment(defaultSegment);
     setSegmentData("loading failed, close and try again");
@@ -103,7 +103,6 @@ export function InfoSegmentsModal({ segmentId, moduleId, type, closeModal }) {
   useEffect(() => {
     if (segmentId) {
       if (segmentId !== "new") {
-        setStatus("loading");
         globalApiInstance
           .post(process.env.REACT_APP_BASE_API + "modules/getSegment", {
             moduleId: moduleId,
@@ -176,7 +175,7 @@ export function InfoSegmentsModal({ segmentId, moduleId, type, closeModal }) {
                       value={props.values.sType}
                       style={{ width: "250px", height: "30px" }}
                       name="sType"
-                      placeholder="category"
+                      placeholder="type"
                       disabled
                     />
                   </div>
@@ -261,7 +260,6 @@ export function InfoSegmentsModal({ segmentId, moduleId, type, closeModal }) {
                 <ErrorMessage error={message} />
               ) : null}
               {props.errors.name && <ErrorMessage error={props.errors.name} />}
-              {props.errors.cat && <ErrorMessage error={props.errors.cat} />}
             </form>
           )}
         </Formik>

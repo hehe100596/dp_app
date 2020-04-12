@@ -4,17 +4,12 @@ import { Heading } from "../atoms/Heading";
 import { EmptyLine } from "../atoms/EmptyLine";
 import { CourseModification } from "../templates/CourseModification";
 import { CourseStudents } from "../templates/CourseStudents";
+import { CourseContent } from "../templates/CourseContent";
 
 export function CourseEditingPage(props) {
   return (
     <div align="center">
       <Heading level="1">EDIT COURSE</Heading>
-      <EmptyLine level="2" />
-      <b>
-        <p className="text-danger">
-          Make sure to save your changes on all tabs separately!
-        </p>
-      </b>
       <EmptyLine level="2" />
       <nav>
         <div
@@ -44,6 +39,17 @@ export function CourseEditingPage(props) {
           >
             Students
           </a>
+          <a
+            className="nav-item nav-link"
+            id="content-tab"
+            data-toggle="tab"
+            href="#content"
+            role="tab"
+            aria-controls="content"
+            aria-selected="false"
+          >
+            Course content
+          </a>
         </div>
       </nav>
       <div className="tab-content" id="nav-tabContent">
@@ -63,6 +69,17 @@ export function CourseEditingPage(props) {
           aria-labelledby="students-tab"
         >
           <CourseStudents courseId={props.match.params.course} />
+        </div>
+        <div
+          className="tab-pane fade"
+          id="content"
+          role="tabpanel"
+          aria-labelledby="content-tab"
+        >
+          <CourseContent
+            courseId={props.match.params.course}
+            changeTab={null}
+          />
         </div>
       </div>
     </div>

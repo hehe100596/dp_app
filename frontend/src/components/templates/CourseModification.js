@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Redirect } from "react-router";
 import { Formik } from "formik";
 import * as yup from "yup";
 
@@ -18,7 +17,7 @@ export const courseInfoSchema = yup.object().shape({
   length: yup.string().label("Length").required(),
 });
 
-export function CourseModification({ courseId }) {
+export function CourseModification({ courseId, changeTab }) {
   const auth = useAuth();
 
   const [course, setCourse] = useState({
@@ -33,7 +32,6 @@ export function CourseModification({ courseId }) {
 
   const [status, setStatus] = useState("loading");
   const [message, setMessage] = useState(null);
-  const [redirect, setRedirect] = useState(false);
 
   function saveCourseInfo(values) {
     setStatus("loading");
@@ -70,7 +68,7 @@ export function CourseModification({ courseId }) {
           withAccess: auth.token,
         })
         .then((res) => {
-          setRedirect(true);
+          changeTab(res.data.data);
         })
         .catch((err) => {
           setStatus("error");
@@ -97,8 +95,6 @@ export function CourseModification({ courseId }) {
         });
     else setStatus("idle");
   }, [courseId]);
-
-  if (redirect) return <Redirect push to="/my-courses" />;
 
   return (
     <div align="center">

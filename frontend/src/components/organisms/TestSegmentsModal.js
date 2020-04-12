@@ -98,7 +98,7 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
   };
 
   const closeSegmentModal = (isExit) => {
-    setStatus(null);
+    setStatus("loading");
     setMessage(null);
     setSegment(defaultSegment);
     setSegmentQuestion("");
@@ -209,7 +209,6 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
   useEffect(() => {
     if (segmentId) {
       if (segmentId !== "new") {
-        setStatus("loading");
         globalApiInstance
           .post(process.env.REACT_APP_BASE_API + "modules/getSegment", {
             moduleId: moduleId,
