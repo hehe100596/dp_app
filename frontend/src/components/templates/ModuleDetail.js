@@ -48,7 +48,7 @@ export function ModuleDetail({ moduleId, addPoints, changeTab }) {
     let parsedContent = "";
 
     contentToParse.forEach(function (entry) {
-      if (entry.sType === "HTML") {
+      if (entry.sType === "HTML" || entry.sType === "Embedded Media") {
         parsedContent += entry.data;
         parsedContent += "<br/>";
       } else if (entry.sType === "Short Answer") {

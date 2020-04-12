@@ -8,18 +8,16 @@ const DataSchema = new Schema(
     cat: String,
     level: String,
     length: String,
+    status: String,
     author: String,
     access: [String],
-    config: {
-      status: String
-    },
     content: [
       {
         modules: [String],
         resultPoints: Number,
-        unlockPoints: Number
-      }
-    ]
+        unlockPoints: Number,
+      },
+    ],
   },
   { timestamps: true }
 );
@@ -93,13 +91,23 @@ router.post("/getAccessibleCourses", (req, res) => {
 router.post("/createNewCourse", (req, res) => {
   let course = new Course();
 
-  const { name, org, cat, level, length, author, withAccess } = req.body;
+  const {
+    name,
+    org,
+    cat,
+    level,
+    length,
+    status,
+    author,
+    withAccess,
+  } = req.body;
 
   course.name = name;
   course.org = org;
   course.cat = cat;
   course.level = level;
   course.length = length;
+  course.status = status;
   course.author = author;
 
   course.access.push(withAccess);
@@ -112,12 +120,19 @@ router.post("/createNewCourse", (req, res) => {
 });
 
 router.post("/updateCourseInfo", (req, res) => {
-  const { courseId, name, org, cat, level, length } = req.body;
+  const { courseId, name, org, cat, level, length, status } = req.body;
 
   Course.updateOne(
     { _id: courseId },
-    { name: name, org: org, cat: cat, level: level, length: length },
-    err => {
+    {
+      name: name,
+      org: org,
+      cat: cat,
+      level: level,
+      length: length,
+      status: status,
+    },
+    (err) => {
       if (err) return res.json({ success: false, error: err });
 
       return res.json({ success: true });
@@ -129,14 +144,14 @@ router.post("/removeStudents", (req, res) => {
   const { course, selectedUsers } = req.body;
 
   let tokens = [];
-  selectedUsers.forEach(function(entry) {
+  selectedUsers.forEach(function (entry) {
     tokens.push(entry.token);
   });
 
   Course.updateOne(
     { _id: course },
     { $pull: { access: { $in: tokens } } },
-    err => {
+    (err) => {
       if (err) return res.json({ success: false, error: err });
 
       return res.json({ success: true });
@@ -147,7 +162,7 @@ router.post("/removeStudents", (req, res) => {
 router.post("/deleteCourses", (req, res) => {
   const { selectedCourses } = req.body;
 
-  Course.deleteMany({ _id: { $in: selectedCourses } }, err => {
+  Course.deleteMany({ _id: { $in: selectedCourses } }, (err) => {
     if (err) return res.send(err);
 
     return res.json({ success: true });

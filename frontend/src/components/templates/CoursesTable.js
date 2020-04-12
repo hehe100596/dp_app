@@ -32,37 +32,37 @@ export function CoursesTable({ isEditable, noCoursesMessage }) {
   useEffect(() => {
     globalApiInstance
       .post(process.env.REACT_APP_BASE_API + fetchCourses, {
-        user: fetchUser
+        user: fetchUser,
       })
-      .then(res => {
+      .then((res) => {
         setCourses(res.data.data);
         setStatus("success");
       })
-      .catch(err => {
+      .catch((err) => {
         setStatus("error");
         setMessage(err.message);
       });
   }, [fetchSignal, fetchCourses, fetchUser]);
 
-  const deleteCourses = rows => {
+  const deleteCourses = (rows) => {
     setStatus("loading");
 
     globalApiInstance
       .post(process.env.REACT_APP_BASE_API + "courses/deleteCourses", {
-        selectedCourses: rows
+        selectedCourses: rows,
       })
-      .then(res => {
+      .then((res) => {
         setMessage("Course(s) successfully deleted");
         setFetchSignal(!fetchSignal);
         setSelected(null);
       })
-      .catch(err => {
+      .catch((err) => {
         setStatus("error");
         setMessage(err.message);
       });
   };
 
-  const handleInvite = row => {
+  const handleInvite = (row) => {
     setStatus("idle");
     setInviteTo(row._id);
     setCourseName(row.name);
@@ -72,13 +72,13 @@ export function CoursesTable({ isEditable, noCoursesMessage }) {
     setInviteTo(null);
   };
 
-  const handleRemove = row => {
+  const handleRemove = (row) => {
     swal({
       title: "Do you want to delete this course?",
       text: "You are about to delete this course. Are you sure about it?",
       icon: "warning",
-      buttons: ["No", "Yes"]
-    }).then(function(isConfirm) {
+      buttons: ["No", "Yes"],
+    }).then(function (isConfirm) {
       if (isConfirm) {
         deleteCourses([row]);
       }
@@ -90,8 +90,8 @@ export function CoursesTable({ isEditable, noCoursesMessage }) {
       title: "Do you want to delete selection?",
       text: "You are about to delete these courses. Are you sure about it?",
       icon: "warning",
-      buttons: ["No", "Yes"]
-    }).then(function(isConfirm) {
+      buttons: ["No", "Yes"],
+    }).then(function (isConfirm) {
       if (isConfirm) {
         deleteCourses(selected);
       }
@@ -103,55 +103,55 @@ export function CoursesTable({ isEditable, noCoursesMessage }) {
       name: "Name",
       selector: "name",
       sortable: true,
-      wrap: true
+      wrap: true,
     },
     {
       name: "From",
       selector: "org",
       sortable: true,
-      wrap: true
+      wrap: true,
     },
     {
       name: "Category",
       selector: "cat",
       sortable: true,
-      wrap: true
+      wrap: true,
     },
     {
       name: "Level",
       selector: "level",
       sortable: true,
-      wrap: true
+      wrap: true,
     },
     {
       name: "Length",
       selector: "length",
       sortable: true,
-      wrap: true
+      wrap: true,
     },
     {
       name: "Author",
       selector: "author",
       sortable: true,
       omit: isEditable,
-      wrap: true
+      wrap: true,
     },
     {
       name: "Status",
-      selector: "config.status",
+      selector: "status",
       sortable: true,
-      wrap: true
+      wrap: true,
     },
     {
       name: "Actions",
-      cell: row => (
+      cell: (row) => (
         <div className="row">
           {isEditable ? (
             <div>
               <Button
                 variant="success"
                 className="ml-1 mr-1"
-                onClick={e => handleInvite(row)}
+                onClick={(e) => handleInvite(row)}
               >
                 <FontIcon icon="user-plus" />
               </Button>
@@ -163,12 +163,12 @@ export function CoursesTable({ isEditable, noCoursesMessage }) {
               <Button
                 variant="danger"
                 className="ml-1 mr-1"
-                onClick={e => handleRemove(row)}
+                onClick={(e) => handleRemove(row)}
               >
                 <FontIcon icon="trash-alt" />
               </Button>
             </div>
-          ) : row.config.status === "Active" ? (
+          ) : row.status === "Active" ? (
             <Link to={{ pathname: `/enter-course/${row._id}` }}>
               <Button variant="info" className="ml-1 mr-1">
                 <FontIcon icon="book-open" />
@@ -184,21 +184,21 @@ export function CoursesTable({ isEditable, noCoursesMessage }) {
       ignoreRowClick: true,
       allowOverflow: true,
       minWidth: isEditable ? "200px" : "100px",
-      button: true
-    }
+      button: true,
+    },
   ];
 
   const customStyle = {
     headCells: {
       style: {
-        fontSize: "16px"
-      }
+        fontSize: "16px",
+      },
     },
     cells: {
       style: {
-        fontSize: "14px"
-      }
-    }
+        fontSize: "14px",
+      },
+    },
   };
 
   return (
@@ -215,7 +215,7 @@ export function CoursesTable({ isEditable, noCoursesMessage }) {
           selectableRows={isEditable}
           subHeader={isEditable}
           subHeaderAlign="right"
-          onSelectedRowsChange={state => setSelected(state.selectedRows)}
+          onSelectedRowsChange={(state) => setSelected(state.selectedRows)}
           clearSelectedRows={fetchSignal}
           contextActions={
             <Button variant="danger" className="mr-3" onClick={handleRemoveAll}>
