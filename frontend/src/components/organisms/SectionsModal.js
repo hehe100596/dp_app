@@ -20,7 +20,8 @@ export const sectionSchema = yup.object().shape({
 export function SectionsModal({ sectionId, courseId, closeModal }) {
   const defaultSection = {
     name: "",
-    resultPoints: 0,
+    rewardMargin: 0,
+    rewardPoints: 0,
     unlockPoints: 0,
   };
 
@@ -138,10 +139,14 @@ export function SectionsModal({ sectionId, courseId, closeModal }) {
       return;
     }
 
+    let newRewardMargin =
+      modulePoints === 0 ? 0 : values.rewardPoints / modulePoints;
+
     let newSection = {
       name: values.name,
       modules: moduleIds,
-      resultPoints: values.resultPoints,
+      rewardMargin: newRewardMargin,
+      rewardPoints: modulePoints * newRewardMargin,
       unlockPoints: values.unlockPoints,
     };
 
@@ -267,7 +272,7 @@ export function SectionsModal({ sectionId, courseId, closeModal }) {
         <Formik
           initialValues={{
             name: section.name,
-            resultPoints: section.resultPoints,
+            rewardPoints: section.rewardPoints,
             unlockPoints: section.unlockPoints,
           }}
           onSubmit={(values, actions) => {
@@ -316,7 +321,7 @@ export function SectionsModal({ sectionId, courseId, closeModal }) {
                       type="text"
                       value={modulePoints}
                       style={{ width: "250px", height: "30px" }}
-                      name="resultPoints"
+                      name="modulePoints"
                       disabled
                     />
                   </div>
@@ -327,11 +332,11 @@ export function SectionsModal({ sectionId, courseId, closeModal }) {
                       type="number"
                       onChange={props.handleChange}
                       onBlur={props.handleBlur}
-                      value={props.values.resultPoints}
+                      value={props.values.rewardPoints}
                       min="0"
                       max="10000"
                       style={{ width: "250px", height: "30px" }}
-                      name="resultPoints"
+                      name="rewardPoints"
                     />
                   </div>
                 </div>

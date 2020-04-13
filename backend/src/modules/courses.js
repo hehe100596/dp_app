@@ -15,7 +15,8 @@ const DataSchema = new Schema(
       {
         name: String,
         modules: [String],
-        resultPoints: Number,
+        rewardMargin: Number,
+        rewardPoints: Number,
         unlockPoints: Number,
       },
     ],
@@ -172,9 +173,18 @@ router.post("/addNewSection", (req, res) => {
 router.post("/updateSection", (req, res) => {
   const { sectionId, courseId, section } = req.body;
 
+  let newSection = {
+    _id: sectionId,
+    name: section.name,
+    modules: section.modules,
+    rewardMargin: section.rewardMargin,
+    rewardPoints: section.rewardPoints,
+    unlockPoints: section.unlockPoints,
+  };
+
   Course.updateOne(
     { _id: courseId, "content._id": sectionId },
-    { $set: { "content.$": section } },
+    { $set: { "content.$": newSection } },
     (err) => {
       if (err) return res.json({ success: false, error: err });
 

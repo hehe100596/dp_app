@@ -11,6 +11,7 @@ import { ProfilePage } from "./components/pages/ProfilePage";
 import { CoursesPage } from "./components/pages/CoursesPage";
 import { ModulesPage } from "./components/pages/ModulesPage";
 import { CoursePage } from "./components/pages/CoursePage";
+import { SectionPage } from "./components/pages/SectionPage";
 import { ModulePage } from "./components/pages/ModulePage";
 import { CourseAddingPage } from "./components/pages/CourseAddingPage";
 import { ModuleAddingPage } from "./components/pages/ModuleAddingPage";
@@ -38,6 +39,11 @@ export const AppRoutes = () => (
           path="/enter-course/:course"
           exact
           component={CoursePage}
+        />
+        <PrivateRoute
+          path="/enter-course/:course/:section"
+          exact
+          component={SectionPage}
         />
         <PrivateRoute
           path="/enter-module/:module"

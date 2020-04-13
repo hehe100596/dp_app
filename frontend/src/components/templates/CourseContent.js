@@ -114,7 +114,7 @@ export function CourseContent({ courseId, changeTab }) {
     },
     {
       name: "Rewarded points",
-      selector: "resultPoints",
+      selector: "rewardPoints",
       sortable: true,
       wrap: true,
     },

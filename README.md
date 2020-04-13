@@ -12,10 +12,9 @@
 09. Vytvorenie a upravovanie základných informácií kurzu.
 10. Zobrazenie, mazanie a správa prístupu k modulom (cudzie i vlastné).
 11. Vytvorenie a upravovanie modulov (zatiaľ len pár základných a bez kopírovania).
-12. Vytvorenie a upravovanie sekcií v rámci kurzov (s bodovým systémom a pod.).
+12. Vytvorenie a upravovanie sekcií v rámci kurzov (zatiaľ bez mínusových bodov).
 
 ### In progress:
-
 13. Kompletný prechod vytvorenými kurzmi študentmi s prístupom.
 
 ### Todo:

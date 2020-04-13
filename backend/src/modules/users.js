@@ -11,7 +11,9 @@ const DataSchema = new Schema(
     name: String,
     pass: String,
     token: String,
-    progress: [{ course: String, points: Number }]
+    progress: [
+      { course: String, rewards: [{ section: String, points: Number }] },
+    ],
   },
   { timestamps: true }
 );
@@ -25,7 +27,7 @@ router.post("/getUser", async (req, res) => {
     if (err) return res.json({ success: false, error: err });
 
     if (data) {
-      bcrypt.compare(pass, data.pass, async function(err, ans) {
+      bcrypt.compare(pass, data.pass, async function (err, ans) {
         if (ans) {
           return res.json({ success: true, data: data });
         } else {
@@ -83,7 +85,7 @@ router.post("/createNewUser", async (req, res) => {
   user.pass = hashedPass;
   user.token = token;
 
-  user.save(err => {
+  user.save((err) => {
     if (err) return res.json({ success: false, error: err });
 
     const sgMail = require("@sendgrid/mail");
@@ -94,7 +96,7 @@ router.post("/createNewUser", async (req, res) => {
       subject: "Registration Complete",
       text:
         "You were successfully registered on DP App.\n" +
-        "If it was not you, contact us here: XXX"
+        "If it was not you, contact us here: XXX",
     };
     sgMail.send(msg);
 
@@ -107,7 +109,7 @@ router.post("/changePassword", async (req, res) => {
 
   const hashedPass = await bcrypt.hash(pass, 10);
 
-  User.updateOne({ token: token }, { pass: hashedPass }, err => {
+  User.updateOne({ token: token }, { pass: hashedPass }, (err) => {
     if (err) return res.json({ success: false, error: err });
 
     const sgMail = require("@sendgrid/mail");
@@ -118,7 +120,7 @@ router.post("/changePassword", async (req, res) => {
       subject: "Password Changed",
       text:
         "Your password was successfully changed on DP App.\n" +
-        "If it was not you who changed it, contact us here: XXX"
+        "If it was not you who changed it, contact us here: XXX",
     };
     sgMail.send(msg);
 
@@ -133,18 +135,18 @@ router.post("/deleteUser", (req, res) => {
   const courses = Course.updateMany(
     {},
     {
-      $pull: { access: token }
+      $pull: { access: token },
     }
   );
   const modules = Module.updateMany(
     {},
     {
-      $pull: { access: token }
+      $pull: { access: token },
     }
   );
 
   Promise.all([user, courses, modules])
-    .then(result => {
+    .then((result) => {
       const sgMail = require("@sendgrid/mail");
       sgMail.setApiKey(process.env.SENDGRID_API_KEY);
       const msg = {
@@ -153,13 +155,13 @@ router.post("/deleteUser", (req, res) => {
         subject: "Account Deleted",
         text:
           "Your account was successfully deleted from DP App.\n" +
-          "If it was not you who did it, contact us here: XXX"
+          "If it was not you who did it, contact us here: XXX",
       };
       sgMail.send(msg);
 
       return res.json({ success: true });
     })
-    .catch(err => {
+    .catch((err) => {
       return res.send(err);
     });
 });
