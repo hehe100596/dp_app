@@ -128,6 +128,39 @@ router.post("/changePassword", async (req, res) => {
   });
 });
 
+router.post("/saveProgress", async (req, res) => {
+  const { user, course, section, points } = req.body;
+
+  const newReward = {
+    section: section,
+    points: points,
+  };
+
+  User.updateOne(
+    {
+      token: user,
+      "progress.course": course,
+    },
+    { $pull: { "progress.$.rewards": { section: section } } },
+    (err) => {
+      if (err) return res.json({ success: false, error: err });
+
+      User.updateOne(
+        {
+          token: user,
+          "progress.course": course,
+        },
+        { $push: { "progress.$.rewards": newReward } },
+        (err) => {
+          if (err) return res.json({ success: false, error: err });
+
+          return res.json({ success: true });
+        }
+      );
+    }
+  );
+});
+
 router.post("/deleteUser", (req, res) => {
   const { mail, token } = req.body;
 

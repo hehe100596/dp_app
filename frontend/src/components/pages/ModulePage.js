@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 
+import { Heading } from "../atoms/Heading";
 import { Button } from "../atoms/Button";
 import { EmptyLine } from "../atoms/EmptyLine";
 import { ModuleDetail } from "../templates/ModuleDetail";
@@ -8,7 +9,7 @@ export function ModulePage(props) {
   const [points, setPoints] = useState(0);
   const [tab, setTab] = useState("module");
 
-  const addPoints = value => {
+  const addPoints = (value) => {
     setPoints(points + value);
   };
 
@@ -17,7 +18,7 @@ export function ModulePage(props) {
     changeTab("module");
   };
 
-  const changeTab = newTab => {
+  const changeTab = (newTab) => {
     setTab(newTab);
   };
 
@@ -31,10 +32,14 @@ export function ModulePage(props) {
         />
       ) : (
         <>
-          <b>You got {points} points!</b>
+          <Heading level="2">CONGRATULATIONS!</Heading>
+          <EmptyLine level="1" />
+          <p>
+            You got <b>{points}</b> point(s)!
+          </p>
           <EmptyLine level="2" />
           <Button
-            className={"btn btn-warning"}
+            className={"btn btn-info"}
             style={{ width: "200px" }}
             type="button"
             onClick={retry}

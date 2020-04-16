@@ -16,7 +16,7 @@ export function SectionView({ course, section, name, maxPoints, points }) {
       </p>
       <p className="text-danger">
         <b>
-          <i>* Your progress is not saved until you finish a whole section</i>
+          <i>* Your progress is not saved until you finish a section</i>
         </b>
         <br />
         {points > 0 ? (
