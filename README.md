@@ -1,54 +1,60 @@
-## FUNCTIONALITY:
+## PROGRESS
 
-### Done:
-01. Pridanie env a routovania (podľa projektu).
-02. Rozvetvenie backendu a frontendu (atomická štruktúra a pod.).
-03. Vytvorenie prihlasovania (zatiaľ bez integrácie Google alebo FB).
-04. Vytvorenie registrácie (zatiaľ bez možnosti zmeny hesla).
-05. Správa profilu a zmazanie užívateľa (zatiaľ bez profilových obrázkov, práv a pod.).
-06. Zobrazenie a mazanie kurzov (cudzích a vlastných).
-07. Vytvorenie a prijatie pozvánok (zatiaľ formou dočasného odkazu s presmerovaním).
-08. Správa študentov s prístupom k danému kurzu (stačí tabuľka v rámci upravovania kurzu).
-09. Vytvorenie a upravovanie základných informácií kurzu.
-10. Zobrazenie, mazanie a správa prístupu k modulom (cudzie i vlastné).
-11. Vytvorenie a upravovanie modulov (zatiaľ len pár základných a bez kopírovania).
-12. Vytvorenie a upravovanie sekcií v rámci kurzov (zatiaľ bez mínusových bodov).
-13. Kompletný prechod vytvorenými kurzmi študentmi s prístupom.
+### MVP - finished:
+- Pridanie env a routovania (podľa projektu).
+- Rozvetvenie backendu a frontendu (atomická štruktúra a pod.).
+- Vytvorenie prihlasovania (zatiaľ bez integrácie Google alebo FB).
+- Vytvorenie registrácie (zatiaľ bez možnosti zmeny hesla).
+- Správa profilu a zmazanie užívateľa (zatiaľ bez profilových obrázkov, práv a pod.).
+- Zobrazenie a mazanie kurzov (cudzích a vlastných).
+- Vytvorenie a prijatie pozvánok (zatiaľ formou dočasného odkazu s presmerovaním).
+- Správa študentov s prístupom k danému kurzu (stačí tabuľka v rámci upravovania kurzu).
+- Vytvorenie a upravovanie základných informácií kurzu.
+- Zobrazenie, mazanie a správa prístupu k modulom (cudzie i vlastné).
+- Vytvorenie a upravovanie modulov (zatiaľ len pár základných a bez kopírovania).
+- Vytvorenie a upravovanie sekcií v rámci kurzov (zatiaľ bez mínusových bodov).
+- Kompletný prechod vytvorenými kurzmi študentmi s prístupom.
 
-### In progress:
+### Finalization - in progress:
+- Pridanie základných informácií o aplikácií na prihlasovaciu stránku.
+- Nahradenie aktuálnej domovskej stránky za základný dashboard.
+- Doriešenie prepočtu bodovacieho marginu v prípade, že za modul nie je možné nič získať.
+- Pridanie možnosti obdržania mínusových bodov v sekcii za nedostatočný bodový zisk.
+- Upravenie všetkých dvojstĺpcových formulárov na jednostĺpcové.
+- Premenovanie a doplnenie dostatočne jasných poznámok k poliam formulárov.
+- Premenovanie určitých prvkov (Embedded Media, Length, Answer a všetky testovacie segmmenty).
+- Zakázanie alebo upravenie kroku naspäť pri editácii alebo vytváraní modulov či kurzov.
+- Doplnenie výzvy na uloženie informácií v rámci modulov či kurzov pri prechode na iný tab.
+- Pridanie výberu z viacerých režimov timerov v rámci modulov (smer, focus, atď.).
+- Úprava vzhľadu modulov (fixná šírka, presunutie timeru doprava hore, zarovnanie vľavo, atď.).
+- Presunutie šípiek na zmenu poradia segmentov doprava k sebe (alebo vysvetliť v texte práce).
+- Zmenenie pluska u pridávania v rámci modálov na širšie tlačidlo s popiskom "Insert".
+- Pridanie možnosti poskytovania prístupu ku kurzom i rovnakou metódou ako u modulov.
+- Doriešenie problémov s CKEditorom a jeho využitie i v rámci otázok segmentov.
+- Pridanie viacerých možných odpovedí v textových testovacích segmentoch.
+- Nastavenie voliteľnosti miešania poradia možností v testovacích segmentoch.
+- Pridanie vysvetlenia k spôsobu prepočítavania bodov medzi modulmi a sekciami.
+- Pridanie možnosti zmeny poradia vybraných modulov v rámci sekcie.
+- Zmena zobrazovania sekcií (nech sú všetky viditeľné hneď, ale nedostupné ako disabled).
+- Pridanie univerzálneho pogratulovania k ukončeniu kurzu (prípadne i s certifikátom).
+- Doplnenie ošetrovania validity vstupov i na backende (alebo aspoň znemožnenie ich poslania).
+- Deploynutie aplikácie (frontend i backend) pre potreby testovania.
+- Značné refaktorovanie a optimalizovanie kódu.
 
-### Todo:
-14. Rozšírenie možností vyhodnocovania.
-15. Rozšírenie možností prechodov kurzmi (vrátane ukončovania).
-16. Pridanie možnosti poskytnutia spätnej väzby a odmien majiteľom kurzu.
-17. Pridanie priebežného zobrazenia náhľadu na kurz.
-18. Sprístupnenie časti aplikácie v offline režime (sťahovanie a nahrávanie).
-...
+### Finalization - finished:
+- ...
 
-
-## DESIGN:
-
-### Done:
-
-### In progress:
-
-### Todo:
-01. Prihlasovanie
-02. Registrácia
-03. Profil
-04. Prehľad cudzích kurzov
-05. Prehľad vlastných kurzov
-06. Stránky pre vytváranie a úpravy kurzu.
-07. Náhľad na zloženie kurzu (pluská s možnosťou pridania al. odobratia modulov).
-08. Stránky pre vytváranie a úpravy modulu.
-09. Náhľad na zloženie modulu (rôzne prvky).
-10. Správa pozvánok do kurzov.
-11. Stránka pre akceptovanie pozvánky (s presmerovaním).
-12. Stránky pre nastavenie vyhodnocovania a prechodu.
-13. Základný prechod kurzmi.
-14. Notifikácie ohľadom prechodu.
-15. Stránka s certifikátom / pogratulovaním k úspešnému ukončeniu.
-16. Stránky pre správu a vkladanie spätnej väzby.
-17. Stránka priebežného zobrazenia náhľadu na kurz.
-18. Stránky pre stiahnutie kurzov v rámci spúšťania v offline režime.
-...
+### Out of scope:
+- Upravenie spôsobu zobrazovania a výberu modulov v rámci sekcií.
+- Pridanie možnosti blokovania užívateľov v rámci kurzov (nie iba mazanie).
+- Pridanie možnosti registrácie a prihlasovania cez Google alebo FB.
+- Pridanie obnovy hesla a doplnenie profilu (napríklad o avatar).
+- Pridanie možnosti kopírovania kurzov, modulov, sekcií a segmentov.
+- Rozšírenie typov modulov a segmentov (testovacích, informačných i podporných).
+- Doplnenie posudzovania správnosti odpovedí cez regulárne výrazy a pod.
+- Rozšírenie možností vyhodnocovania testovacích modulov i samotných kurzov.
+- Rozšírenie možností prechodov kurzmi (vrátane ukončovania).
+- Doplnenie funkcionality podporujúcej komunikáciu a poskytovanie spätnej väzby.
+- Sprístupnenie časti aplikácie v offline režime (sťahovanie a nahrávanie).
+- Kompletné prepracovanie grafických prvkov aplikácie.
+- Lokalizovanie do viacerých jazykov.
