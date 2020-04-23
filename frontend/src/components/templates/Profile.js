@@ -14,10 +14,7 @@ import { ErrorMessage } from "../molecules/ErrorMessage";
 import { ServerStatus } from "../organisms/ServerStatus";
 
 export const changePassSchema = yup.object().shape({
-  old: yup
-    .string()
-    .label("Old password")
-    .required(),
+  old: yup.string().label("Old password").required(),
   new: yup
     .string()
     .label("New password")
@@ -28,7 +25,7 @@ export const changePassSchema = yup.object().shape({
     .string()
     .label("New password confirmation")
     .required()
-    .oneOf([yup.ref("new"), null], "Passwords must match")
+    .oneOf([yup.ref("new"), null], "Passwords must match"),
 });
 
 export function Profile() {
@@ -43,19 +40,19 @@ export function Profile() {
       title: "Do you want to delete this account?",
       text: "You are about to delete your account. Are you sure about it?",
       icon: "warning",
-      buttons: ["No", "Yes"]
-    }).then(function(isConfirm) {
+      buttons: ["No", "Yes"],
+    }).then(function (isConfirm) {
       if (isConfirm) {
         setStatus("loading");
         globalApiInstance
           .post(process.env.REACT_APP_BASE_API + "users/deleteUser", {
             mail: auth.user,
-            token: auth.token
+            token: auth.token,
           })
-          .then(res => {
+          .then((res) => {
             auth.signout();
           })
-          .catch(err => {
+          .catch((err) => {
             setStatus("error");
             setMessage(err.message);
           });
@@ -69,13 +66,13 @@ export function Profile() {
       .post(process.env.REACT_APP_BASE_API + "users/changePassword", {
         mail: auth.user,
         token: auth.token,
-        pass: values.new
+        pass: values.new,
       })
-      .then(res => {
+      .then((res) => {
         setStatus("success");
         setMessage("Password was successfully changed");
       })
-      .catch(err => {
+      .catch((err) => {
         setStatus("error");
         setMessage(err.message);
       });
@@ -87,9 +84,9 @@ export function Profile() {
     globalApiInstance
       .post(process.env.REACT_APP_BASE_API + "users/getUserToken", {
         mail: auth.user,
-        pass: values.old
+        pass: values.old,
       })
-      .then(res => {
+      .then((res) => {
         if (res.data.data) {
           changePassword(values);
         } else {
@@ -97,7 +94,7 @@ export function Profile() {
           setMessage("Old password is incorrect");
         }
       })
-      .catch(err => {
+      .catch((err) => {
         setStatus("error");
         setMessage(err.message);
       });
@@ -113,14 +110,14 @@ export function Profile() {
           profile: auth.profile,
           old: "",
           new: "",
-          new2: ""
+          new2: "",
         }}
         onSubmit={(values, actions) => {
           validatePassword(values);
         }}
         validationSchema={changePassSchema}
       >
-        {props => (
+        {(props) => (
           <form onSubmit={props.handleSubmit}>
             <div className="container">
               <div className="row justify-content-center">
@@ -183,7 +180,7 @@ export function Profile() {
                   </div>
                 </div>
               </div>
-              <EmptyLine level="1" />
+              <EmptyLine level="2" />
               <div className="row">
                 <div className="col">
                   <Button

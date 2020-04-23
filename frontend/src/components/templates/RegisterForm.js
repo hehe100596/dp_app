@@ -11,15 +11,8 @@ import { ErrorMessage } from "../molecules/ErrorMessage";
 import { ServerStatus } from "../organisms/ServerStatus";
 
 export const registerSchema = yup.object().shape({
-  mail: yup
-    .string()
-    .label("E-mail")
-    .email()
-    .required(),
-  name: yup
-    .string()
-    .label("Name")
-    .required(),
+  mail: yup.string().label("E-mail").email().required(),
+  name: yup.string().label("Name").required(),
   pass: yup
     .string()
     .label("Password")
@@ -29,7 +22,7 @@ export const registerSchema = yup.object().shape({
     .string()
     .label("Password confirmation")
     .required()
-    .oneOf([yup.ref("pass"), null], "Passwords must match")
+    .oneOf([yup.ref("pass"), null], "Passwords must match"),
 });
 
 export function RegisterForm() {
@@ -44,13 +37,13 @@ export function RegisterForm() {
       .post(process.env.REACT_APP_BASE_API + "users/createNewUser", {
         mail: values.mail,
         name: values.name,
-        pass: values.pass
+        pass: values.pass,
       })
-      .then(res => {
+      .then((res) => {
         setStatus("success");
         setMessage("Registration complete, you can sign in now");
       })
-      .catch(err => {
+      .catch((err) => {
         setStatus("error");
         setMessage(err.message);
       });
@@ -61,9 +54,9 @@ export function RegisterForm() {
     setStatus("loading");
     globalApiInstance
       .post(process.env.REACT_APP_BASE_API + "users/getUserMail", {
-        mail: values.mail
+        mail: values.mail,
       })
-      .then(res => {
+      .then((res) => {
         if (res.data.data) {
           setStatus("error");
           setMessage("E-mail is already in use, try again");
@@ -71,7 +64,7 @@ export function RegisterForm() {
           register(values);
         }
       })
-      .catch(err => {
+      .catch((err) => {
         setStatus("error");
         setMessage(err.message);
       });
@@ -87,48 +80,53 @@ export function RegisterForm() {
         }}
         validationSchema={registerSchema}
       >
-        {props => (
+        {(props) => (
           <form onSubmit={props.handleSubmit}>
             <EmptyLine level="1" />
-            <input
-              type="text"
-              onChange={props.handleChange}
-              onBlur={props.handleBlur}
-              value={props.values.mail}
-              style={{ width: "300px" }}
-              placeholder="e-mail"
-              name="mail"
-            />
-            <EmptyLine level="1" />
-            <input
-              type="text"
-              onChange={props.handleChange}
-              onBlur={props.handleBlur}
-              value={props.values.name}
-              style={{ width: "300px" }}
-              placeholder="name"
-              name="name"
-            />
-            <EmptyLine level="1" />
-            <input
-              type="password"
-              onChange={props.handleChange}
-              onBlur={props.handleBlur}
-              value={props.values.pass}
-              style={{ width: "300px" }}
-              placeholder="password"
-              name="pass"
-            />
-            <EmptyLine level="1" />
-            <input
-              type="password"
-              onChange={props.handleChange}
-              onBlur={props.handleBlur}
-              value={props.values.pass2}
-              style={{ width: "300px" }}
-              placeholder="confirm password"
-              name="pass2"
-            />
+            <div>
+              <input
+                type="text"
+                onChange={props.handleChange}
+                onBlur={props.handleBlur}
+                value={props.values.mail}
+                style={{ width: "300px" }}
+                placeholder="e-mail"
+                name="mail"
+              />
+            </div>
+            <div className="mt-2">
+              <input
+                type="text"
+                onChange={props.handleChange}
+                onBlur={props.handleBlur}
+                value={props.values.name}
+                style={{ width: "300px" }}
+                placeholder="name"
+                name="name"
+              />
+            </div>
+            <div className="mt-2">
+              <input
+                type="password"
+                onChange={props.handleChange}
+                onBlur={props.handleBlur}
+                value={props.values.pass}
+                style={{ width: "300px" }}
+                placeholder="password"
+                name="pass"
+              />
+            </div>
+            <div className="mt-2">
+              <input
+                type="password"
+                onChange={props.handleChange}
+                onBlur={props.handleBlur}
+                value={props.values.pass2}
+                style={{ width: "300px" }}
+                placeholder="confirm password"
+                name="pass2"
+              />
+            </div>
             <EmptyLine level="2" />
             <Button
               className={"btn btn-success mr-2"}

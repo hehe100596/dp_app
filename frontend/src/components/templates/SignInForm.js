@@ -12,15 +12,8 @@ import { ErrorMessage } from "../molecules/ErrorMessage";
 import { ServerStatus } from "../organisms/ServerStatus";
 
 export const signInSchema = yup.object().shape({
-  mail: yup
-    .string()
-    .label("E-mail")
-    .email()
-    .required(),
-  pass: yup
-    .string()
-    .label("Password")
-    .required()
+  mail: yup.string().label("E-mail").email().required(),
+  pass: yup.string().label("Password").required(),
 });
 
 export function SignInForm() {
@@ -33,22 +26,22 @@ export function SignInForm() {
     globalApiInstance
       .post(process.env.REACT_APP_BASE_API + "users/getUser", {
         mail: values.mail,
-        pass: values.pass
+        pass: values.pass,
       })
-      .then(res => {
+      .then((res) => {
         if (res.data.data) {
           setStatus("idle");
           auth.signin({
             token: res.data.data.token,
             user: values.mail,
-            profile: res.data.data.name
+            profile: res.data.data.name,
           });
         } else {
           setStatus("error");
           setMessage("Incorrect e-mail or password");
         }
       })
-      .catch(err => {
+      .catch((err) => {
         setStatus("error");
         setMessage(err.message);
       });
@@ -64,28 +57,31 @@ export function SignInForm() {
         }}
         validationSchema={signInSchema}
       >
-        {props => (
+        {(props) => (
           <form onSubmit={props.handleSubmit}>
             <EmptyLine level="1" />
-            <input
-              type="text"
-              onChange={props.handleChange}
-              onBlur={props.handleBlur}
-              value={props.values.mail}
-              style={{ width: "300px" }}
-              placeholder="e-mail"
-              name="mail"
-            />
-            <EmptyLine level="1" />
-            <input
-              type="password"
-              onChange={props.handleChange}
-              onBlur={props.handleBlur}
-              value={props.values.pass}
-              style={{ width: "300px" }}
-              placeholder="password"
-              name="pass"
-            />
+            <div>
+              <input
+                type="text"
+                onChange={props.handleChange}
+                onBlur={props.handleBlur}
+                value={props.values.mail}
+                style={{ width: "300px" }}
+                placeholder="e-mail"
+                name="mail"
+              />
+            </div>
+            <div className="mt-2">
+              <input
+                type="password"
+                onChange={props.handleChange}
+                onBlur={props.handleBlur}
+                value={props.values.pass}
+                style={{ width: "300px" }}
+                placeholder="password"
+                name="pass"
+              />
+            </div>
             <EmptyLine level="2" />
             <Button
               className={"btn btn-success mr-2"}

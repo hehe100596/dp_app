@@ -38,17 +38,17 @@ export const TopNavBar = ({ isPrivate }) => {
               <ul className="navbar-nav mr-auto">
                 <li className="nav-item">
                   <Link className="nav-link" to={"/"}>
-                    <b>Home</b>
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to={"/courses"}>
-                    <b>Courses</b>
+                    <b>Get Started</b>
                   </Link>
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" to={"/modules"}>
                     <b>Modules</b>
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to={"/courses"}>
+                    <b>Courses</b>
                   </Link>
                 </li>
               </ul>
@@ -77,11 +77,11 @@ export const TopNavBar = ({ isPrivate }) => {
                     <Link className="dropdown-item" to={"/profile"}>
                       My profile
                     </Link>
-                    <Link className="dropdown-item" to={"/my-courses"}>
-                      My courses
-                    </Link>
                     <Link className="dropdown-item" to={"/my-modules"}>
                       My modules
+                    </Link>
+                    <Link className="dropdown-item" to={"/my-courses"}>
+                      My courses
                     </Link>
                   </div>
                 </li>

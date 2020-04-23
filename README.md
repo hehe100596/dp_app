@@ -16,8 +16,6 @@
 - Kompletný prechod vytvorenými kurzmi študentmi s prístupom.
 
 ### Finalization - in progress:
-- Pridanie základných informácií o aplikácií na prihlasovaciu stránku.
-- Nahradenie aktuálnej domovskej stránky za základný dashboard.
 - Doriešenie prepočtu bodovacieho marginu v prípade, že za modul nie je možné nič získať.
 - Pridanie možnosti obdržania mínusových bodov v sekcii za nedostatočný bodový zisk.
 - Upravenie všetkých dvojstĺpcových formulárov na jednostĺpcové.
@@ -42,7 +40,8 @@
 - Značné refaktorovanie a optimalizovanie kódu.
 
 ### Finalization - finished:
-- ...
+- Pridanie základných informácií o aplikácií na prihlasovaciu stránku.
+- Nahradenie aktuálnej domovskej stránky za základný dashboard alebo prehľad či manuál.
 
 ### Out of scope:
 - Upravenie spôsobu zobrazovania a výberu modulov v rámci sekcií.
