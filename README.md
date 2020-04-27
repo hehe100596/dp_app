@@ -22,13 +22,11 @@
 - Doplnenie výzvy na uloženie informácií v rámci modulov či kurzov pri prechode na iný tab.
 - Pridanie výberu z viacerých režimov timerov v rámci modulov (smer, focus, atď.).
 - Úprava vzhľadu modulov (fixná šírka, presunutie timeru doprava hore, zarovnanie vľavo, atď.).
-- Pridanie možnosti poskytovania prístupu ku kurzom i rovnakou metódou ako u modulov.
 - Doriešenie problémov s CKEditorom a jeho využitie i v rámci otázok segmentov.
 - Pridanie viacerých možných odpovedí v textových testovacích segmentoch.
 - Nastavenie voliteľnosti miešania poradia možností v testovacích segmentoch.
 - Pridanie vysvetlenia k spôsobu prepočítavania bodov medzi modulmi a sekciami.
 - Pridanie možnosti zmeny poradia vybraných modulov v rámci sekcie.
-- Zmena zobrazovania sekcií (nech sú všetky viditeľné hneď, ale nedostupné ako disabled).
 - Pridanie univerzálneho pogratulovania k ukončeniu kurzu (prípadne i s certifikátom).
 - Doplnenie ošetrovania validity vstupov i na backende (alebo aspoň znemožnenie ich poslania).
 - Deploynutie aplikácie (frontend i backend) pre potreby testovania.
@@ -43,6 +41,8 @@
 - Zmenenie pluska u pridávania v rámci modálov na širšie tlačidlo s popiskom "Insert".
 - Presunutie šípiek na zmenu poradia segmentov doprava k sebe (alebo vysvetliť v texte práce).
 - Premenovanie určitých prvkov (Embedded Media, Length, Answer a všetky testovacie segmmenty).
+- Pridanie možnosti poskytovania prístupu ku kurzom i rovnakou metódou ako u modulov.
+- Zmena zobrazovania sekcií (nech sú všetky viditeľné hneď, ale nedostupné ako disabled).
 
 ### Out of scope:
 - Upravenie spôsobu zobrazovania a výberu modulov v rámci sekcií.

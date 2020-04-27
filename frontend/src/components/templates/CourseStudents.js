@@ -13,6 +13,7 @@ import { ServerStatus } from "../organisms/ServerStatus";
 export function CourseStudents({ courseId }) {
   const [fetchSignal, setFetchSignal] = useState(false);
   const [selected, setSelected] = useState(null);
+  const [student, setStudent] = useState("");
   const [students, setStudents] = useState([]);
 
   const [status, setStatus] = useState("loading");
@@ -122,6 +123,50 @@ export function CourseStudents({ courseId }) {
     });
   };
 
+  const addStudent = () => {
+    setStatus("loading");
+
+    if (!student) {
+      setStatus("error");
+      setMessage("E-mail of the student to be added is a required field");
+    } else if (student === auth.user) {
+      setStatus("error");
+      setMessage("You already have access to this module");
+    } else if (students.find((obj) => obj.mail === student)) {
+      setStatus("error");
+      setMessage("User with this e-mail already has access to this module");
+    } else {
+      globalApiInstance
+        .post(process.env.REACT_APP_BASE_API + "users/getUserToken", {
+          mail: student,
+        })
+        .then((res) => {
+          if (res.data.data) {
+            globalApiInstance
+              .post(process.env.REACT_APP_BASE_API + "courses/giveAccess", {
+                course: courseId,
+                user: res.data.data.token,
+              })
+              .then((res) => {
+                setMessage("Student successfully added");
+                setFetchSignal(!fetchSignal);
+              })
+              .catch((err) => {
+                setStatus("error");
+                setMessage(err.message);
+              });
+          } else {
+            setStatus("error");
+            setMessage("Student with this e-mail does not exist");
+          }
+        })
+        .catch((err) => {
+          setStatus("error");
+          setMessage(err.message);
+        });
+    }
+  };
+
   const columns = [
     {
       name: "Name",
@@ -184,6 +229,8 @@ export function CourseStudents({ courseId }) {
           pagination
           noDataComponent={"No users have access to this course"}
           selectableRows
+          subHeader
+          subHeaderAlign="right"
           onSelectedRowsChange={(state) => setSelected(state.selectedRows)}
           clearSelectedRows={fetchSignal}
           contextActions={
@@ -191,6 +238,22 @@ export function CourseStudents({ courseId }) {
               <FontIcon icon="user-slash" />
               <b> Remove</b>
             </Button>
+          }
+          subHeaderComponent={
+            <>
+              <input
+                type="text"
+                className="mr-3"
+                style={{ width: "250px", height: "30px" }}
+                placeholder="e-mail of the student to be added"
+                value={student}
+                onChange={(e) => setStudent(e.target.value)}
+              />
+              <Button variant="success" className="mr-3" onClick={addStudent}>
+                <FontIcon icon="user-plus" />
+                <b> Add student</b>
+              </Button>
+            </>
           }
         />
       </div>

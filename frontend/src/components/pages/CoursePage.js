@@ -12,7 +12,8 @@ export function CoursePage(props) {
   const [rewards, setRewards] = useState([]);
   const [name, setName] = useState("COURSE");
   const [counter, setCounter] = useState(0);
-  const [sections, setSections] = useState([]);
+  const [allSections, setAllSections] = useState([]);
+  const [sections, setSections] = useState(0);
 
   const [status, setStatus] = useState("loading");
   const [message, setMessage] = useState(null);
@@ -30,6 +31,7 @@ export function CoursePage(props) {
           let coursePoints = 0;
           let courseRewards = [];
           let courseContent = [];
+          let unlockedSections = 0;
 
           if (user.progress && user.progress.length > 0) {
             let progress = user.progress.find(
@@ -55,8 +57,9 @@ export function CoursePage(props) {
                 if (course.content && course.content.length > 0) {
                   course.content.forEach(function (entry) {
                     if (coursePoints >= entry.unlockPoints) {
-                      courseContent.push(entry);
+                      unlockedSections++;
                     }
+                    courseContent.push(entry);
                   });
                 }
 
@@ -71,7 +74,8 @@ export function CoursePage(props) {
                 setRewards(courseRewards);
                 setName(course.name);
                 setCounter(course.content.length);
-                setSections(courseContent);
+                setSections(unlockedSections);
+                setAllSections(courseContent);
                 setStatus("success");
               }
             })
@@ -113,11 +117,16 @@ export function CoursePage(props) {
           role="tablist"
           aria-orientation="vertical"
         >
-          {sections.map((section, i) => (
+          {allSections.map((section, i) => (
             <a
               key={i}
               className={
-                "nav-link" + (i === sections.length - 1 ? " active" : "")
+                "nav-link" +
+                (i === sections - 1
+                  ? " active"
+                  : i >= sections
+                  ? " disabled"
+                  : "")
               }
               id={i + "-tab"}
               data-toggle="pill"
@@ -131,12 +140,11 @@ export function CoursePage(props) {
           ))}
         </div>
         <div className="col-9 border tab-content" id="v-pills-tabContent">
-          {sections.map((section, i) => (
+          {allSections.map((section, i) => (
             <div
               key={i}
               className={
-                "tab-pane fade" +
-                (i === sections.length - 1 ? " show active" : "")
+                "tab-pane fade" + (i === sections - 1 ? " show active" : "")
               }
               id={"tab" + i}
               role="tabpanel"

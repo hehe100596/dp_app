@@ -166,7 +166,7 @@ export function CourseModification({ courseId, changeTab }) {
                   value={props.values.length}
                   style={{ width: "300px", height: "30px" }}
                   name="length"
-                  placeholder="length"
+                  placeholder="duration"
                 />
               </div>
               <div className="col mb-4">

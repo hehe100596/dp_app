@@ -146,7 +146,7 @@ export function SectionsModal({ sectionId, courseId, closeModal }) {
       name: values.name,
       modules: moduleIds,
       rewardMargin: newRewardMargin,
-      rewardPoints: modulePoints * newRewardMargin,
+      rewardPoints: values.rewardPoints,
       unlockPoints: values.unlockPoints,
     };
 
