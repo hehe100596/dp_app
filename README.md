@@ -16,9 +16,7 @@
 - Kompletný prechod vytvorenými kurzmi študentmi s prístupom.
 
 ### Finalization - in progress:
-- Doriešenie prepočtu bodovacieho marginu v prípade, že za modul nie je možné nič získať.
 - Pridanie možnosti obdržania mínusových bodov v sekcii za nedostatočný bodový zisk.
-- Upravenie všetkých dvojstĺpcových formulárov na jednostĺpcové.
 - Premenovanie a doplnenie dostatočne jasných poznámok k poliam formulárov.
 - Premenovanie určitých prvkov (Embedded Media, Length, Answer a všetky testovacie segmmenty).
 - Zakázanie alebo upravenie kroku naspäť pri editácii alebo vytváraní modulov či kurzov.
@@ -26,7 +24,6 @@
 - Pridanie výberu z viacerých režimov timerov v rámci modulov (smer, focus, atď.).
 - Úprava vzhľadu modulov (fixná šírka, presunutie timeru doprava hore, zarovnanie vľavo, atď.).
 - Presunutie šípiek na zmenu poradia segmentov doprava k sebe (alebo vysvetliť v texte práce).
-- Zmenenie pluska u pridávania v rámci modálov na širšie tlačidlo s popiskom "Insert".
 - Pridanie možnosti poskytovania prístupu ku kurzom i rovnakou metódou ako u modulov.
 - Doriešenie problémov s CKEditorom a jeho využitie i v rámci otázok segmentov.
 - Pridanie viacerých možných odpovedí v textových testovacích segmentoch.
@@ -42,6 +39,10 @@
 ### Finalization - finished:
 - Pridanie základných informácií o aplikácií na prihlasovaciu stránku.
 - Nahradenie aktuálnej domovskej stránky za základný dashboard alebo prehľad či manuál.
+- Oprava ukladania postupu v kurze v prípade, že ešte doposiaľ nezapočal.
+- Doriešenie prepočtu bodovacieho marginu v prípade, že za modul nie je možné nič získať.
+- Upravenie dvojstĺpcových formulárov na jednostĺpcové (až na modály, kde by to vyzeralo strašne).
+- Zmenenie pluska u pridávania v rámci modálov na širšie tlačidlo s popiskom "Insert".
 
 ### Out of scope:
 - Upravenie spôsobu zobrazovania a výberu modulov v rámci sekcií.

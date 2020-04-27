@@ -136,27 +136,51 @@ router.post("/saveProgress", async (req, res) => {
     points: points,
   };
 
-  User.updateOne(
+  User.findOne(
     {
       token: user,
       "progress.course": course,
     },
-    { $pull: { "progress.$.rewards": { section: section } } },
-    (err) => {
+    (err, data) => {
       if (err) return res.json({ success: false, error: err });
 
-      User.updateOne(
-        {
-          token: user,
-          "progress.course": course,
-        },
-        { $push: { "progress.$.rewards": newReward } },
-        (err) => {
-          if (err) return res.json({ success: false, error: err });
+      if (data) {
+        User.updateOne(
+          {
+            token: user,
+            "progress.course": course,
+          },
+          { $pull: { "progress.$.rewards": { section: section } } },
+          (err) => {
+            if (err) return res.json({ success: false, error: err });
 
-          return res.json({ success: true });
-        }
-      );
+            User.updateOne(
+              {
+                token: user,
+                "progress.course": course,
+              },
+              { $push: { "progress.$.rewards": newReward } },
+              (err) => {
+                if (err) return res.json({ success: false, error: err });
+
+                return res.json({ success: true });
+              }
+            );
+          }
+        );
+      } else {
+        User.updateOne(
+          {
+            token: user,
+          },
+          { $push: { progress: { course: course, rewards: [newReward] } } },
+          (err) => {
+            if (err) return res.json({ success: false, error: err });
+
+            return res.json({ success: true });
+          }
+        );
+      }
     }
   );
 });

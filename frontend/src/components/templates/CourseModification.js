@@ -117,93 +117,87 @@ export function CourseModification({ courseId, changeTab }) {
         {(props) => (
           <form onSubmit={props.handleSubmit}>
             <div className="container">
-              <div className="row w-75">
-                <div className="col mb-4">
-                  <b>Name</b>
-                  <br />
-                  <input
-                    type="text"
-                    onChange={props.handleChange}
-                    onBlur={props.handleBlur}
-                    value={props.values.name}
-                    style={{ width: "300px", height: "30px" }}
-                    name="name"
-                    placeholder="name"
-                  />
-                </div>
-                <div className="col mb-4">
-                  <b>Organizator</b>
-                  <br />
-                  <input
-                    type="text"
-                    onChange={props.handleChange}
-                    onBlur={props.handleBlur}
-                    value={props.values.org}
-                    style={{ width: "300px", height: "30px" }}
-                    name="org"
-                    placeholder="organizator"
-                  />
-                </div>
+              <div className="col mb-4">
+                <b>Name</b>
+                <br />
+                <input
+                  type="text"
+                  onChange={props.handleChange}
+                  onBlur={props.handleBlur}
+                  value={props.values.name}
+                  style={{ width: "300px", height: "30px" }}
+                  name="name"
+                  placeholder="name"
+                />
               </div>
-              <div className="row w-75">
-                <div className="col mb-4">
-                  <b>Category</b>
-                  <br />
-                  <input
-                    type="text"
-                    onChange={props.handleChange}
-                    onBlur={props.handleBlur}
-                    value={props.values.cat}
-                    style={{ width: "300px", height: "30px" }}
-                    name="cat"
-                    placeholder="category"
-                  />
-                </div>
-                <div className="col mb-4">
-                  <b>Length</b>
-                  <br />
-                  <input
-                    type="text"
-                    onChange={props.handleChange}
-                    onBlur={props.handleBlur}
-                    value={props.values.length}
-                    style={{ width: "300px", height: "30px" }}
-                    name="length"
-                    placeholder="length"
-                  />
-                </div>
+              <div className="col mb-4">
+                <b>Organizator</b>
+                <br />
+                <input
+                  type="text"
+                  onChange={props.handleChange}
+                  onBlur={props.handleBlur}
+                  value={props.values.org}
+                  style={{ width: "300px", height: "30px" }}
+                  name="org"
+                  placeholder="organizator"
+                />
               </div>
-              <div className="row w-75">
-                <div className="col mb-4">
-                  <b>Level</b>
-                  <br />
-                  <select
-                    onChange={props.handleChange}
-                    onBlur={props.handleBlur}
-                    value={props.values.level}
-                    style={{ width: "300px", height: "30px" }}
-                    name="level"
-                  >
-                    <option value="Beginner">Beginner</option>
-                    <option value="Elementary">Elementary</option>
-                    <option value="Intermediate">Intermediate</option>
-                    <option value="Advanced">Advanced</option>
-                  </select>
-                </div>
-                <div className="col mb-4">
-                  <b>Status</b>
-                  <br />
-                  <select
-                    onChange={props.handleChange}
-                    onBlur={props.handleBlur}
-                    value={props.values.status}
-                    style={{ width: "300px", height: "30px" }}
-                    name="status"
-                  >
-                    <option value="Active">Active</option>
-                    <option value="Inactive">Inactive</option>
-                  </select>
-                </div>
+              <div className="col mb-4">
+                <b>Category</b>
+                <br />
+                <input
+                  type="text"
+                  onChange={props.handleChange}
+                  onBlur={props.handleBlur}
+                  value={props.values.cat}
+                  style={{ width: "300px", height: "30px" }}
+                  name="cat"
+                  placeholder="category"
+                />
+              </div>
+              <div className="col mb-4">
+                <b>Length</b>
+                <br />
+                <input
+                  type="text"
+                  onChange={props.handleChange}
+                  onBlur={props.handleBlur}
+                  value={props.values.length}
+                  style={{ width: "300px", height: "30px" }}
+                  name="length"
+                  placeholder="length"
+                />
+              </div>
+              <div className="col mb-4">
+                <b>Level</b>
+                <br />
+                <select
+                  onChange={props.handleChange}
+                  onBlur={props.handleBlur}
+                  value={props.values.level}
+                  style={{ width: "300px", height: "30px" }}
+                  name="level"
+                >
+                  <option value="Beginner">Beginner</option>
+                  <option value="Elementary">Elementary</option>
+                  <option value="Intermediate">Intermediate</option>
+                  <option value="Advanced">Advanced</option>
+                </select>
+              </div>
+              <div className="col mb-4">
+                <b>Status</b>
+                <br />
+                <select
+                  onChange={props.handleChange}
+                  onBlur={props.handleBlur}
+                  value={props.values.status}
+                  style={{ width: "300px", height: "30px" }}
+                  name="status"
+                >
+                  <option value="Active">Active</option>
+                  <option value="Inactive">Inactive</option>
+                </select>
               </div>
               <EmptyLine level="2" />
               <div className="row justify-content-center">

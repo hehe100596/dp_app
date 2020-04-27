@@ -107,74 +107,70 @@ export function ModuleModification({ moduleId, changeTab }) {
         {(props) => (
           <form onSubmit={props.handleSubmit}>
             <div className="container">
-              <div className="row w-75">
-                <div className="col mb-4">
-                  <b>Name</b>
-                  <br />
-                  <input
-                    type="text"
-                    onChange={props.handleChange}
-                    onBlur={props.handleBlur}
-                    value={props.values.name}
-                    style={{ width: "300px", height: "30px" }}
-                    name="name"
-                    placeholder="name"
-                  />
-                </div>
-                <div className="col mb-4">
-                  <b>Category</b>
-                  <br />
-                  <input
-                    type="text"
-                    onChange={props.handleChange}
-                    onBlur={props.handleBlur}
-                    value={props.values.cat}
-                    style={{ width: "300px", height: "30px" }}
-                    name="cat"
-                    placeholder="category"
-                  />
-                </div>
+              <div className="col mb-4">
+                <b>Name</b>
+                <br />
+                <input
+                  type="text"
+                  onChange={props.handleChange}
+                  onBlur={props.handleBlur}
+                  value={props.values.name}
+                  style={{ width: "300px", height: "30px" }}
+                  name="name"
+                  placeholder="name"
+                />
               </div>
-              <div className="row w-75">
-                <div className="col mb-4">
-                  <b>Type</b>
-                  <br />
-                  <select
-                    onChange={props.handleChange}
-                    onBlur={props.handleBlur}
-                    value={props.values.type}
-                    style={{ width: "300px", height: "30px" }}
-                    name="type"
-                  >
-                    <option value="Info">Info</option>
-                    <option value="Test">Test</option>
-                  </select>
-                </div>
-                <div className="col mb-4">
-                  <b>Time limit (in minutes, 0 means none)</b>
-                  <br />
-                  <input
-                    type="number"
-                    onChange={props.handleChange}
-                    onBlur={props.handleBlur}
-                    value={props.values.limit}
-                    min="0"
-                    max="1440"
-                    style={{ width: "300px", height: "30px" }}
-                    name="limit"
-                  />
-                </div>
+              <div className="col mb-4">
+                <b>Category</b>
+                <br />
+                <input
+                  type="text"
+                  onChange={props.handleChange}
+                  onBlur={props.handleBlur}
+                  value={props.values.cat}
+                  style={{ width: "300px", height: "30px" }}
+                  name="cat"
+                  placeholder="category"
+                />
               </div>
-              <EmptyLine level="2" />
-              <div className="row justify-content-center">
-                <Button
-                  className={"btn btn-primary"}
-                  style={{ width: "250px" }}
-                  type="submit"
-                >
-                  <b>Save module info</b>
-                </Button>
-              </div>
+            </div>
+            <div className="col mb-4">
+              <b>Type</b>
+              <br />
+              <select
+                onChange={props.handleChange}
+                onBlur={props.handleBlur}
+                value={props.values.type}
+                style={{ width: "300px", height: "30px" }}
+                name="type"
+              >
+                <option value="Info">Info</option>
+                <option value="Test">Test</option>
+              </select>
+            </div>
+            <div className="col mb-4">
+              <b>Time limit (in minutes, 0 means none)</b>
+              <br />
+              <input
+                type="number"
+                onChange={props.handleChange}
+                onBlur={props.handleBlur}
+                value={props.values.limit}
+                min="0"
+                max="1440"
+                style={{ width: "300px", height: "30px" }}
+                name="limit"
+              />
+            </div>
+            <EmptyLine level="2" />
+            <div className="row justify-content-center">
+              <Button
+                className={"btn btn-primary"}
+                style={{ width: "250px" }}
+                type="submit"
+              >
+                <b>Save module info</b>
+              </Button>
             </div>
             <EmptyLine level="2" />
             {props.errors.name && <ErrorMessage error={props.errors.name} />}

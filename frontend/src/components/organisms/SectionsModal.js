@@ -371,10 +371,11 @@ export function SectionsModal({ sectionId, courseId, closeModal }) {
                     ))}
                     <Button
                       className={"btn btn-success"}
+                      style={{ width: "200px" }}
                       type="button"
                       onClick={addModule}
                     >
-                      <FontIcon icon="plus" />
+                      <b>Insert</b>
                     </Button>
                   </div>
                 </div>

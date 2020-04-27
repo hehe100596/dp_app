@@ -26,7 +26,10 @@ export function SectionPage(props) {
   };
 
   const finish = () => {
-    const finalPoints = (points * section.rewardMargin).toFixed(0);
+    let finalPoints = section.rewardPoints;
+    if (section.rewardMargin !== 0) {
+      finalPoints = (points * section.rewardMargin).toFixed(0);
+    }
 
     globalApiInstance
       .post(process.env.REACT_APP_BASE_API + "users/saveProgress", {
@@ -99,8 +102,13 @@ export function SectionPage(props) {
           <Heading level="2">CONGRATULATIONS!</Heading>
           <EmptyLine level="1" />
           <p>
-            You got <b>{(points * section.rewardMargin).toFixed(0)}</b> point(s)
-            out of <b>{section.rewardPoints}</b>!
+            You got{" "}
+            <b>
+              {section.rewardMargin !== 0
+                ? (points * section.rewardMargin).toFixed(0)
+                : section.rewardPoints}
+            </b>{" "}
+            point(s) out of <b>{section.rewardPoints}</b>!
           </p>
           <EmptyLine level="2" />
           <Button

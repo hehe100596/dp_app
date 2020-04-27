@@ -383,10 +383,11 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
                         ))}
                         <Button
                           className={"btn btn-success"}
+                          style={{ width: "200px" }}
                           type="button"
                           onClick={addChoice}
                         >
-                          <FontIcon icon="plus" />
+                          <b>Insert</b>
                         </Button>
                       </div>
                     </div>
