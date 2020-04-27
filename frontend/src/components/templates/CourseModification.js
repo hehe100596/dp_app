@@ -157,7 +157,7 @@ export function CourseModification({ courseId, changeTab }) {
                 />
               </div>
               <div className="col mb-4">
-                <b>Length</b>
+                <b>Duration</b>
                 <br />
                 <input
                   type="text"

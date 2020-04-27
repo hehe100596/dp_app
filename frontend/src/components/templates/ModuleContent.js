@@ -171,14 +171,6 @@ export function ModuleContent({ moduleId, changeTab }) {
       cell: (row) => (
         <div>
           <Button
-            variant="secondary"
-            className="ml-1 mr-1"
-            onClick={(e) => moveDown(row)}
-            disabled={segments.indexOf(row) === segments.length - 1}
-          >
-            <FontIcon icon="long-arrow-alt-down" />
-          </Button>
-          <Button
             variant="primary"
             className="ml-1 mr-1"
             onClick={(e) => handleEdit(row)}
@@ -192,7 +184,14 @@ export function ModuleContent({ moduleId, changeTab }) {
           >
             <FontIcon icon="folder-minus" />
           </Button>
-
+          <Button
+            variant="secondary"
+            className="ml-1 mr-1"
+            onClick={(e) => moveDown(row)}
+            disabled={segments.indexOf(row) === segments.length - 1}
+          >
+            <FontIcon icon="long-arrow-alt-down" />
+          </Button>
           <Button
             variant="secondary"
             className="ml-1 mr-1"
@@ -255,12 +254,16 @@ export function ModuleContent({ moduleId, changeTab }) {
               >
                 <option value="HTML">HTML</option>
                 {type === "Info" ? (
-                  <option value="Embedded Media">Embedded Media</option>
+                  <option value="Video or media">Video or media</option>
                 ) : (
                   <>
-                    <option value="Multiple Choice">Multiple Choice</option>
-                    <option value="Multiple Response">Multiple Response</option>
-                    <option value="Short Answer">Short Answer</option>
+                    <option value="One correct choice">
+                      One correct choice
+                    </option>
+                    <option value="Multiple correct choices">
+                      Multiple correct choices
+                    </option>
+                    <option value="Text answer">Text answer</option>
                   </>
                 )}
               </select>

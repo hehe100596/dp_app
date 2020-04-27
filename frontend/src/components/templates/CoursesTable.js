@@ -124,7 +124,7 @@ export function CoursesTable({ isEditable, noCoursesMessage }) {
       wrap: true,
     },
     {
-      name: "Length",
+      name: "Duration",
       selector: "length",
       sortable: true,
       wrap: true,

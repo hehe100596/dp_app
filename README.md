@@ -18,12 +18,10 @@
 ### Finalization - in progress:
 - Pridanie možnosti obdržania mínusových bodov v sekcii za nedostatočný bodový zisk.
 - Premenovanie a doplnenie dostatočne jasných poznámok k poliam formulárov.
-- Premenovanie určitých prvkov (Embedded Media, Length, Answer a všetky testovacie segmmenty).
 - Zakázanie alebo upravenie kroku naspäť pri editácii alebo vytváraní modulov či kurzov.
 - Doplnenie výzvy na uloženie informácií v rámci modulov či kurzov pri prechode na iný tab.
 - Pridanie výberu z viacerých režimov timerov v rámci modulov (smer, focus, atď.).
 - Úprava vzhľadu modulov (fixná šírka, presunutie timeru doprava hore, zarovnanie vľavo, atď.).
-- Presunutie šípiek na zmenu poradia segmentov doprava k sebe (alebo vysvetliť v texte práce).
 - Pridanie možnosti poskytovania prístupu ku kurzom i rovnakou metódou ako u modulov.
 - Doriešenie problémov s CKEditorom a jeho využitie i v rámci otázok segmentov.
 - Pridanie viacerých možných odpovedí v textových testovacích segmentoch.
@@ -43,6 +41,8 @@
 - Doriešenie prepočtu bodovacieho marginu v prípade, že za modul nie je možné nič získať.
 - Upravenie dvojstĺpcových formulárov na jednostĺpcové (až na modály, kde by to vyzeralo strašne).
 - Zmenenie pluska u pridávania v rámci modálov na širšie tlačidlo s popiskom "Insert".
+- Presunutie šípiek na zmenu poradia segmentov doprava k sebe (alebo vysvetliť v texte práce).
+- Premenovanie určitých prvkov (Embedded Media, Length, Answer a všetky testovacie segmmenty).
 
 ### Out of scope:
 - Upravenie spôsobu zobrazovania a výberu modulov v rámci sekcií.

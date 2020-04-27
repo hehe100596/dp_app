@@ -116,8 +116,8 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
       let answers = values.rqmt;
 
       if (
-        values.sType === "Multiple Choice" ||
-        values.sType === "Multiple Response"
+        values.sType === "One correct choice" ||
+        values.sType === "Multiple correct choices"
       ) {
         segmentContent = "";
         segmentContent += segmentQuestion;
@@ -138,7 +138,7 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
           });
         }
 
-        if (type === "Multiple Choice" && answers === "") {
+        if (type === "One correct choice" && answers === "") {
           setMessage("One answer is required");
           setStatus("error");
           return;
@@ -216,8 +216,8 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
           })
           .then((res) => {
             if (
-              res.data.data.sType === "Multiple Choice" ||
-              res.data.data.sType === "Multiple Response"
+              res.data.data.sType === "One correct choice" ||
+              res.data.data.sType === "Multiple correct choices"
             ) {
               const multiData = res.data.data.data;
               const multiRqmt = res.data.data.rqmt;
@@ -302,7 +302,7 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
                     />
                   </div>
                 </div>
-                {type === "Short Answer" ? (
+                {type === "Text answer" ? (
                   <div className="row">
                     <div className="col mb-4">
                       <b>Question</b>
@@ -317,8 +317,8 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
                       />
                     </div>
                   </div>
-                ) : type === "Multiple Choice" ||
-                  type === "Multiple Response" ? (
+                ) : type === "One correct choice" ||
+                  type === "Multiple correct choices" ? (
                   <>
                     <div className="row">
                       <div className="col mb-4">
@@ -338,12 +338,12 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
                       <div className="col mb-4">
                         <b>
                           Choices (check correct answer
-                          {type === "Multiple Response" ? "s)" : ")"}
+                          {type === "Multiple correct choices" ? "s)" : ")"}
                         </b>
                         <br />
                         {segmentChoices.map((seg, i) => (
                           <div key={i}>
-                            {type === "Multiple Choice" ? (
+                            {type === "One correct choice" ? (
                               <input
                                 type="radio"
                                 onChange={(e) => updateAnswers(seg)}
@@ -395,7 +395,7 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
                 ) : null}
                 {type === "HTML" ? null : (
                   <div className="row">
-                    {type === "Short Answer" ? (
+                    {type === "Text answer" ? (
                       <div className="col mb-4">
                         <b>Correct answer</b>
                         <br />
@@ -411,7 +411,10 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
                       </div>
                     ) : (
                       <div className="col mb-4">
-                        <b>Answer{type === "Multiple Response" ? "s" : ""}</b>
+                        <b>
+                          Selected correct answer
+                          {type === "Multiple correct choices" ? "s" : ""}
+                        </b>
                         <br />
                         <input
                           type="text"

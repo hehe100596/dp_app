@@ -224,7 +224,7 @@ export function InfoSegmentsModal({ segmentId, moduleId, type, closeModal }) {
                     </div>
                   ) : (
                     <div className="col mb-4">
-                      <b>Embedded Media Link</b>
+                      <b>Embedded Video Link</b>
                       <br />
                       <textarea
                         onChange={(e) => setSegmentData(e.target.value)}

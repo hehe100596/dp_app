@@ -48,10 +48,10 @@ export function ModuleDetail({ moduleId, addPoints, changeTab }) {
     let parsedContent = "";
 
     contentToParse.forEach(function (entry) {
-      if (entry.sType === "HTML" || entry.sType === "Embedded Media") {
+      if (entry.sType === "HTML" || entry.sType === "Video or media") {
         parsedContent += entry.data;
         parsedContent += "<br/>";
-      } else if (entry.sType === "Short Answer") {
+      } else if (entry.sType === "Text answer") {
         parsedContent += "<b>" + counter + ". " + entry.data + "</b><br/>";
         parsedContent +=
           "<input style='width:250px;' id='question-" + counter + "' />";
@@ -59,7 +59,7 @@ export function ModuleDetail({ moduleId, addPoints, changeTab }) {
         parsedContent += "<br/><br/>";
         counter += 1;
       } else {
-        let iType = entry.sType === "Multiple Choice" ? "radio" : "checkbox";
+        let iType = entry.sType === "One correct choice" ? "radio" : "checkbox";
         let question = entry.data.split(";;;")[0];
         let choices = entry.data.split(";;;").slice(1, -1);
 
@@ -102,7 +102,7 @@ export function ModuleDetail({ moduleId, addPoints, changeTab }) {
         if (entry.sType !== "HTML") {
           let id = "question-" + counter;
 
-          if (entry.sType === "Short Answer") {
+          if (entry.sType === "Text answer") {
             let correctAnswer = formatAnswer(entry.rqmt);
             let studentAnswer = formatAnswer(document.getElementById(id).value);
 
@@ -116,7 +116,7 @@ export function ModuleDetail({ moduleId, addPoints, changeTab }) {
               .call(checkboxes)
               .filter((ch) => ch.checked === true);
 
-            if (entry.sType === "Multiple Choice") {
+            if (entry.sType === "One correct choice") {
               if (selected[0] && answers[0] && selected[0].id === answers[0]) {
                 contentPoints += entry.points;
               }
