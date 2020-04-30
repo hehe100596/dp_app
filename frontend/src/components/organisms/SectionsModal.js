@@ -116,6 +116,26 @@ export function SectionsModal({ sectionId, courseId, closeModal }) {
     setModulePoints(updatedPoints);
   };
 
+  const moveUp = (index) => {
+    let updatedModules = [...modules];
+    let tmpModule = updatedModules[index - 1];
+
+    updatedModules[index - 1] = updatedModules[index];
+    updatedModules[index] = tmpModule;
+
+    setModules(updatedModules);
+  };
+
+  const moveDown = (index) => {
+    let updatedModules = [...modules];
+    let tmpModule = updatedModules[index + 1];
+
+    updatedModules[index + 1] = updatedModules[index];
+    updatedModules[index] = tmpModule;
+
+    setModules(updatedModules);
+  };
+
   const saveSection = (values) => {
     setStatus("loading");
 
@@ -351,7 +371,7 @@ export function SectionsModal({ sectionId, courseId, closeModal }) {
                           onChange={(e) => updateModule(i, e.target.value)}
                           onBlur={(e) => updateModule(i, e.target.value)}
                           value={module._id}
-                          style={{ width: "505px", height: "38px" }}
+                          style={{ width: "430px", height: "38px" }}
                         >
                           {allModules.map((module, i) => (
                             <option key={i} value={module._id}>
@@ -360,12 +380,26 @@ export function SectionsModal({ sectionId, courseId, closeModal }) {
                           ))}
                         </select>
                         <Button
-                          className={"btn btn-danger ml-2"}
+                          className="btn btn-danger ml-2"
                           type="button"
                           disabled={modules.length === 1}
                           onClick={(e) => removeModule(i, module.points)}
                         >
                           <FontIcon icon="minus" />
+                        </Button>
+                        <Button
+                          className="btn btn-info ml-1"
+                          onClick={(e) => moveDown(i)}
+                          disabled={i >= modules.length - 1}
+                        >
+                          <FontIcon icon="long-arrow-alt-down" />
+                        </Button>
+                        <Button
+                          className="btn btn-info ml-1"
+                          onClick={(e) => moveUp(i)}
+                          disabled={i <= 0}
+                        >
+                          <FontIcon icon="long-arrow-alt-up" />
                         </Button>
                       </div>
                     ))}

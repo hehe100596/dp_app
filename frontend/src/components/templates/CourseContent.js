@@ -196,21 +196,22 @@ export function CourseContent({ courseId, changeTab }) {
       <EmptyLine level="2" />
       <ServerStatus status={status} message={message} />
       <EmptyLine level="1" />
-      <Link to={{ pathname: `/enter-course/${courseId}` }}>
-        <Button className={"btn btn-info"} style={{ width: "200px" }}>
-          <b>Preview</b>
-        </Button>
-      </Link>
       {changeTab ? (
         <Button
-          className={"btn btn-success ml-3"}
+          className={"btn btn-success"}
           style={{ width: "200px" }}
           type="button"
           onClick={finishCourse}
         >
           <b>Finish course</b>
         </Button>
-      ) : null}
+      ) : (
+        <Link to={{ pathname: `/enter-course/${courseId}` }}>
+          <Button className={"btn btn-info"} style={{ width: "200px" }}>
+            <b>Preview</b>
+          </Button>
+        </Link>
+      )}
     </div>
   );
 }

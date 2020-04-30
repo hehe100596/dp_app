@@ -293,21 +293,22 @@ export function ModuleContent({ moduleId, changeTab }) {
       <EmptyLine level="2" />
       <ServerStatus status={status} message={message} />
       <EmptyLine level="1" />
-      <Link to={{ pathname: `/enter-module/${moduleId}` }}>
-        <Button className={"btn btn-info"} style={{ width: "200px" }}>
-          <b>Preview</b>
-        </Button>
-      </Link>
       {changeTab ? (
         <Button
-          className={"btn btn-success ml-3"}
+          className={"btn btn-success"}
           style={{ width: "200px" }}
           type="button"
           onClick={finishModule}
         >
           <b>Finish module</b>
         </Button>
-      ) : null}
+      ) : (
+        <Link to={{ pathname: `/enter-module/${moduleId}` }}>
+          <Button className={"btn btn-info"} style={{ width: "200px" }}>
+            <b>Preview</b>
+          </Button>
+        </Link>
+      )}
     </div>
   );
 }

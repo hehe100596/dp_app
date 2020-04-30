@@ -60,6 +60,15 @@ export function CourseEditingPage(props) {
           aria-labelledby="info-tab"
         >
           <EmptyLine level="2" />
+          <p className="text-danger">
+            <b>
+              <i>
+                * If you want your changes to be saved, remember to click on
+                save button
+              </i>
+            </b>
+          </p>
+          <EmptyLine level="1" />
           <CourseModification courseId={props.match.params.course} />
         </div>
         <div

@@ -16,16 +16,13 @@
 - Kompletný prechod vytvorenými kurzmi študentmi s prístupom.
 
 ### Finalization - in progress:
-- Pridanie možnosti obdržania mínusových bodov v sekcii za nedostatočný bodový zisk.
+- Upravenie zobrazovania chýb súvisiacich s nesprávnymi hodnotami polí formulárov.
 - Premenovanie a doplnenie dostatočne jasných poznámok k poliam formulárov.
-- Zakázanie alebo upravenie kroku naspäť pri editácii alebo vytváraní modulov či kurzov.
-- Doplnenie výzvy na uloženie informácií v rámci modulov či kurzov pri prechode na iný tab.
+- Pridanie možnosti obdržania mínusových bodov v sekcii za nedostatočný bodový zisk.
 - Pridanie výberu z viacerých režimov timerov v rámci modulov (smer, focus, atď.).
-- Úprava vzhľadu modulov (fixná šírka, presunutie timeru doprava hore, zarovnanie vľavo, atď.).
 - Nastavenie voliteľnosti miešania poradia možností v testovacích segmentoch.
 - Pridanie vysvetlenia k spôsobu prepočítavania bodov medzi modulmi a sekciami.
-- Pridanie možnosti zmeny poradia vybraných modulov v rámci sekcie.
-- Doplnenie ošetrovania validity vstupov i na backende (alebo aspoň znemožnenie ich poslania).
+- Úprava vzhľadu modulov (fixná šírka, presunutie timeru doprava hore, zarovnanie vľavo, atď.).
 - Deploynutie aplikácie (frontend i backend) pre potreby testovania.
 
 ### Finalization - finished:
@@ -41,6 +38,9 @@
 - Zmena zobrazovania sekcií (nech sú všetky viditeľné hneď, ale nedostupné ako disabled).
 - Pridanie univerzálneho pogratulovania k odomknutiu všetkých sekcií.
 - Doriešenie problémov s CKEditorom a jeho využitie i v rámci otázok segmentov.
+- Zakázanie alebo upravenie kroku naspäť alebo preview pri vytváraní modulov či kurzov.
+- Doplnenie výzvy či správy na uloženie info v rámci modulov či kurzov pri prechode na iný tab.
+- Pridanie možnosti zmeny poradia vybraných modulov v rámci sekcie.
 
 ### Out of scope:
 - Upravenie spôsobu zobrazovania a výberu modulov v rámci sekcií.
@@ -56,5 +56,6 @@
 - Doplnenie funkcionality podporujúcej komunikáciu a poskytovanie spätnej väzby.
 - Sprístupnenie časti aplikácie v offline režime (sťahovanie a nahrávanie).
 - Kompletné prepracovanie grafických prvkov aplikácie.
+- Doplnenie ošetrovania validity vstupov i na backende (alebo aspoň znemožnenie ich poslania).
 - Značné refaktorovanie a optimalizovanie kódu.
 - Lokalizovanie do viacerých jazykov.
