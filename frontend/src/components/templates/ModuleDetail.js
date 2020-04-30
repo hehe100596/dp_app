@@ -50,20 +50,20 @@ export function ModuleDetail({ moduleId, addPoints, changeTab }) {
     contentToParse.forEach(function (entry) {
       if (entry.sType === "HTML" || entry.sType === "Video or media") {
         parsedContent += entry.data;
-        parsedContent += "<br/>";
+        parsedContent += "<br/><br/>";
       } else if (entry.sType === "Text answer") {
-        parsedContent += "<b>" + counter + ". " + entry.data + "</b><br/>";
+        parsedContent += entry.data;
         parsedContent +=
           "<input style='width:250px;' id='question-" + counter + "' />";
 
-        parsedContent += "<br/><br/>";
+        parsedContent += "<br/><br/><br/>";
         counter += 1;
       } else {
         let iType = entry.sType === "One correct choice" ? "radio" : "checkbox";
         let question = entry.data.split(";;;")[0];
         let choices = entry.data.split(";;;").slice(1, -1);
 
-        parsedContent += "<b>" + counter + ". " + question + "</b><br/>";
+        parsedContent += question;
         parsedContent += "<div style='display: inline-block;' align='left'>";
         for (var i = choices.length - 1; i > 0; i--) {
           var j = Math.floor(Math.random() * (i + 1));
@@ -78,7 +78,7 @@ export function ModuleDetail({ moduleId, addPoints, changeTab }) {
             "' name='question-" + counter + "' /> " + entry + "<br />";
         });
 
-        parsedContent += "</div><br /><br />";
+        parsedContent += "</div><br /><br /><br />";
         counter += 1;
       }
     });

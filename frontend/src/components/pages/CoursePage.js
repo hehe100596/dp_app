@@ -5,6 +5,8 @@ import { globalApiInstance } from "../../utils/api";
 
 import { Heading } from "../atoms/Heading";
 import { EmptyLine } from "../atoms/EmptyLine";
+import { WelcomeMessage } from "../molecules/WelcomeMessage";
+import { Congratulations } from "../molecules/Congratulations";
 import { ServerStatus } from "../organisms/ServerStatus";
 import { SectionView } from "../templates/SectionView";
 
@@ -95,20 +97,11 @@ export function CoursePage(props) {
     <div align="center">
       <Heading level="1">{name}</Heading>
       <EmptyLine level="2" />
-      <Heading level="4">Welcome to {name}!</Heading>
-      <br />
-      <p>
-        This course has <b>{counter}</b> sections in total. Complete the last
-        section to successfully finish this course!
-      </p>
-      <p className="text-danger">
-        <b>
-          <i>
-            * If you cannot unlock any new sections, try getting better results
-            in sections you currently have
-          </i>
-        </b>
-      </p>
+      {sections !== 0 && allSections.length === sections ? (
+        <Congratulations name={name} counter={counter} />
+      ) : (
+        <WelcomeMessage name={name} counter={counter} />
+      )}
       <EmptyLine level="2" />
       <div className="row">
         <div

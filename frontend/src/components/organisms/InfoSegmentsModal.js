@@ -28,15 +28,13 @@ export function InfoSegmentsModal({ segmentId, moduleId, type, closeModal }) {
   const [status, setStatus] = useState("loading");
   const [message, setMessage] = useState(null);
   const [segment, setSegment] = useState(defaultSegment);
-  const [segmentData, setSegmentData] = useState(
-    "loading failed, close and try again"
-  );
+  const [segmentData, setSegmentData] = useState(null);
 
   const closeSegmentModal = (isExit) => {
     setStatus("loading");
     setMessage(null);
     setSegment(defaultSegment);
-    setSegmentData("loading failed, close and try again");
+    setSegmentData(null);
     closeModal(isExit);
   };
 
@@ -215,12 +213,14 @@ export function InfoSegmentsModal({ segmentId, moduleId, type, closeModal }) {
                     <div className="col mb-4">
                       <b>Data</b>
                       <br />
-                      <CKEditor
-                        onChange={(e) => setSegmentData(e.editor.getData())}
-                        onBlur={(e) => setSegmentData(e.editor.getData())}
-                        data={segmentData}
-                        name="data"
-                      />
+                      {segmentData || segmentId === "new" ? (
+                        <CKEditor
+                          onChange={(e) => setSegmentData(e.editor.getData())}
+                          onBlur={(e) => setSegmentData(e.editor.getData())}
+                          data={segmentData}
+                          name="data"
+                        />
+                      ) : null}
                     </div>
                   ) : (
                     <div className="col mb-4">

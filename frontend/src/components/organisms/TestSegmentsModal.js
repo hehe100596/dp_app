@@ -29,12 +29,10 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
   const [status, setStatus] = useState("loading");
   const [message, setMessage] = useState(null);
   const [segment, setSegment] = useState(defaultSegment);
-  const [segmentQuestion, setSegmentQuestion] = useState("");
+  const [segmentQuestion, setSegmentQuestion] = useState(null);
   const [segmentChoices, setSegmentChoices] = useState([""]);
   const [segmentAnswers, setSegmentAnswers] = useState([""]);
-  const [segmentData, setSegmentData] = useState(
-    "loading failed, close and try again"
-  );
+  const [segmentData, setSegmentData] = useState(null);
 
   const addChoice = () => {
     let updatedChoices = [...segmentChoices];
@@ -101,10 +99,10 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
     setStatus("loading");
     setMessage(null);
     setSegment(defaultSegment);
-    setSegmentQuestion("");
+    setSegmentQuestion(null);
     setSegmentChoices([""]);
     setSegmentAnswers([""]);
-    setSegmentData("loading failed, close and try again");
+    setSegmentData(null);
     closeModal(isExit);
   };
 
@@ -307,14 +305,14 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
                     <div className="col mb-4">
                       <b>Question</b>
                       <br />
-                      <textarea
-                        onChange={(e) => setSegmentData(e.target.value)}
-                        onBlur={(e) => setSegmentData(e.target.value)}
-                        value={segmentData}
-                        style={{ width: "555px", height: "100px" }}
-                        name="data"
-                        placeholder="put question here"
-                      />
+                      {segmentData || segmentId === "new" ? (
+                        <CKEditor
+                          onChange={(e) => setSegmentData(e.editor.getData())}
+                          onBlur={(e) => setSegmentData(e.editor.getData())}
+                          data={segmentData}
+                          name="data"
+                        />
+                      ) : null}
                     </div>
                   </div>
                 ) : type === "One correct choice" ||
@@ -324,14 +322,18 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
                       <div className="col mb-4">
                         <b>Question</b>
                         <br />
-                        <textarea
-                          onChange={(e) => setSegmentQuestion(e.target.value)}
-                          onBlur={(e) => setSegmentQuestion(e.target.value)}
-                          value={segmentQuestion}
-                          style={{ width: "555px", height: "100px" }}
-                          name="question"
-                          placeholder="put question here"
-                        />
+                        {segmentQuestion || segmentId === "new" ? (
+                          <CKEditor
+                            onChange={(e) =>
+                              setSegmentQuestion(e.editor.getData())
+                            }
+                            onBlur={(e) =>
+                              setSegmentQuestion(e.editor.getData())
+                            }
+                            data={segmentQuestion}
+                            name="question"
+                          />
+                        ) : null}
                       </div>
                     </div>
                     <div className="row">
@@ -446,12 +448,14 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
                     <div className="col mb-4">
                       <b>Data</b>
                       <br />
-                      <CKEditor
-                        onChange={(e) => setSegmentData(e.editor.getData())}
-                        onBlur={(e) => setSegmentData(e.editor.getData())}
-                        data={segmentData}
-                        name="data"
-                      />
+                      {segmentData || segmentId === "new" ? (
+                        <CKEditor
+                          onChange={(e) => setSegmentData(e.editor.getData())}
+                          onBlur={(e) => setSegmentData(e.editor.getData())}
+                          data={segmentData}
+                          name="data"
+                        />
+                      ) : null}
                     </div>
                   </div>
                 ) : null}

@@ -22,15 +22,11 @@
 - Doplnenie výzvy na uloženie informácií v rámci modulov či kurzov pri prechode na iný tab.
 - Pridanie výberu z viacerých režimov timerov v rámci modulov (smer, focus, atď.).
 - Úprava vzhľadu modulov (fixná šírka, presunutie timeru doprava hore, zarovnanie vľavo, atď.).
-- Doriešenie problémov s CKEditorom a jeho využitie i v rámci otázok segmentov.
-- Pridanie viacerých možných odpovedí v textových testovacích segmentoch.
 - Nastavenie voliteľnosti miešania poradia možností v testovacích segmentoch.
 - Pridanie vysvetlenia k spôsobu prepočítavania bodov medzi modulmi a sekciami.
 - Pridanie možnosti zmeny poradia vybraných modulov v rámci sekcie.
-- Pridanie univerzálneho pogratulovania k ukončeniu kurzu (prípadne i s certifikátom).
 - Doplnenie ošetrovania validity vstupov i na backende (alebo aspoň znemožnenie ich poslania).
 - Deploynutie aplikácie (frontend i backend) pre potreby testovania.
-- Značné refaktorovanie a optimalizovanie kódu.
 
 ### Finalization - finished:
 - Pridanie základných informácií o aplikácií na prihlasovaciu stránku.
@@ -43,6 +39,8 @@
 - Premenovanie určitých prvkov (Embedded Media, Length, Answer a všetky testovacie segmmenty).
 - Pridanie možnosti poskytovania prístupu ku kurzom i rovnakou metódou ako u modulov.
 - Zmena zobrazovania sekcií (nech sú všetky viditeľné hneď, ale nedostupné ako disabled).
+- Pridanie univerzálneho pogratulovania k odomknutiu všetkých sekcií.
+- Doriešenie problémov s CKEditorom a jeho využitie i v rámci otázok segmentov.
 
 ### Out of scope:
 - Upravenie spôsobu zobrazovania a výberu modulov v rámci sekcií.
@@ -51,10 +49,12 @@
 - Pridanie obnovy hesla a doplnenie profilu (napríklad o avatar).
 - Pridanie možnosti kopírovania kurzov, modulov, sekcií a segmentov.
 - Rozšírenie typov modulov a segmentov (testovacích, informačných i podporných).
+- Pridanie viacerých možných odpovedí v textových testovacích segmentoch.
 - Doplnenie posudzovania správnosti odpovedí cez regulárne výrazy a pod.
 - Rozšírenie možností vyhodnocovania testovacích modulov i samotných kurzov.
 - Rozšírenie možností prechodov kurzmi (vrátane ukončovania).
 - Doplnenie funkcionality podporujúcej komunikáciu a poskytovanie spätnej väzby.
 - Sprístupnenie časti aplikácie v offline režime (sťahovanie a nahrávanie).
 - Kompletné prepracovanie grafických prvkov aplikácie.
+- Značné refaktorovanie a optimalizovanie kódu.
 - Lokalizovanie do viacerých jazykov.
