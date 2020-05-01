@@ -8,7 +8,6 @@ import { globalApiInstance } from "../../utils/api";
 
 import { Button } from "../atoms/Button";
 import { EmptyLine } from "../atoms/EmptyLine";
-import { ErrorMessage } from "../molecules/ErrorMessage";
 import { ServerStatus } from "../organisms/ServerStatus";
 
 export const signInSchema = yup.object().shape({
@@ -66,10 +65,20 @@ export function SignInForm() {
                 onChange={props.handleChange}
                 onBlur={props.handleBlur}
                 value={props.values.mail}
-                style={{ width: "300px" }}
+                style={
+                  props.errors.mail
+                    ? { width: "300px", backgroundColor: "rgba(255,0,0,0.2)" }
+                    : { width: "300px" }
+                }
                 placeholder="e-mail"
                 name="mail"
               />
+              {props.errors.mail && (
+                <>
+                  <br />
+                  <b className="text-danger">{props.errors.mail}</b>
+                </>
+              )}
             </div>
             <div className="mt-2">
               <input
@@ -77,10 +86,20 @@ export function SignInForm() {
                 onChange={props.handleChange}
                 onBlur={props.handleBlur}
                 value={props.values.pass}
-                style={{ width: "300px" }}
+                style={
+                  props.errors.pass
+                    ? { width: "300px", backgroundColor: "rgba(255,0,0,0.2)" }
+                    : { width: "300px" }
+                }
                 placeholder="password"
                 name="pass"
               />
+              {props.errors.pass && (
+                <>
+                  <br />
+                  <b className="text-danger">{props.errors.pass}</b>
+                </>
+              )}
             </div>
             <EmptyLine level="2" />
             <Button
@@ -100,8 +119,6 @@ export function SignInForm() {
               </Button>
             </Link>
             <EmptyLine level="2" />
-            {props.errors.mail && <ErrorMessage error={props.errors.mail} />}
-            {props.errors.pass && <ErrorMessage error={props.errors.pass} />}
           </form>
         )}
       </Formik>

@@ -10,20 +10,22 @@ import { globalApiInstance } from "../../utils/api";
 
 import { Button } from "../atoms/Button";
 import { EmptyLine } from "../atoms/EmptyLine";
-import { ErrorMessage } from "../molecules/ErrorMessage";
 import { ServerStatus } from "../organisms/ServerStatus";
 
 export const changePassSchema = yup.object().shape({
-  old: yup.string().label("Old password").required(),
+  old: yup.string().label("Old password (current one)").required(),
   new: yup
     .string()
     .label("New password")
     .required()
-    .notOneOf([yup.ref("old"), null], "New password is the same as old")
+    .notOneOf(
+      [yup.ref("old"), null],
+      "New password is the same as old password"
+    )
     .min(3, "New password should contain at least 3 characters"),
   new2: yup
     .string()
-    .label("New password confirmation")
+    .label("Password confirmation")
     .required()
     .oneOf([yup.ref("new"), null], "Passwords must match"),
 });
@@ -145,27 +147,51 @@ export function Profile() {
                       disabled
                     />
                   </div>
-                  <div className="row mb-3">
+                  <div className="row">
                     <input
                       type="password"
                       onChange={props.handleChange}
                       onBlur={props.handleBlur}
                       value={props.values.old}
-                      style={{ width: "200px" }}
+                      style={
+                        props.errors.old
+                          ? {
+                              width: "200px",
+                              backgroundColor: "rgba(255,0,0,0.2)",
+                            }
+                          : { width: "200px" }
+                      }
                       placeholder="old password"
                       name="old"
                     />
                   </div>
-                  <div className="row mb-3">
+                  <div className="row mb-3" style={{ width: "200px" }}>
+                    {props.errors.old && (
+                      <b className="text-danger">{props.errors.old}</b>
+                    )}
+                  </div>
+                  <div className="row">
                     <input
                       type="password"
                       onChange={props.handleChange}
                       onBlur={props.handleBlur}
                       value={props.values.new}
-                      style={{ width: "200px" }}
+                      style={
+                        props.errors.new
+                          ? {
+                              width: "200px",
+                              backgroundColor: "rgba(255,0,0,0.2)",
+                            }
+                          : { width: "200px" }
+                      }
                       placeholder="new password"
                       name="new"
                     />
+                  </div>
+                  <div className="row mb-3" style={{ width: "200px" }}>
+                    {props.errors.new && (
+                      <b className="text-danger">{props.errors.new}</b>
+                    )}
                   </div>
                   <div className="row">
                     <input
@@ -173,10 +199,22 @@ export function Profile() {
                       onChange={props.handleChange}
                       onBlur={props.handleBlur}
                       value={props.values.new2}
-                      style={{ width: "200px" }}
+                      style={
+                        props.errors.new2
+                          ? {
+                              width: "200px",
+                              backgroundColor: "rgba(255,0,0,0.2)",
+                            }
+                          : { width: "200px" }
+                      }
                       placeholder="confirm new password"
                       name="new2"
                     />
+                  </div>
+                  <div className="row" style={{ width: "200px" }}>
+                    {props.errors.new2 && (
+                      <b className="text-danger">{props.errors.new2}</b>
+                    )}
                   </div>
                 </div>
               </div>
@@ -202,9 +240,6 @@ export function Profile() {
               </div>
             </div>
             <EmptyLine level="1" />
-            {props.errors.old && <ErrorMessage error={props.errors.old} />}
-            {props.errors.new && <ErrorMessage error={props.errors.new} />}
-            {props.errors.new2 && <ErrorMessage error={props.errors.new2} />}
           </form>
         )}
       </Formik>

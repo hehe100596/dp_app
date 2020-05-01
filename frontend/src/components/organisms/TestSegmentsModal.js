@@ -275,20 +275,34 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
               <div className="container">
                 <div className="row">
                   <div className="col mb-4">
-                    <b>Name of the segment</b>
+                    <b>Name (should be unique)</b>
                     <br />
                     <input
                       type="text"
                       onChange={props.handleChange}
                       onBlur={props.handleBlur}
                       value={props.values.name}
-                      style={{ width: "250px", height: "30px" }}
+                      style={
+                        props.errors.name
+                          ? {
+                              width: "250px",
+                              height: "30px",
+                              backgroundColor: "rgba(255,0,0,0.2)",
+                            }
+                          : { width: "250px", height: "30px" }
+                      }
                       name="name"
                       placeholder="name"
                     />
+                    {props.errors.name && (
+                      <>
+                        <br />
+                        <b className="text-danger">{props.errors.name}</b>
+                      </>
+                    )}
                   </div>
                   <div className="col mb-4">
-                    <b>Type of the segment</b>
+                    <b>Type (next to "Add" button)</b>
                     <br />
                     <input
                       type="text"
@@ -482,8 +496,6 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
               ) : status === "error" ? (
                 <ErrorMessage error={message} />
               ) : null}
-              {props.errors.name && <ErrorMessage error={props.errors.name} />}
-              {props.errors.cat && <ErrorMessage error={props.errors.cat} />}
             </form>
           )}
         </Formik>

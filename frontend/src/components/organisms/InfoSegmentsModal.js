@@ -153,20 +153,34 @@ export function InfoSegmentsModal({ segmentId, moduleId, type, closeModal }) {
               <div className="container">
                 <div className="row">
                   <div className="col mb-4">
-                    <b>Name of the segment</b>
+                    <b>Name (should be unique)</b>
                     <br />
                     <input
                       type="text"
                       onChange={props.handleChange}
                       onBlur={props.handleBlur}
                       value={props.values.name}
-                      style={{ width: "250px", height: "30px" }}
+                      style={
+                        props.errors.name
+                          ? {
+                              width: "250px",
+                              height: "30px",
+                              backgroundColor: "rgba(255,0,0,0.2)",
+                            }
+                          : { width: "250px", height: "30px" }
+                      }
                       name="name"
                       placeholder="name"
                     />
+                    {props.errors.name && (
+                      <>
+                        <br />
+                        <b className="text-danger">{props.errors.name}</b>
+                      </>
+                    )}
                   </div>
                   <div className="col mb-4">
-                    <b>Type of the segment</b>
+                    <b>Type (next to "Add" button)</b>
                     <br />
                     <input
                       type="text"
@@ -207,6 +221,18 @@ export function InfoSegmentsModal({ segmentId, moduleId, type, closeModal }) {
                       name="points"
                     />
                   </div>
+                </div>
+                <div
+                  className="row justify-content-md-center"
+                  style={{ width: "555px" }}
+                >
+                  <p>
+                    <i>
+                      Required time determines how many minutes your student
+                      must spend on this module in order to get the set number
+                      of points (0 means none).
+                    </i>
+                  </p>
                 </div>
                 <div className="row">
                   {type === "HTML" ? (
@@ -259,7 +285,6 @@ export function InfoSegmentsModal({ segmentId, moduleId, type, closeModal }) {
               ) : status === "error" ? (
                 <ErrorMessage error={message} />
               ) : null}
-              {props.errors.name && <ErrorMessage error={props.errors.name} />}
             </form>
           )}
         </Formik>

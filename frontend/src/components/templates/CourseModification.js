@@ -7,14 +7,13 @@ import { globalApiInstance } from "../../utils/api";
 
 import { Button } from "../atoms/Button";
 import { EmptyLine } from "../atoms/EmptyLine";
-import { ErrorMessage } from "../molecules/ErrorMessage";
 import { ServerStatus } from "../organisms/ServerStatus";
 
 export const courseInfoSchema = yup.object().shape({
   name: yup.string().label("Name").required(),
   org: yup.string().label("Organizator").required(),
   cat: yup.string().label("Category").required(),
-  length: yup.string().label("Length").required(),
+  length: yup.string().label("Duration").required(),
 });
 
 export function CourseModification({ courseId, changeTab }) {
@@ -118,59 +117,115 @@ export function CourseModification({ courseId, changeTab }) {
           <form onSubmit={props.handleSubmit}>
             <div className="container">
               <div className="col mb-4">
-                <b>Name</b>
+                <b>Name (should be unique)</b>
                 <br />
                 <input
                   type="text"
                   onChange={props.handleChange}
                   onBlur={props.handleBlur}
                   value={props.values.name}
-                  style={{ width: "300px", height: "30px" }}
+                  style={
+                    props.errors.name
+                      ? {
+                          width: "300px",
+                          height: "30px",
+                          backgroundColor: "rgba(255,0,0,0.2)",
+                        }
+                      : { width: "300px", height: "30px" }
+                  }
                   name="name"
                   placeholder="name"
                 />
+                {props.errors.name && (
+                  <>
+                    <br />
+                    <b className="text-danger">{props.errors.name}</b>
+                  </>
+                )}
               </div>
               <div className="col mb-4">
-                <b>Organizator</b>
+                <b>Organizator (who is this course from)</b>
                 <br />
                 <input
                   type="text"
                   onChange={props.handleChange}
                   onBlur={props.handleBlur}
                   value={props.values.org}
-                  style={{ width: "300px", height: "30px" }}
+                  style={
+                    props.errors.org
+                      ? {
+                          width: "300px",
+                          height: "30px",
+                          backgroundColor: "rgba(255,0,0,0.2)",
+                        }
+                      : { width: "300px", height: "30px" }
+                  }
                   name="org"
                   placeholder="organizator"
                 />
+                {props.errors.org && (
+                  <>
+                    <br />
+                    <b className="text-danger">{props.errors.org}</b>
+                  </>
+                )}
               </div>
               <div className="col mb-4">
-                <b>Category</b>
+                <b>Category (medical, technical, etc.)</b>
                 <br />
                 <input
                   type="text"
                   onChange={props.handleChange}
                   onBlur={props.handleBlur}
                   value={props.values.cat}
-                  style={{ width: "300px", height: "30px" }}
+                  style={
+                    props.errors.cat
+                      ? {
+                          width: "300px",
+                          height: "30px",
+                          backgroundColor: "rgba(255,0,0,0.2)",
+                        }
+                      : { width: "300px", height: "30px" }
+                  }
                   name="cat"
                   placeholder="category"
                 />
+                {props.errors.cat && (
+                  <>
+                    <br />
+                    <b className="text-danger">{props.errors.cat}</b>
+                  </>
+                )}
               </div>
               <div className="col mb-4">
-                <b>Duration</b>
+                <b>Duration (how long it should take)</b>
                 <br />
                 <input
                   type="text"
                   onChange={props.handleChange}
                   onBlur={props.handleBlur}
                   value={props.values.length}
-                  style={{ width: "300px", height: "30px" }}
+                  style={
+                    props.errors.length
+                      ? {
+                          width: "300px",
+                          height: "30px",
+                          backgroundColor: "rgba(255,0,0,0.2)",
+                        }
+                      : { width: "300px", height: "30px" }
+                  }
                   name="length"
                   placeholder="duration"
                 />
+                {props.errors.length && (
+                  <>
+                    <br />
+                    <b className="text-danger">{props.errors.length}</b>
+                  </>
+                )}
               </div>
               <div className="col mb-4">
-                <b>Level</b>
+                <b>Level (estimated difficulty)</b>
                 <br />
                 <select
                   onChange={props.handleChange}
@@ -186,7 +241,7 @@ export function CourseModification({ courseId, changeTab }) {
                 </select>
               </div>
               <div className="col mb-4">
-                <b>Status</b>
+                <b>Status (current accessibility)</b>
                 <br />
                 <select
                   onChange={props.handleChange}
@@ -211,12 +266,6 @@ export function CourseModification({ courseId, changeTab }) {
               </div>
             </div>
             <EmptyLine level="2" />
-            {props.errors.name && <ErrorMessage error={props.errors.name} />}
-            {props.errors.org && <ErrorMessage error={props.errors.org} />}
-            {props.errors.cat && <ErrorMessage error={props.errors.cat} />}
-            {props.errors.length && (
-              <ErrorMessage error={props.errors.length} />
-            )}
           </form>
         )}
       </Formik>

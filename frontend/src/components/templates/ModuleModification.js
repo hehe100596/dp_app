@@ -7,7 +7,6 @@ import { globalApiInstance } from "../../utils/api";
 
 import { Button } from "../atoms/Button";
 import { EmptyLine } from "../atoms/EmptyLine";
-import { ErrorMessage } from "../molecules/ErrorMessage";
 import { ServerStatus } from "../organisms/ServerStatus";
 
 export const moduleInfoSchema = yup.object().shape({
@@ -108,34 +107,62 @@ export function ModuleModification({ moduleId, changeTab }) {
           <form onSubmit={props.handleSubmit}>
             <div className="container">
               <div className="col mb-4">
-                <b>Name</b>
+                <b>Name (should be unique)</b>
                 <br />
                 <input
                   type="text"
                   onChange={props.handleChange}
                   onBlur={props.handleBlur}
                   value={props.values.name}
-                  style={{ width: "300px", height: "30px" }}
+                  style={
+                    props.errors.name
+                      ? {
+                          width: "300px",
+                          height: "30px",
+                          backgroundColor: "rgba(255,0,0,0.2)",
+                        }
+                      : { width: "300px", height: "30px" }
+                  }
                   name="name"
                   placeholder="name"
                 />
+                {props.errors.name && (
+                  <>
+                    <br />
+                    <b className="text-danger">{props.errors.name}</b>
+                  </>
+                )}
               </div>
               <div className="col mb-4">
-                <b>Category</b>
+                <b>Category (medical, technical, etc.)</b>
                 <br />
                 <input
                   type="text"
                   onChange={props.handleChange}
                   onBlur={props.handleBlur}
                   value={props.values.cat}
-                  style={{ width: "300px", height: "30px" }}
+                  style={
+                    props.errors.cat
+                      ? {
+                          width: "300px",
+                          height: "30px",
+                          backgroundColor: "rgba(255,0,0,0.2)",
+                        }
+                      : { width: "300px", height: "30px" }
+                  }
                   name="cat"
                   placeholder="category"
                 />
+                {props.errors.cat && (
+                  <>
+                    <br />
+                    <b className="text-danger">{props.errors.cat}</b>
+                  </>
+                )}
               </div>
             </div>
             <div className="col mb-4">
-              <b>Type</b>
+              <b>Type (either giving info or testing)</b>
               <br />
               <select
                 onChange={props.handleChange}
@@ -173,8 +200,6 @@ export function ModuleModification({ moduleId, changeTab }) {
               </Button>
             </div>
             <EmptyLine level="2" />
-            {props.errors.name && <ErrorMessage error={props.errors.name} />}
-            {props.errors.cat && <ErrorMessage error={props.errors.cat} />}
           </form>
         )}
       </Formik>

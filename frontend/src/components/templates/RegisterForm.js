@@ -7,7 +7,6 @@ import { globalApiInstance } from "../../utils/api";
 
 import { Button } from "../atoms/Button";
 import { EmptyLine } from "../atoms/EmptyLine";
-import { ErrorMessage } from "../molecules/ErrorMessage";
 import { ServerStatus } from "../organisms/ServerStatus";
 
 export const registerSchema = yup.object().shape({
@@ -29,7 +28,7 @@ export function RegisterForm() {
   const [status, setStatus] = useState(null);
   const [message, setMessage] = useState(null);
 
-  // TODO: Add e-mail existence verification, activation,
+  // TODO: Add proper e-mail existence verification, activation,
   // password change, FB and Google registration.
 
   function register(values) {
@@ -89,10 +88,20 @@ export function RegisterForm() {
                 onChange={props.handleChange}
                 onBlur={props.handleBlur}
                 value={props.values.mail}
-                style={{ width: "300px" }}
+                style={
+                  props.errors.mail
+                    ? { width: "300px", backgroundColor: "rgba(255,0,0,0.2)" }
+                    : { width: "300px" }
+                }
                 placeholder="e-mail"
                 name="mail"
               />
+              {props.errors.mail && (
+                <>
+                  <br />
+                  <b className="text-danger">{props.errors.mail}</b>
+                </>
+              )}
             </div>
             <div className="mt-2">
               <input
@@ -100,10 +109,20 @@ export function RegisterForm() {
                 onChange={props.handleChange}
                 onBlur={props.handleBlur}
                 value={props.values.name}
-                style={{ width: "300px" }}
+                style={
+                  props.errors.name
+                    ? { width: "300px", backgroundColor: "rgba(255,0,0,0.2)" }
+                    : { width: "300px" }
+                }
                 placeholder="name"
                 name="name"
               />
+              {props.errors.name && (
+                <>
+                  <br />
+                  <b className="text-danger">{props.errors.name}</b>
+                </>
+              )}
             </div>
             <div className="mt-2">
               <input
@@ -111,10 +130,20 @@ export function RegisterForm() {
                 onChange={props.handleChange}
                 onBlur={props.handleBlur}
                 value={props.values.pass}
-                style={{ width: "300px" }}
+                style={
+                  props.errors.pass
+                    ? { width: "300px", backgroundColor: "rgba(255,0,0,0.2)" }
+                    : { width: "300px" }
+                }
                 placeholder="password"
                 name="pass"
               />
+              {props.errors.pass && (
+                <>
+                  <br />
+                  <b className="text-danger">{props.errors.pass}</b>
+                </>
+              )}
             </div>
             <div className="mt-2">
               <input
@@ -122,10 +151,20 @@ export function RegisterForm() {
                 onChange={props.handleChange}
                 onBlur={props.handleBlur}
                 value={props.values.pass2}
-                style={{ width: "300px" }}
+                style={
+                  props.errors.pass2
+                    ? { width: "300px", backgroundColor: "rgba(255,0,0,0.2)" }
+                    : { width: "300px" }
+                }
                 placeholder="confirm password"
                 name="pass2"
               />
+              {props.errors.pass2 && (
+                <>
+                  <br />
+                  <b className="text-danger">{props.errors.pass2}</b>
+                </>
+              )}
             </div>
             <EmptyLine level="2" />
             <Button
@@ -145,10 +184,6 @@ export function RegisterForm() {
               </Button>
             </Link>
             <EmptyLine level="2" />
-            {props.errors.mail && <ErrorMessage error={props.errors.mail} />}
-            {props.errors.name && <ErrorMessage error={props.errors.name} />}
-            {props.errors.pass && <ErrorMessage error={props.errors.pass} />}
-            {props.errors.pass2 && <ErrorMessage error={props.errors.pass2} />}
           </form>
         )}
       </Formik>

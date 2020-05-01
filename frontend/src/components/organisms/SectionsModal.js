@@ -306,17 +306,31 @@ export function SectionsModal({ sectionId, courseId, closeModal }) {
               <div className="container">
                 <div className="row">
                   <div className="col mb-4">
-                    <b>Name of the section</b>
+                    <b>Name (should be unique)</b>
                     <br />
                     <input
                       type="text"
                       onChange={props.handleChange}
                       onBlur={props.handleBlur}
                       value={props.values.name}
-                      style={{ width: "250px", height: "30px" }}
+                      style={
+                        props.errors.name
+                          ? {
+                              width: "250px",
+                              height: "30px",
+                              backgroundColor: "rgba(255,0,0,0.2)",
+                            }
+                          : { width: "250px", height: "30px" }
+                      }
                       name="name"
                       placeholder="name"
                     />
+                    {props.errors.name && (
+                      <>
+                        <br />
+                        <b className="text-danger">{props.errors.name}</b>
+                      </>
+                    )}
                   </div>
                   <div className="col mb-4">
                     <b>Points needed for unlocking</b>
@@ -335,7 +349,7 @@ export function SectionsModal({ sectionId, courseId, closeModal }) {
                 </div>
                 <div className="row">
                   <div className="col mb-4">
-                    <b>Points (from selected modules)</b>
+                    <b>Points from selected modules</b>
                     <br />
                     <input
                       type="text"
@@ -346,7 +360,7 @@ export function SectionsModal({ sectionId, courseId, closeModal }) {
                     />
                   </div>
                   <div className="col mb-4">
-                    <b>Actual points for this section</b>
+                    <b>Total points for this section</b>
                     <br />
                     <input
                       type="number"
@@ -359,6 +373,24 @@ export function SectionsModal({ sectionId, courseId, closeModal }) {
                       name="rewardPoints"
                     />
                   </div>
+                </div>
+                <div
+                  className="row justify-content-md-center"
+                  style={{ width: "555px" }}
+                >
+                  <p>
+                    <i>
+                      Total points determine how many points you can get for
+                      this section regardless of the number of points you can
+                      get for all of its modules. For example: if you have three
+                      modules and the maximum number of points you can get for
+                      each of them separately is 2 (meaning you should be able
+                      to get 6 points in total for this section), then if you
+                      set "total points for this section" to 3, the maximum
+                      number of points for each module in this section will
+                      instead automatically become 1.
+                    </i>
+                  </p>
                 </div>
                 <div className="row">
                   <div className="col mb-4">
@@ -436,7 +468,6 @@ export function SectionsModal({ sectionId, courseId, closeModal }) {
               ) : status === "error" ? (
                 <ErrorMessage error={message} />
               ) : null}
-              {props.errors.name && <ErrorMessage error={props.errors.name} />}
             </form>
           )}
         </Formik>
