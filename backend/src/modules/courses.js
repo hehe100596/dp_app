@@ -18,6 +18,8 @@ const DataSchema = new Schema(
         rewardMargin: Number,
         rewardPoints: Number,
         unlockPoints: Number,
+        minPoints: Number,
+        penalty: Number,
       },
     ],
   },
@@ -180,6 +182,8 @@ router.post("/updateSection", (req, res) => {
     rewardMargin: section.rewardMargin,
     rewardPoints: section.rewardPoints,
     unlockPoints: section.unlockPoints,
+    minPoints: section.minPoints,
+    penalty: section.penalty,
   };
 
   Course.updateOne(

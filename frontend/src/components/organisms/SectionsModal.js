@@ -23,6 +23,8 @@ export function SectionsModal({ sectionId, courseId, closeModal }) {
     rewardMargin: 0,
     rewardPoints: 0,
     unlockPoints: 0,
+    minPoints: 0,
+    penalty: 0,
   };
 
   const defaultModules = [
@@ -41,6 +43,23 @@ export function SectionsModal({ sectionId, courseId, closeModal }) {
   const [allModules, setAllModules] = useState([]);
 
   const auth = useAuth();
+  const totalPointsInfo =
+    "Total points determine how many points you can get for " +
+    "this section regardless of the number of points you can " +
+    "get for all of its modules.\nFor example: if you have three " +
+    "modules and the maximum number of points you can get for " +
+    "each of them separately is 2 (meaning you should be able " +
+    "to get 6 points in total for this section), then if you " +
+    'set "Total points for this section" to 3, the maximum ' +
+    "number of points for each module in this section will " +
+    "instead automatically become 1 (thus making it 3 in " +
+    "total for the entire section).";
+  const penaltyInfo =
+    "Penalty determines how many points will be subtracted " +
+    "from the total number of received points for this section " +
+    "in case the minimum requirement is not met. Make sure to " +
+    "use this option carefully (if you subtract too many points, " +
+    "it might not be possible to finish the course).";
 
   const closeSectionModal = (isExit) => {
     setStatus("loading");
@@ -168,6 +187,8 @@ export function SectionsModal({ sectionId, courseId, closeModal }) {
       rewardMargin: newRewardMargin,
       rewardPoints: values.rewardPoints,
       unlockPoints: values.unlockPoints,
+      minPoints: values.minPoints,
+      penalty: values.penalty,
     };
 
     if (sectionId === "new") {
@@ -294,6 +315,8 @@ export function SectionsModal({ sectionId, courseId, closeModal }) {
             name: section.name,
             rewardPoints: section.rewardPoints,
             unlockPoints: section.unlockPoints,
+            minPoints: section.minPoints,
+            penalty: section.penalty,
           }}
           onSubmit={(values, actions) => {
             saveSection(values);
@@ -360,7 +383,8 @@ export function SectionsModal({ sectionId, courseId, closeModal }) {
                     />
                   </div>
                   <div className="col mb-4">
-                    <b>Total points for this section</b>
+                    <b>Total points for this section</b>{" "}
+                    <FontIcon icon="question-circle" title={totalPointsInfo} />
                     <br />
                     <input
                       type="number"
@@ -374,23 +398,36 @@ export function SectionsModal({ sectionId, courseId, closeModal }) {
                     />
                   </div>
                 </div>
-                <div
-                  className="row justify-content-md-center"
-                  style={{ width: "555px" }}
-                >
-                  <p>
-                    <i>
-                      Total points determine how many points you can get for
-                      this section regardless of the number of points you can
-                      get for all of its modules. For example: if you have three
-                      modules and the maximum number of points you can get for
-                      each of them separately is 2 (meaning you should be able
-                      to get 6 points in total for this section), then if you
-                      set "total points for this section" to 3, the maximum
-                      number of points for each module in this section will
-                      instead automatically become 1.
-                    </i>
-                  </p>
+                <div className="row">
+                  <div className="col mb-4">
+                    <b>Minimum points required</b>
+                    <br />
+                    <input
+                      type="number"
+                      onChange={props.handleChange}
+                      onBlur={props.handleBlur}
+                      value={props.values.minPoints}
+                      min="0"
+                      max={props.values.rewardPoints}
+                      style={{ width: "250px", height: "30px" }}
+                      name="minPoints"
+                    />
+                  </div>
+                  <div className="col mb-4">
+                    <b>Penalty for failing</b>{" "}
+                    <FontIcon icon="question-circle" title={penaltyInfo} />
+                    <br />
+                    <input
+                      type="number"
+                      onChange={props.handleChange}
+                      onBlur={props.handleBlur}
+                      value={props.values.penalty}
+                      min="0"
+                      max="10000"
+                      style={{ width: "250px", height: "30px" }}
+                      name="penalty"
+                    />
+                  </div>
                 </div>
                 <div className="row">
                   <div className="col mb-4">

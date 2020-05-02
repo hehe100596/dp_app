@@ -27,8 +27,12 @@ export function SectionPage(props) {
 
   const finish = () => {
     let finalPoints = section.rewardPoints;
+
     if (section.rewardMargin !== 0) {
       finalPoints = (points * section.rewardMargin).toFixed(0);
+      if (finalPoints < section.minPoints) {
+        finalPoints -= section.penalty;
+      }
     }
 
     globalApiInstance
@@ -99,17 +103,36 @@ export function SectionPage(props) {
         />
       ) : tab === "end" ? (
         <>
-          <Heading level="2">CONGRATULATIONS!</Heading>
-          <EmptyLine level="1" />
-          <p>
-            You got{" "}
-            <b>
-              {section.rewardMargin !== 0
-                ? (points * section.rewardMargin).toFixed(0)
-                : section.rewardPoints}
-            </b>{" "}
-            point(s) out of <b>{section.rewardPoints}</b>!
-          </p>
+          {(points * section.rewardMargin).toFixed(0) < section.minPoints ? (
+            <>
+              <Heading level="2">BETTER LUCK NEXT TIME!</Heading>
+              <EmptyLine level="1" />
+              <p>
+                You were unable to meet the minimum requirement for this
+                section.
+                <br />
+                Therefore you will get{" "}
+                <b>
+                  {(points * section.rewardMargin).toFixed(0) - section.penalty}
+                </b>{" "}
+                point(s) out of <b>{section.rewardPoints}</b>!
+              </p>
+            </>
+          ) : (
+            <>
+              <Heading level="2">CONGRATULATIONS!</Heading>
+              <EmptyLine level="1" />
+              <p>
+                You got{" "}
+                <b>
+                  {section.rewardMargin !== 0
+                    ? (points * section.rewardMargin).toFixed(0)
+                    : section.rewardPoints}
+                </b>{" "}
+                point(s) out of <b>{section.rewardPoints}</b>!
+              </p>
+            </>
+          )}
           <EmptyLine level="2" />
           <Button
             className={"btn btn-success ml-2 mr-2"}

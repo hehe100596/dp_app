@@ -16,7 +16,6 @@
 - Kompletný prechod vytvorenými kurzmi študentmi s prístupom.
 
 ### Finalization - in progress:
-- Pridanie možnosti obdržania mínusových bodov v sekcii za nedostatočný bodový zisk.
 - Pridanie výberu z viacerých režimov timerov v rámci modulov (smer, focus, atď.).
 - Nastavenie voliteľnosti miešania poradia možností v testovacích segmentoch.
 - Úprava vzhľadu modulov (fixná šírka, presunutie timeru doprava hore, zarovnanie vľavo, atď.).
@@ -41,6 +40,7 @@
 - Upravenie zobrazovania chýb súvisiacich s nesprávnymi hodnotami polí formulárov.
 - Premenovanie a doplnenie dostatočne jasných poznámok k poliam formulárov.
 - Pridanie vysvetlenia k spôsobu prepočítavania bodov medzi modulmi a sekciami.
+- Pridanie možnosti obdržania mínusových bodov v sekcii za nedostatočný bodový zisk.
 
 ### Out of scope:
 - Upravenie spôsobu zobrazovania a výberu modulov v rámci sekcií.

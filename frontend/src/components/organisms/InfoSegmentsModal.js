@@ -9,6 +9,7 @@ import { globalApiInstance } from "../../utils/api";
 import { Heading } from "../atoms/Heading";
 import { Button } from "../atoms/Button";
 import { EmptyLine } from "../atoms/EmptyLine";
+import { FontIcon } from "../atoms/FontIcon";
 import { ErrorMessage } from "../molecules/ErrorMessage";
 import { Loading } from "../molecules/Loading";
 
@@ -29,6 +30,11 @@ export function InfoSegmentsModal({ segmentId, moduleId, type, closeModal }) {
   const [message, setMessage] = useState(null);
   const [segment, setSegment] = useState(defaultSegment);
   const [segmentData, setSegmentData] = useState(null);
+
+  const requiredTimeInfo =
+    "Required time determines how many minutes your student " +
+    "must spend on this module in order to get the set " +
+    "number of points (0 means none).";
 
   const closeSegmentModal = (isExit) => {
     setStatus("loading");
@@ -194,7 +200,8 @@ export function InfoSegmentsModal({ segmentId, moduleId, type, closeModal }) {
                 </div>
                 <div className="row">
                   <div className="col mb-4">
-                    <b>Required time (in minutes)</b>
+                    <b>Required time (in minutes)</b>{" "}
+                    <FontIcon icon="question-circle" title={requiredTimeInfo} />
                     <br />
                     <input
                       type="number"
@@ -221,18 +228,6 @@ export function InfoSegmentsModal({ segmentId, moduleId, type, closeModal }) {
                       name="points"
                     />
                   </div>
-                </div>
-                <div
-                  className="row justify-content-md-center"
-                  style={{ width: "555px" }}
-                >
-                  <p>
-                    <i>
-                      Required time determines how many minutes your student
-                      must spend on this module in order to get the set number
-                      of points (0 means none).
-                    </i>
-                  </p>
                 </div>
                 <div className="row">
                   {type === "HTML" ? (

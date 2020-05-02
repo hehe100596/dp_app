@@ -119,6 +119,18 @@ export function CourseContent({ courseId, changeTab }) {
       wrap: true,
     },
     {
+      name: "Minimum requirement",
+      selector: "minPoints",
+      sortable: true,
+      wrap: true,
+    },
+    {
+      name: "Penalty",
+      selector: "penalty",
+      sortable: true,
+      wrap: true,
+    },
+    {
       name: "Actions",
       cell: (row) => (
         <div>
