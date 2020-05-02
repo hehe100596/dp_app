@@ -10,6 +10,7 @@ const DataSchema = new Schema(
     type: String,
     author: String,
     limit: Number,
+    timer: String,
     access: [String],
     content: [
       {
@@ -18,6 +19,7 @@ const DataSchema = new Schema(
         rqmt: String,
         points: Number,
         data: String,
+        rnd: Boolean,
       },
     ],
   },
@@ -93,13 +95,14 @@ router.post("/getAccessibleModules", (req, res) => {
 router.post("/createNewModule", (req, res) => {
   let module = new Module();
 
-  const { name, cat, type, author, limit, withAccess } = req.body;
+  const { name, cat, type, author, limit, timer, withAccess } = req.body;
 
   module.name = name;
   module.cat = cat;
   module.type = type;
   module.author = author;
   module.limit = limit;
+  module.timer = timer;
 
   module.access.push(withAccess);
 
@@ -111,11 +114,11 @@ router.post("/createNewModule", (req, res) => {
 });
 
 router.post("/updateModuleInfo", (req, res) => {
-  const { moduleId, name, cat, type, limit } = req.body;
+  const { moduleId, name, cat, type, limit, timer } = req.body;
 
   Module.updateOne(
     { _id: moduleId },
-    { name: name, cat: cat, type: type, limit: limit },
+    { name: name, cat: cat, type: type, limit: limit, timer: timer },
     (err) => {
       if (err) return res.json({ success: false, error: err });
 

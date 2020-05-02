@@ -28,17 +28,17 @@ export function ModulesTable({ isEditable, noModulesMessage }) {
   useEffect(() => {
     globalApiInstance
       .post(process.env.REACT_APP_BASE_API + fetchModules, {
-        user: fetchUser
+        user: fetchUser,
       })
-      .then(res => {
+      .then((res) => {
         if (res.data.data) {
           let results = [];
 
-          res.data.data.forEach(function(entry) {
+          res.data.data.forEach(function (entry) {
             let points = 0;
 
             if (entry.content && entry.content.length > 0) {
-              entry.content.forEach(function(entry) {
+              entry.content.forEach(function (entry) {
                 points += entry.points;
               });
             }
@@ -50,7 +50,8 @@ export function ModulesTable({ isEditable, noModulesMessage }) {
               type: entry.type,
               author: entry.author,
               limit: entry.limit,
-              points: points
+              timer: entry.timer,
+              points: points,
             };
             results.push(module);
           });
@@ -59,37 +60,37 @@ export function ModulesTable({ isEditable, noModulesMessage }) {
           setStatus("success");
         }
       })
-      .catch(err => {
+      .catch((err) => {
         setStatus("error");
         setMessage(err.message);
       });
   }, [fetchSignal, fetchModules, fetchUser]);
 
-  const deleteModules = rows => {
+  const deleteModules = (rows) => {
     setStatus("loading");
 
     globalApiInstance
       .post(process.env.REACT_APP_BASE_API + "modules/deleteModules", {
-        selectedModules: rows
+        selectedModules: rows,
       })
-      .then(res => {
+      .then((res) => {
         setMessage("Module(s) successfully deleted");
         setFetchSignal(!fetchSignal);
         setSelected(null);
       })
-      .catch(err => {
+      .catch((err) => {
         setStatus("error");
         setMessage(err.message);
       });
   };
 
-  const handleRemove = row => {
+  const handleRemove = (row) => {
     swal({
       title: "Do you want to delete this module?",
       text: "You are about to delete this module. Are you sure about it?",
       icon: "warning",
-      buttons: ["No", "Yes"]
-    }).then(function(isConfirm) {
+      buttons: ["No", "Yes"],
+    }).then(function (isConfirm) {
       if (isConfirm) {
         deleteModules([row]);
       }
@@ -101,8 +102,8 @@ export function ModulesTable({ isEditable, noModulesMessage }) {
       title: "Do you want to delete selection?",
       text: "You are about to delete these modules. Are you sure about it?",
       icon: "warning",
-      buttons: ["No", "Yes"]
-    }).then(function(isConfirm) {
+      buttons: ["No", "Yes"],
+    }).then(function (isConfirm) {
       if (isConfirm) {
         deleteModules(selected);
       }
@@ -114,42 +115,48 @@ export function ModulesTable({ isEditable, noModulesMessage }) {
       name: "Name",
       selector: "name",
       sortable: true,
-      wrap: true
+      wrap: true,
     },
     {
       name: "Category",
       selector: "cat",
       sortable: true,
-      wrap: true
+      wrap: true,
     },
     {
       name: "Type",
       selector: "type",
       sortable: true,
-      wrap: true
+      wrap: true,
     },
     {
       name: "Max points",
       selector: "points",
       sortable: true,
-      wrap: true
+      wrap: true,
     },
     {
       name: "Author",
       selector: "author",
       sortable: true,
       omit: isEditable,
-      wrap: true
+      wrap: true,
     },
     {
       name: "Time limit",
       selector: "limit",
       sortable: true,
-      wrap: true
+      wrap: true,
+    },
+    {
+      name: "Timer",
+      selector: "timer",
+      sortable: true,
+      wrap: true,
     },
     {
       name: "Actions",
-      cell: row => (
+      cell: (row) => (
         <div className="row">
           {isEditable ? (
             <div>
@@ -161,7 +168,7 @@ export function ModulesTable({ isEditable, noModulesMessage }) {
               <Button
                 variant="danger"
                 className="ml-1 mr-1"
-                onClick={e => handleRemove(row)}
+                onClick={(e) => handleRemove(row)}
               >
                 <FontIcon icon="trash-alt" />
               </Button>
@@ -178,21 +185,21 @@ export function ModulesTable({ isEditable, noModulesMessage }) {
       ignoreRowClick: true,
       allowOverflow: true,
       minWidth: isEditable ? "150px" : "100px",
-      button: true
-    }
+      button: true,
+    },
   ];
 
   const customStyle = {
     headCells: {
       style: {
-        fontSize: "16px"
-      }
+        fontSize: "16px",
+      },
     },
     cells: {
       style: {
-        fontSize: "14px"
-      }
-    }
+        fontSize: "14px",
+      },
+    },
   };
 
   return (
@@ -209,7 +216,7 @@ export function ModulesTable({ isEditable, noModulesMessage }) {
           selectableRows={isEditable}
           subHeader={isEditable}
           subHeaderAlign="right"
-          onSelectedRowsChange={state => setSelected(state.selectedRows)}
+          onSelectedRowsChange={(state) => setSelected(state.selectedRows)}
           clearSelectedRows={fetchSignal}
           contextActions={
             <Button variant="danger" className="mr-3" onClick={handleRemoveAll}>

@@ -24,6 +24,7 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
     name: "",
     rqmt: "",
     points: 0,
+    rnd: false,
   };
 
   const [status, setStatus] = useState("loading");
@@ -149,6 +150,7 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
         rqmt: type === "HTML" ? "0" : answers,
         points: values.points,
         data: segmentContent,
+        rnd: values.rnd,
       };
 
       if (segmentId === "new") {
@@ -263,6 +265,7 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
             sType: type,
             rqmt: segment.rqmt,
             points: segment.points,
+            rnd: segment.rnd,
           }}
           onSubmit={(values, actions) => {
             saveSegment(values);
@@ -351,7 +354,7 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
                       </div>
                     </div>
                     <div className="row">
-                      <div className="col mb-4">
+                      <div className="col mb-2">
                         <b>
                           Choices (check correct answer
                           {type === "Multiple correct choices" ? "s)" : ")"}
@@ -407,9 +410,42 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
                         </Button>
                       </div>
                     </div>
+                    <div className="row">
+                      <div className="col mb-4">
+                        <input
+                          className="mr-2"
+                          type="checkbox"
+                          onChange={props.handleChange}
+                          checked={props.values.rnd}
+                          style={{ width: "15px", height: "15px" }}
+                          name="rnd"
+                        />
+                        <b>
+                          <i>
+                            Check this if you want the order of choices to be
+                            randomized
+                          </i>
+                        </b>
+                      </div>
+                    </div>
                   </>
                 ) : null}
-                {type === "HTML" ? null : (
+                {type === "HTML" ? (
+                  <div className="row">
+                    <div className="col mb-4">
+                      <b>Data</b>
+                      <br />
+                      {segmentData || segmentId === "new" ? (
+                        <CKEditor
+                          onChange={(e) => setSegmentData(e.editor.getData())}
+                          onBlur={(e) => setSegmentData(e.editor.getData())}
+                          data={segmentData}
+                          name="data"
+                        />
+                      ) : null}
+                    </div>
+                  </div>
+                ) : (
                   <div className="row">
                     {type === "Text answer" ? (
                       <div className="col mb-4">
@@ -457,22 +493,6 @@ export function TestSegmentsModal({ segmentId, moduleId, type, closeModal }) {
                     </div>
                   </div>
                 )}
-                {type === "HTML" ? (
-                  <div className="row">
-                    <div className="col mb-4">
-                      <b>Data</b>
-                      <br />
-                      {segmentData || segmentId === "new" ? (
-                        <CKEditor
-                          onChange={(e) => setSegmentData(e.editor.getData())}
-                          onBlur={(e) => setSegmentData(e.editor.getData())}
-                          data={segmentData}
-                          name="data"
-                        />
-                      ) : null}
-                    </div>
-                  </div>
-                ) : null}
                 <EmptyLine level="2" />
                 <Button
                   className={"btn btn-primary ml-2 mr-2"}

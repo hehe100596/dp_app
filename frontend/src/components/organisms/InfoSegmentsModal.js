@@ -24,6 +24,7 @@ export function InfoSegmentsModal({ segmentId, moduleId, type, closeModal }) {
     name: "",
     rqmt: "0",
     points: 0,
+    rnd: false,
   };
 
   const [status, setStatus] = useState("loading");
@@ -54,6 +55,7 @@ export function InfoSegmentsModal({ segmentId, moduleId, type, closeModal }) {
         rqmt: values.rqmt,
         points: values.points,
         data: segmentData,
+        rnd: false,
       };
 
       if (segmentId === "new") {
@@ -147,6 +149,7 @@ export function InfoSegmentsModal({ segmentId, moduleId, type, closeModal }) {
             sType: type,
             rqmt: segment.rqmt,
             points: segment.points,
+            rnd: false,
           }}
           onSubmit={(values, actions) => {
             saveSegment(values);

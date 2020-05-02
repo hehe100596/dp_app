@@ -23,6 +23,7 @@ export function ModuleModification({ moduleId, changeTab }) {
     type: "Info",
     author: auth.user,
     limit: 0,
+    timer: "None",
   });
 
   const [status, setStatus] = useState("loading");
@@ -39,6 +40,7 @@ export function ModuleModification({ moduleId, changeTab }) {
           cat: values.cat,
           type: values.type,
           limit: values.limit,
+          timer: values.timer,
         })
         .then((res) => {
           setStatus("success");
@@ -56,6 +58,7 @@ export function ModuleModification({ moduleId, changeTab }) {
           type: values.type,
           author: values.author,
           limit: values.limit,
+          timer: values.timer,
           withAccess: auth.token,
         })
         .then((res) => {
@@ -96,6 +99,7 @@ export function ModuleModification({ moduleId, changeTab }) {
           type: module.type,
           author: module.author,
           limit: module.limit,
+          timer: module.timer,
         }}
         onSubmit={(values, actions) => {
           saveModuleInfo(values);
@@ -188,6 +192,23 @@ export function ModuleModification({ moduleId, changeTab }) {
                 style={{ width: "300px", height: "30px" }}
                 name="limit"
               />
+            </div>
+            <div className="col mb-4">
+              <b>Timer (multiple types)</b>
+              <br />
+              <select
+                onChange={props.handleChange}
+                onBlur={props.handleBlur}
+                value={props.values.timer}
+                style={{ width: "300px", height: "30px" }}
+                name="timer"
+              >
+                <option value="None">None (will not display any timer)</option>
+                <option value="Clock">Clock (starting from 00:00:00)</option>
+                <option value="Countdown" disabled={props.values.limit === 0}>
+                  Countdown ("Time limit" must not be 0)
+                </option>
+              </select>
             </div>
             <EmptyLine level="2" />
             <div className="row justify-content-center">

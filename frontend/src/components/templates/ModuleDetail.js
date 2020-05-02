@@ -4,6 +4,7 @@ import parse from "html-react-parser";
 import { globalApiInstance } from "../../utils/api";
 
 import { Button } from "../atoms/Button";
+import { Heading } from "../atoms/Heading";
 import { EmptyLine } from "../atoms/EmptyLine";
 import { Timer } from "../molecules/Timer";
 import { ServerStatus } from "../organisms/ServerStatus";
@@ -31,7 +32,8 @@ export function ModuleDetail({ moduleId, addPoints, changeTab }) {
   const [type, setType] = useState(null);
   const [limit, setLimit] = useState(null);
   const [view, setView] = useState(null);
-  const [timer, setTimer] = useState(0);
+  const [timer, setTimer] = useState(null);
+  const [clock, setClock] = useState(0);
 
   const [status, setStatus] = useState("loading");
   const [message, setMessage] = useState(null);
@@ -65,11 +67,14 @@ export function ModuleDetail({ moduleId, addPoints, changeTab }) {
 
         parsedContent += question;
         parsedContent += "<div style='display: inline-block;' align='left'>";
-        for (var i = choices.length - 1; i > 0; i--) {
-          var j = Math.floor(Math.random() * (i + 1));
-          var tmp = choices[i];
-          choices[i] = choices[j];
-          choices[j] = tmp;
+
+        if (entry.rnd) {
+          for (var i = choices.length - 1; i > 0; i--) {
+            var j = Math.floor(Math.random() * (i + 1));
+            var tmp = choices[i];
+            choices[i] = choices[j];
+            choices[j] = tmp;
+          }
         }
 
         choices.forEach(function (entry) {
@@ -91,7 +96,7 @@ export function ModuleDetail({ moduleId, addPoints, changeTab }) {
 
     if (type === "Info") {
       content.forEach(function (entry) {
-        if (timer >= entry.rqmt * 60) {
+        if (clock >= entry.rqmt * 60) {
           contentPoints += entry.points;
         }
       });
@@ -156,8 +161,8 @@ export function ModuleDetail({ moduleId, addPoints, changeTab }) {
   };
 
   useInterval(() => {
-    setTimer(timer + 1);
-    if (limit !== null && limit !== 0 && timer >= limit * 60) {
+    if (document.hasFocus() || timer === "Countdown") setClock(clock + 1);
+    if (limit !== null && limit !== 0 && clock >= limit * 60) {
       finishModule();
     }
   }, 1000);
@@ -170,6 +175,7 @@ export function ModuleDetail({ moduleId, addPoints, changeTab }) {
       .then((res) => {
         setType(res.data.data.type);
         setLimit(res.data.data.limit);
+        setTimer(res.data.data.timer);
         setContent(res.data.data.content);
         parseContent(res.data.data.content);
         setStatus("success");
@@ -182,13 +188,12 @@ export function ModuleDetail({ moduleId, addPoints, changeTab }) {
 
   return (
     <div align="center">
-      <Timer seconds={timer} />
-      <EmptyLine level="1" />
+      <Timer timer={timer} limit={limit} seconds={clock} />
       {view ? (
         parse(view)
       ) : (
         <>
-          This module contains no content
+          <Heading level="2">This module contains no content</Heading>
           <EmptyLine level="1" />
         </>
       )}
