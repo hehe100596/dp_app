@@ -15,10 +15,6 @@
 - Vytvorenie a upravovanie sekcií v rámci kurzov (zatiaľ bez mínusových bodov).
 - Kompletný prechod vytvorenými kurzmi študentmi s prístupom.
 
-### Finalization - in progress:
-- Doplnenie ošetrovania validity vstupov i na backende (alebo aspoň znemožnenie ich poslania).
-- Deploynutie aplikácie (frontend i backend) pre potreby testovania.
-
 ### Finalization - finished:
 - Pridanie základných informácií o aplikácií na prihlasovaciu stránku.
 - Nahradenie aktuálnej domovskej stránky za základný dashboard alebo prehľad či manuál.
@@ -42,6 +38,7 @@
 - Pridanie výberu z viacerých režimov timerov v rámci modulov (smer, focus, atď.).
 - Nastavenie voliteľnosti miešania poradia možností v testovacích segmentoch.
 - Úprava vzhľadu modulov (fixná šírka, presunutie timeru doprava hore, zarovnanie vľavo, atď.).
+- Príprava na deploynutie aplikácie (frontend i backend) pre potreby testovania.
 
 ### Out of scope:
 - Upravenie spôsobu zobrazovania a výberu modulov v rámci sekcií.
@@ -56,6 +53,7 @@
 - Rozšírenie možností prechodov kurzmi (vrátane ukončovania).
 - Doplnenie funkcionality podporujúcej komunikáciu a poskytovanie spätnej väzby.
 - Sprístupnenie časti aplikácie v offline režime (sťahovanie a nahrávanie).
+- Doriešenie bezpečnosti (napr. lepšie ošetrovanie validity vstupov i na backende).
 - Kompletné prepracovanie grafických prvkov aplikácie.
 - Značné refaktorovanie a optimalizovanie kódu.
 - Lokalizovanie do viacerých jazykov.
