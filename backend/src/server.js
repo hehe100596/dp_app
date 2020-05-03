@@ -3,6 +3,7 @@ import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
 import logger from "morgan";
+import { createProxyMiddleware } from "http-proxy-middleware";
 
 import routes from "./routes";
 
@@ -14,26 +15,25 @@ require("dotenv").config();
 
 app.use(cors());
 
-const API_PORT = process.env.API_PORT;
-const dbRoute = process.env.DB_ROUTE;
-
 function tryConnection() {
   mongoose
-    .connect(dbRoute, {
+    .connect(process.env.MONGODB_URI, {
       poolSize: 100,
       connectTimeoutMS: 10000,
       socketTimeoutMS: 10000,
       serverSelectionTimeoutMS: 600000,
       useNewUrlParser: true,
-      useUnifiedTopology: true
+      useUnifiedTopology: true,
     })
     .then(
       () =>
-        (server = app.listen(API_PORT, () =>
-          console.log(`Connection established - listening on port: ${API_PORT}`)
+        (server = app.listen(process.env.PORT, () =>
+          console.log(
+            `Connection established - listening on port: ${process.env.PORT}`
+          )
         ))
     )
-    .catch(err => ({}));
+    .catch((err) => ({}));
 }
 tryConnection();
 
@@ -44,9 +44,17 @@ db.on("error", () => {
   setTimeout(tryConnection, 5000);
 });
 
+app.use(
+  "api/",
+  createProxyMiddleware({
+    target: "api/",
+    changeOrigin: true,
+  })
+);
+app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(logger("dev"));
 
 app.use(routes);
-app.use("/api", routes);
+app.use("*/api", routes);
