@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Heading } from "../atoms/Heading";
 import { Button } from "../atoms/Button";
 import { EmptyLine } from "../atoms/EmptyLine";
+import { FontIcon } from "../atoms/FontIcon";
 import { ModuleDetail } from "../templates/ModuleDetail";
 
 export function ModulePage(props) {
@@ -32,8 +33,10 @@ export function ModulePage(props) {
         />
       ) : (
         <>
-          <Heading level="2">CONGRATULATIONS!</Heading>
+          <FontIcon icon="check-circle" className="fa-5x text-muted" />
           <EmptyLine level="1" />
+          <Heading level="2">CONGRATULATIONS!</Heading>
+          <EmptyLine level="2" />
           <p>
             You got <b>{points}</b> point(s)!
           </p>

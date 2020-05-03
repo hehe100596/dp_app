@@ -29,6 +29,7 @@ export function useInterval(callback, delay) {
 
 export function ModuleDetail({ moduleId, addPoints, changeTab }) {
   const [content, setContent] = useState([]);
+  const [name, setName] = useState(null);
   const [type, setType] = useState(null);
   const [limit, setLimit] = useState(null);
   const [view, setView] = useState(null);
@@ -45,20 +46,20 @@ export function ModuleDetail({ moduleId, addPoints, changeTab }) {
     return formattedAnswer;
   };
 
-  const parseContent = (contentToParse) => {
+  const parseContent = (contentToParse, moduleType) => {
     let counter = 1;
     let parsedContent = "";
 
     contentToParse.forEach(function (entry) {
       if (entry.sType === "HTML" || entry.sType === "Video or media") {
         parsedContent += entry.data;
-        parsedContent += "<br/><br/>";
+        parsedContent += "<br /><br />";
       } else if (entry.sType === "Text answer") {
         parsedContent += entry.data;
         parsedContent +=
           "<input style='width:250px;' id='question-" + counter + "' />";
 
-        parsedContent += "<br/><br/><br/>";
+        parsedContent += "<br /><br /><br />";
         counter += 1;
       } else {
         let iType = entry.sType === "One correct choice" ? "radio" : "checkbox";
@@ -83,12 +84,21 @@ export function ModuleDetail({ moduleId, addPoints, changeTab }) {
             "' name='question-" + counter + "' /> " + entry + "<br />";
         });
 
-        parsedContent += "</div><br /><br /><br />";
+        parsedContent += "<br /><br />";
         counter += 1;
       }
     });
 
-    setView(parsedContent);
+    if (parsedContent) {
+      let allParsedContent = "<div align='center'>";
+      if (moduleType === "Test") {
+        allParsedContent =
+          "<div style='display: inline-block;max-width: 75%;' align='left'>";
+      }
+      allParsedContent += parsedContent;
+      allParsedContent += "</div>";
+      setView(allParsedContent);
+    }
   };
 
   const finishModule = () => {
@@ -173,11 +183,12 @@ export function ModuleDetail({ moduleId, addPoints, changeTab }) {
         module: moduleId,
       })
       .then((res) => {
+        setName(res.data.data.name);
         setType(res.data.data.type);
         setLimit(res.data.data.limit);
         setTimer(res.data.data.timer);
         setContent(res.data.data.content);
-        parseContent(res.data.data.content);
+        parseContent(res.data.data.content, res.data.data.type);
         setStatus("success");
       })
       .catch((err) => {
@@ -188,7 +199,9 @@ export function ModuleDetail({ moduleId, addPoints, changeTab }) {
 
   return (
     <div align="center">
-      <Timer timer={timer} limit={limit} seconds={clock} />
+      <div className="w-75">
+        <Timer name={name} timer={timer} limit={limit} seconds={clock} />
+      </div>
       {view ? (
         parse(view)
       ) : (

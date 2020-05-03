@@ -7,6 +7,7 @@ import { globalApiInstance } from "../../utils/api";
 import { Heading } from "../atoms/Heading";
 import { Button } from "../atoms/Button";
 import { EmptyLine } from "../atoms/EmptyLine";
+import { FontIcon } from "../atoms/FontIcon";
 import { ServerStatus } from "../organisms/ServerStatus";
 import { ModuleDetail } from "../templates/ModuleDetail";
 
@@ -105,8 +106,10 @@ export function SectionPage(props) {
         <>
           {(points * section.rewardMargin).toFixed(0) < section.minPoints ? (
             <>
-              <Heading level="2">BETTER LUCK NEXT TIME!</Heading>
+              <FontIcon icon="thumbs-down" className="fa-5x text-danger" />
               <EmptyLine level="1" />
+              <Heading level="2">BETTER LUCK NEXT TIME!</Heading>
+              <EmptyLine level="2" />
               <p>
                 You were unable to meet the minimum requirement for this
                 section.
@@ -120,8 +123,10 @@ export function SectionPage(props) {
             </>
           ) : (
             <>
-              <Heading level="2">CONGRATULATIONS!</Heading>
+              <FontIcon icon="thumbs-up" className="fa-5x text-success" />
               <EmptyLine level="1" />
+              <Heading level="2">CONGRATULATIONS!</Heading>
+              <EmptyLine level="2" />
               <p>
                 You got{" "}
                 <b>
