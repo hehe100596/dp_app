@@ -11,7 +11,7 @@ import { ServerStatus } from "../organisms/ServerStatus";
 
 export const courseInfoSchema = yup.object().shape({
   name: yup.string().label("Name").required(),
-  org: yup.string().label("Organizator").required(),
+  org: yup.string().label("Organizer").required(),
   cat: yup.string().label("Category").required(),
   length: yup.string().label("Duration").required(),
 });
@@ -144,7 +144,7 @@ export function CourseModification({ courseId, changeTab }) {
                 )}
               </div>
               <div className="col mb-4">
-                <b>Organizator (who is this course from)</b>
+                <b>Organizer (who is this course from)</b>
                 <br />
                 <input
                   type="text"
@@ -161,7 +161,7 @@ export function CourseModification({ courseId, changeTab }) {
                       : { width: "300px", height: "30px" }
                   }
                   name="org"
-                  placeholder="organizator"
+                  placeholder="organizer"
                 />
                 {props.errors.org && (
                   <>
